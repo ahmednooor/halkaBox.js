@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>halkaBox.js</title>
+    <link rel="stylesheet" href="css/halkaBox.min.css">
+    <style>
+        *, *:before, *:after {
+            margin: 0;
+            padding: 0;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        
+        body {
+            max-width: 100vw;
+            overflow-x: hidden;
+            font-family: sans-serif;
+            margin: 0 auto;
+        }
+        
+        .wrapper {
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        header h1 {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        header h1 a {
+            color: black;
+            text-decoration: none;
+        }
+        
+        header h1 a:hover, header h1 a:focus {
+            color: black;
+            text-decoration: none;
+        }
+        
+        header h1 code {
+            font-size: 1.5rem;
+            font-weight: normal;
+        }
+        
+        header h1 code span {
+            font-size: 1rem;
+        }
+        
+        header .menu {
+            text-align: center;
+        }
+        
+        header .menu a {
+            display: inline-block;
+            padding: 10px;
+            color: royalblue;
+            text-decoration: none;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            border: 1px solid royalblue;
+            line-height: 1;
+            margin: 0 6px;
+        }
+        
+        header .menu a:hover, header .menu a:focus {
+            background-color: royalblue;
+            color: white;
+        }
+        
+        .gallery {
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .gallery a {
+            display: inline-block;
+            width: 192px;
+            height: 192px;
+            border: 1px solid royalblue;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .gallery a img {
+            display: block;
+            width: 190px;
+            height: 190px;
+            padding: 10px 10px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            overflow: hidden;
+            -o-object-fit: cover;
+            object-fit: cover;
+            -o-object-position: center;
+            object-position: center;
+        }
+        
+        .usage {
+            padding: 0 10px;
+        }
+        
+        .usage h2, .usage h4 {
+            text-align: center;
+        }
+        
+        .usage h4 code {
+            font-size: 1.5rem;
+            font-weight: normal;
+        }
+        
+        .usage pre {
+            display: block;
+            max-width: 600px;
+            width: auto;
+            margin: 0 auto;
+            color: lightslategray;
+            border: 1px solid royalblue;
+            padding: 10px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            overflow: auto;
+        }
+        
+        .usage pre span {
+            color: royalblue;
+        }
+        
+        .usage pre span em {
+            color: orangered;
+            font-style: normal;
+        }
+        
+        footer {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+        
+        footer code {
+            font-size: 1rem;
+            font-weight: normal;
+        }
+        
+        footer code a {
+            color: royalblue;
+            text-decoration: none;
+        }
+        
+        footer code a:hover, footer code a:focus {
+            text-decoration: underline;
+        }
+        
+        @media only screen and (max-width: 640px) {
+            .gallery a {
+                width: 142px;
+                height: 142px;
+            }
+
+            .gallery a img {
+                width: 140px;
+                height: 140px;
+                padding: 8px 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+   
+    <header class="wrapper">
+    <h1><a href="index.html">halkaBox.js</a>
+    <br>
+    <code>Halka is an Urdu word for being Lightweight
+    <br>
+    <span>(Made with Javascript. No dependencies required)</span>
+    </code>
+    </h1>
+    <br>
+    <div class="wrapper menu">
+        <a href="#usage">Usage</a>
+        <a href="#">Download</a>
+        <a href="#">Github</a>
+    </div>
+    </header>
+    
+    <br>
+    <br>
+    
+    <div id="gallery1" class="wrapper gallery">
+        <h2>Gallery</h2>
+        <br>
+        <a href="img/01.jpg" data-hb="gallery1"><img src="img/01.jpg" alt="1"></a>
+        <a href="img/02.jpg" data-hb="gallery1"><img src="img/02.jpg" alt="2"></a>
+        <a href="img/03.jpg" data-hb="gallery1"><img src="img/03.jpg" alt="3"></a>
+        <a href="img/04.jpg" data-hb="gallery1"><img src="img/04.jpg" alt="4"></a>
+        <a href="img/05.jpg" data-hb="gallery1"><img src="img/05.jpg" alt="5"></a>
+        <a href="img/06.jpg" data-hb="gallery1"><img src="img/06.jpg" alt="7"></a>
+        <a href="img/07.jpg" data-hb="gallery1"><img src="img/07.jpg" alt="6"></a>
+        <a href="img/08.jpg" data-hb="gallery1"><img src="img/08.jpg" alt="8"></a>
+    </div>
+    
+    <br>
+    <br>
+    
+    <div id="single-images" class="wrapper gallery">
+        <h2>Single Images</h2>
+        <br>
+        <a href="img/09.jpg" data-hb-single><img src="img/09.jpg" alt="9"></a>
+        <a href="img/10.jpg" data-hb-single><img src="img/10.jpg" alt="10"></a>
+        <a href="img/11.jpg" data-hb-single><img src="img/11.jpg" alt="11"></a>
+        <a href="img/12.jpg" data-hb-single><img src="img/12.jpg" alt="12"></a>
+    </div>
+    
+    <br>
+    <br>
+    
+    <div id="usage" class="wrapper usage">
+        <h2>Usage Example</h2>
+        <br>
+        
+        <h4><code>Files</code></h4>
+        <br>
+        <pre>
+<p>&lt;link rel="stylesheet" <span>href="<em>css/halkaBox.min.css</em>"</span>&gt;
+&lt;script <span>src="<em>js/halkaBox.min.js</em>"</span>&gt;&lt;/script&gt;</p></pre>
+        <br>
+        
+        <h4><code>Markup</code></h4>
+        <br>
+        <pre>
+<p>&lt;div <span>id="<em>gallery1</em>"</span>&gt;
+    &lt;a href="img/01.jpg" <span>data-hb="<em>gallery1</em>"</span>&gt;&lt;img src="img/01.jpg" alt="1"&gt;&lt;/a&gt;
+    &lt;a href="img/02.jpg" <span>data-hb="<em>gallery1</em>"</span>&gt;&lt;img src="img/02.jpg" alt="2"&gt;&lt;/a&gt;
+    &lt;a href="img/03.jpg" <span>data-hb="<em>gallery1</em>"</span>&gt;&lt;img src="img/03.jpg" alt="3"&gt;&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div <span>id="<em>gallery2</em>"</span>&gt;
+    &lt;a href="img/04.jpg" <span>data-hb="<em>gallery2</em>"</span>&gt;&lt;img src="img/04.jpg" alt="4"&gt;&lt;/a&gt;
+    &lt;a href="img/05.jpg" <span>data-hb="<em>gallery2</em>"</span>&gt;&lt;img src="img/05.jpg" alt="5"&gt;&lt;/a&gt;
+    &lt;a href="img/06.jpg" <span>data-hb="<em>gallery2</em>"</span>&gt;&lt;img src="img/06.jpg" alt="6"&gt;&lt;/a&gt;
+&lt;/div&gt;</p>
+<p>&lt;a href="img/07.jpg" <span><em>data-hb-single</em></span>&gt;&lt;img src="img/07.jpg" alt="7"&gt;&lt;/a&gt;
+&lt;a href="img/08.jpg" <span><em>data-hb-single</em></span>&gt;&lt;img src="img/07.jpg" alt="8"&gt;&lt;/a&gt;</p></pre>
+        <br>
+        
+        <h4><code>Javascript</code></h4>
+        <br>
+        <pre>
+<p>&lt;script&gt;
+    window.onload = function () {
+        <span>halkaBox.gallery("<em>gallery1</em>");
+        halkaBox.gallery("<em>gallery2</em>");
+        halkaBox.singles();</span>
+    };
+&lt;/script&gt;</p></pre>
+    </div>
+    
+    <br>
+    <br>
+    
+    <footer class="wrapper">
+        <code>
+            ----------------
+            <br>
+            <br>
+            License: <a href="https://opensource.org/licenses/MIT" target="_blank">MIT</a>
+            <br>
+            Auther: <a href="https://github.com/ahmednooor" target="_blank">Ahmed Noor</a>
+            <br>
+            Credits: <a href="https://unsplash.com/" target="_blank">Unsplash</a> for images, <a href="https://www.google.com/" target="_blank">Google</a> for control icons.
+        </code>
+    </footer>
+    
+    <script src="js/halkaBox.min.js"></script>
+    <script>
+        window.onload = function () {
+            halkaBox.gallery("gallery1");
+            halkaBox.singles();
+        };
+    </script>
+    
+</body>
+</html>
