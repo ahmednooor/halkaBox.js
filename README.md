@@ -3,7 +3,7 @@ A simple and basic Javascript lightbox.
 
 [Demo Page](https://ahmednooor.github.io/halkaBox.js)
 
-![Screenshot](https://github.com/ahmednooor/halkaBox.js/blob/master/screenshot.jpg)
+![Screenshot](https://github.com/ahmednooor/halkaBox.js/blob/master/demo/screenshot.jpg)
 
 ## Features
 * Made with Javascript. No dependencies required
@@ -14,13 +14,13 @@ A simple and basic Javascript lightbox.
 ## Usage Example
 
 ### Files
-'''html
+```html
 <link rel="stylesheet" href="css/halkaBox.min.css">
 <script src="js/halkaBox.min.js"></script>
-'''
+```
 
 ### Markup
-'''html
+```html
 <div id="gallery1">
     <a href="img/01.jpg" data-hb="gallery1"><img src="img/01.jpg" alt="1"></a>
     <a href="img/02.jpg" data-hb="gallery1"><img src="img/02.jpg" alt="2"></a>
@@ -35,14 +35,14 @@ A simple and basic Javascript lightbox.
 
 <a href="img/07.jpg" data-hb-single><img src="img/07.jpg" alt="7"></a>
 <a href="img/08.jpg" data-hb-single><img src="img/07.jpg" alt="8"></a>
-'''
+```
 
 ### Javascript
-'''javascript
+```javascript
 halkaBox.gallery("gallery1");
 halkaBox.gallery("gallery2");
 halkaBox.singles();
-'''
+```
 
 ## Compatibility
 All latest versions of,
