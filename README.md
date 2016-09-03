@@ -3,13 +3,15 @@ A simple and basic Javascript lightbox.
 
 [Demo Page](https://ahmednooor.github.io/halkaBox.js)
 
-![Screenshot](https://github.com/ahmednooor/halkaBox.js/blob/master/demo/screenshot.jpg)
+![Screenshot](https://github.com/ahmednooor/halkaBox.js/blob/master/demo/screenshot.png)
 
 ## Features
-* Made with Javascript. No dependencies required
-* Simple and lightweight
-* Multiple galleries
-* Swipe gestures supported on touch devices
+* Made with Javascript. No dependencies required.
+* Simple and lightweight.
+* Multiple galleries.
+* Arrow keys to navigate and escape to close supported.
+* Swipe gestures supported on touch devices.
+* SVG Icons.
 
 ## Usage Example
 
@@ -52,10 +54,12 @@ All latest versions of,
 * IE
 * Opera
 
-### Feel free to report any issues and share your feedback.
+> Feel free to report any issues and share your feedback.
 
 ## Licence and Credits
 
 License: [MIT](https://opensource.org/licenses/MIT)
+
 Author:  [Ahmed Noor](https://github.com/ahmednooor)
+
 Credits: [Unsplash](https://https://unsplash.com/) for images. [Google](https://www.google.com) for control icons.
