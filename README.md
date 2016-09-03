@@ -62,4 +62,4 @@ License: [MIT](https://opensource.org/licenses/MIT)
 
 Author:  [Ahmed Noor](https://github.com/ahmednooor)
 
-Credits: [Unsplash](https://https://unsplash.com/) for images. [Google](https://www.google.com) for control icons.
+Credits: [Unsplash](https://unsplash.com/) for images. [Google](https://www.google.com) for control icons.
