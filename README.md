@@ -12,6 +12,7 @@ A simple and basic Javascript lightbox.
 * Arrow keys to navigate and escape to close supported.
 * Swipe gestures supported on touch devices.
 * SVG Icons.
+* Transitions via CSS Keyframes.
 
 ## Usage Example
 
@@ -47,14 +48,14 @@ halkaBox.singles();
 ```
 
 ## Compatibility
-All latest versions of,
+All the latest versions of,
 * Chrome
 * Firefox
 * Edge
 * IE
 * Opera
 
-> Feel free to report any issues and share your feedback.
+> Feel free to report any issues and share your feedback in the issues tracker.
 
 ## Licence and Credits
 
