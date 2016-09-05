@@ -1,7 +1,7 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 0.1
-    Author: Ahmed Noor , url: https://github.com/ahmednooor
+    Version: 0.2
+    Auther: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
 
@@ -50,7 +50,6 @@ function halkaBoxGallery(selector) {
                     touchEnabled,
                     viewport,
                     touchPositionX;
-                    
 
                 // setting attributes to created elements
                 hbWrapper.setAttribute("class", "hb-wrapper");
@@ -81,12 +80,17 @@ function halkaBoxGallery(selector) {
                 hbMainContainer.appendChild(hbRightIconContainer);
                 hbWrapper.appendChild(hbMainContainer);
 
+                //for fade in effect
+                window.setTimeout(function () {
+                    hbWrapper.style.opacity = 1;
+                });
+                
                 // appending complete structure to body
                 body.appendChild(hbWrapper);
-
+                
                 // adding class for preventing scroll when popup is open
                 body.classList.add("hb-noscroll");
-
+                
                 // control variables
                 hbImage = document.getElementById("hb-image");
                 hbClose = document.getElementById("hb-close");
@@ -101,7 +105,16 @@ function halkaBoxGallery(selector) {
                     }
                     i += 1;
                     imageLink = images[i].getAttribute("href");
-                    hbImage.setAttribute("src", imageLink);
+                    window.setTimeout(function () {
+                        hbImage.setAttribute("src", imageLink);
+                        // adding and removing classes for slide transsitions
+                        hbImage.classList.remove("hb-slidenextout");
+                        hbImage.classList.add("hb-slidenextin");
+                    }, 300);
+                    // adding and removing classes for slide transsitions
+                    hbImage.classList.remove("hb-slidepreviousin");
+                    hbImage.classList.remove("hb-slidenextin");
+                    hbImage.classList.add("hb-slidenextout");
                 }
 
                 // function for jumping to previous image
@@ -111,13 +124,26 @@ function halkaBoxGallery(selector) {
                     }
                     i -= 1;
                     imageLink = images[i].getAttribute("href");
-                    hbImage.setAttribute("src", imageLink);
+                    window.setTimeout(function () {
+                        hbImage.setAttribute("src", imageLink);
+                        // adding and removing classes for slide transsitions
+                        hbImage.classList.remove("hb-slidepreviousout");
+                        hbImage.classList.add("hb-slidepreviousin");
+                    }, 300);
+                    // adding and removing classes for slide transsitions
+                    hbImage.classList.remove("hb-slidenextin");
+                    hbImage.classList.remove("hb-slidepreviousin");
+                    hbImage.classList.add("hb-slidepreviousout");
                 }
 
                 // function for closing popup by clicking on close icon
                 function iconClickClose(ev) {
-                    body.removeChild(hbWrapper);
-                    body.classList.remove("hb-noscroll");
+                    // for fade out effect
+                    hbWrapper.style.opacity = 0;
+                    window.setTimeout(function () {
+                        body.removeChild(hbWrapper);
+                        body.classList.remove("hb-noscroll");
+                    }, 300);
                 }
 
                 // function for closing popup by clicking on empty space
@@ -125,8 +151,12 @@ function halkaBoxGallery(selector) {
                     ev.stopPropagation();
                     ev.preventDefault();
                     if (ev.target === hbImageContainer || ev.target === hbMainContainer) {
-                        body.removeChild(hbWrapper);
-                        body.classList.remove("hb-noscroll");
+                        // for fade out effect
+                        hbWrapper.style.opacity = 0;
+                        window.setTimeout(function () {
+                            body.removeChild(hbWrapper);
+                            body.classList.remove("hb-noscroll");
+                        }, 300);
                     }
                 }
 
@@ -258,6 +288,11 @@ function halkaBoxSingles() {
             hbMainContainer.appendChild(hbCloseIconContainer);
             hbWrapper.appendChild(hbMainContainer);
 
+            // for fade in effect
+            window.setTimeout(function () {
+                hbWrapper.style.opacity = 1;
+            });
+
             // appending complete structure to body
             body.appendChild(hbWrapper);
 
@@ -270,8 +305,12 @@ function halkaBoxSingles() {
 
             // function for closing popup by clicking on close icon
             function iconClickClose(ev) {
-                body.removeChild(hbWrapper);
-                body.classList.remove("hb-noscroll");
+                // for fade out effect
+                hbWrapper.style.opacity = 0;
+                window.setTimeout(function () {
+                    body.removeChild(hbWrapper);
+                    body.classList.remove("hb-noscroll");
+                }, 300);
             }
 
             // function for closing popup by clicking on empty space
@@ -279,8 +318,11 @@ function halkaBoxSingles() {
                 ev.stopPropagation();
                 ev.preventDefault();
                 if (ev.target === hbImageContainer || ev.target === hbMainContainer) {
-                    body.removeChild(hbWrapper);
-                    body.classList.remove("hb-noscroll");
+                    hbWrapper.style.opacity = 0;
+                    window.setTimeout(function () {
+                        body.removeChild(hbWrapper);
+                        body.classList.remove("hb-noscroll");
+                    }, 300);
                 }
             }
 
