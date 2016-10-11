@@ -8,8 +8,8 @@ A simple and basic Javascript lightbox.
 ## Features
 * Made with Javascript. No dependencies required.
 * Simple and lightweight.
-* Multiple galleries.
-* Arrow keys to navigate and escape to close supported.
+* Multiple galleries. Custom options for each.
+* Keyboard arrow keys to navigate and escape to close supported.
 * Swipe gestures supported on touch devices.
 * SVG Icons.
 * Transitions via CSS Keyframes.
@@ -22,33 +22,83 @@ A simple and basic Javascript lightbox.
 <script src="js/halkaBox.min.js"></script>
 ```
 
-### Markup
+### Markup for Galleries
+> Anchor tags with same `data-hb` values will be treated as galleries.
+
 ```html
-<div id="gallery1">
-    <a href="img/01.jpg" data-hb="gallery1"><img src="img/01.jpg" alt="1"></a>
-    <a href="img/02.jpg" data-hb="gallery1"><img src="img/02.jpg" alt="2"></a>
-    <a href="img/03.jpg" data-hb="gallery1"><img src="img/03.jpg" alt="3"></a>
-</div>
+<a href="..." data-hb="gallery1"><img src="..." alt="..."></a>
+<a href="..." data-hb="gallery1"><img src="..." alt="..."></a>
+<a href="..." data-hb="gallery1"><img src="..." alt="..."></a>
 
-<div id="gallery2">
-    <a href="img/04.jpg" data-hb="gallery2"><img src="img/04.jpg" alt="4"></a>
-    <a href="img/05.jpg" data-hb="gallery2"><img src="img/05.jpg" alt="5"></a>
-    <a href="img/06.jpg" data-hb="gallery2"><img src="img/06.jpg" alt="6"></a>
-</div>
+<a href="..." data-hb="gallery2"><img src="..." alt="..."></a>
+<a href="..." data-hb="gallery2"><img src="..." alt="..."></a>
+<a href="..." data-hb="gallery2"><img src="..." alt="..."></a>
+```
+### Markup for Single Images
+> `data-hb="single"` is reserved for single images. This way you can set options for all single images at once.
 
-<a href="img/07.jpg" data-hb-single><img src="img/07.jpg" alt="7"></a>
-<a href="img/08.jpg" data-hb-single><img src="img/07.jpg" alt="8"></a>
+```html
+<a href="..." data-hb="single"><img src="..." alt="..."></a>
+<a href="..." data-hb="single"><img src="..." alt="..."></a>
+<a href="..." data-hb="single"><img src="..." alt="..."></a>
+```
+> Or you can set a unique `data-hb` value to a single anchor tag and it will be treated as a single image. You can use custom options for each single image this way.
+
+```html
+<a href="..." data-hb="singleImage1"><img src="..." alt="..."></a>
+<a href="..." data-hb="singleImage2"><img src="..." alt="..."></a>
 ```
 
-### Javascript
+### Javascript for Galleries
 ```javascript
-halkaBox.gallery("gallery1");
-halkaBox.gallery("gallery2");
-halkaBox.singles();
+halkaBox.run("gallery1");
+halkaBox.run("gallery2");
 ```
+
+### Javascript for Single Images
+```javascript
+halkaBox.run("single");
+halkaBox.run("singleImage1");
+halkaBox.run("singleImage2");
+```
+
+## Options
+### Setting Options Globally
+<!--> For setting options globally to all galleries and single images.-->
+
+```javascript
+halkaBox.options({
+    hideButtons: true,  // hide buttons on touch devices (true || false)
+    animation: "slide", // animation type on next/prev ("slide" || "fade")
+    theme: "light"      // lightbox overlay theme ("light" || "dark")
+});
+halkaBox.run("...");
+...
+```
+> `halkaBox.options()` should come before `halkaBox.run()`.
+
+### Setting Options Individually
+<!--> For setting options individually.-->
+
+```javascript
+halkaBox.run("...", {
+    hideButtons: true,  // hide buttons on touch devices (true || false)
+    animation: "slide", // animation type on next/prev ("slide" || "fade")
+    theme: "light"      // lightbox overlay theme ("light" || "dark")
+});
+...
+```
+
+### Available Options
+| Option | Value Type | Default Value | Available Values | Description |
+| --- | --- | --- | --- | --- |
+| `hideButtons` | `Boolean` | `true` | `true`, `false` | Hides next/previous buttons on touch devices. |
+| `animation` | `String` | `"slide"` | `"slide"`, `"fade"` | Sets animation type on next/previous actions. |
+| `theme` | `String` | `"light"` | `"light"`, `"dark"` | Sets lightbox overlay theme. |
 
 ## Compatibility
 All the latest versions of,
+
 * Chrome
 * Firefox
 * Edge
