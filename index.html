@@ -77,6 +77,10 @@
             text-align: center;
         }
 
+        .gallery .dscr {
+            font-size: 1.5rem;
+        }
+        
         .gallery a {
             display: inline-block;
             width: 192px;
@@ -104,10 +108,11 @@
         }
         
         .usage {
+            max-width: 610px;
             padding: 0 10px;
         }
         
-        .usage h2, .usage h4 {
+        .usage h2, .usage h4, .usage h3 {
             text-align: center;
         }
         
@@ -116,13 +121,26 @@
             font-weight: normal;
         }
         
+        .usage code a {
+            color: royalblue;
+            text-decoration: none;
+        }
+        
+        .usage code a:hover, footer code a:focus {
+            text-decoration: underline;
+        }
+        
+        .usage h3 code {
+            font-weight: normal;
+        }
+        
         .usage pre {
             display: block;
             max-width: 600px;
             width: auto;
             margin: 0 auto;
-            color: lightslategray;
-            border: 1px solid royalblue;
+            color: darkblue;
+            border: 1px dotted royalblue;
             padding: 10px;
             -webkit-border-radius: 4px;
             -moz-border-radius: 4px;
@@ -196,6 +214,7 @@
     
     <div id="gallery1" class="wrapper gallery">
         <h2>Gallery</h2>
+        <p class="dscr"><code>with default options</code></p>
         <br>
         <a href="img/01.jpg" data-hb="gallery1"><img src="img/thumbnails/01.jpg" alt="1"></a>
         <a href="img/02.jpg" data-hb="gallery1"><img src="img/thumbnails/02.jpg" alt="2"></a>
@@ -208,6 +227,7 @@
     
     <div id="gallery2" class="wrapper gallery">
         <h2>Another Gallery</h2>
+        <p class="dscr"><code>with custom options</code></p>
         <br>
         <a href="img/05.jpg" data-hb="gallery2"><img src="img/thumbnails/05.jpg" alt="5"></a>
         <a href="img/06.jpg" data-hb="gallery2"><img src="img/thumbnails/06.jpg" alt="7"></a>
@@ -220,11 +240,12 @@
     
     <div id="single-images" class="wrapper gallery">
         <h2>Single Images</h2>
+        <p class="dscr"><code>with default and custom options</code></p>
         <br>
-        <a href="img/09.jpg" data-hb-single><img src="img/thumbnails/09.jpg" alt="9"></a>
-        <a href="img/10.jpg" data-hb-single><img src="img/thumbnails/10.jpg" alt="10"></a>
-        <a href="img/11.jpg" data-hb-single><img src="img/thumbnails/11.jpg" alt="11"></a>
-        <a href="img/12.jpg" data-hb-single><img src="img/thumbnails/12.jpg" alt="12"></a>
+        <a href="img/09.jpg" data-hb="single"><img src="img/thumbnails/09.jpg" alt="9"></a>
+        <a href="img/10.jpg" data-hb="singleImage1"><img src="img/thumbnails/10.jpg" alt="10"></a>
+        <a href="img/11.jpg" data-hb="single"><img src="img/thumbnails/11.jpg" alt="11"></a>
+        <a href="img/12.jpg" data-hb="singleImage2"><img src="img/thumbnails/12.jpg" alt="12"></a>
     </div>
     
     <br>
@@ -241,30 +262,49 @@
 &lt;script <span>src="<em>js/halkaBox.min.js</em>"</span>&gt;&lt;/script&gt;</p></pre>
         <br>
         
-        <h4><code>Markup</code></h4>
+        <h4><code>Markup for Galleries</code></h4>
+        <h3><code>anchor tags with same data-hb values will be treated as galleries.</code></h3>
         <br>
         <pre>
-<p>&lt;div <span>id="<em>gallery1</em>"</span>&gt;
-    &lt;a href="img/01.jpg" <span>data-hb="<em>gallery1</em>"</span>&gt;&lt;img src="img/01.jpg" alt="1"&gt;&lt;/a&gt;
-    &lt;a href="img/02.jpg" <span>data-hb="<em>gallery1</em>"</span>&gt;&lt;img src="img/02.jpg" alt="2"&gt;&lt;/a&gt;
-    &lt;a href="img/03.jpg" <span>data-hb="<em>gallery1</em>"</span>&gt;&lt;img src="img/03.jpg" alt="3"&gt;&lt;/a&gt;
-&lt;/div&gt;
+<p>&lt;a href="..." <span>data-hb="<em>gallery1</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
+&lt;a href="..." <span>data-hb="<em>gallery1</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
+&lt;a href="..." <span>data-hb="<em>gallery1</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
 
-&lt;div <span>id="<em>gallery2</em>"</span>&gt;
-    &lt;a href="img/04.jpg" <span>data-hb="<em>gallery2</em>"</span>&gt;&lt;img src="img/04.jpg" alt="4"&gt;&lt;/a&gt;
-    &lt;a href="img/05.jpg" <span>data-hb="<em>gallery2</em>"</span>&gt;&lt;img src="img/05.jpg" alt="5"&gt;&lt;/a&gt;
-    &lt;a href="img/06.jpg" <span>data-hb="<em>gallery2</em>"</span>&gt;&lt;img src="img/06.jpg" alt="6"&gt;&lt;/a&gt;
-&lt;/div&gt;</p>
-<p>&lt;a href="img/07.jpg" <span><em>data-hb-single</em></span>&gt;&lt;img src="img/07.jpg" alt="7"&gt;&lt;/a&gt;
-&lt;a href="img/08.jpg" <span><em>data-hb-single</em></span>&gt;&lt;img src="img/07.jpg" alt="8"&gt;&lt;/a&gt;</p></pre>
+&lt;a href="..." <span>data-hb="<em>gallery2</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
+&lt;a href="..." <span>data-hb="<em>gallery2</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
+&lt;a href="..." <span>data-hb="<em>gallery2</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;</p></pre>
         <br>
         
-        <h4><code>Javascript</code></h4>
+        <h4><code>Markup for Single Images</code></h4>
+        <h3><code>data-hb="single" is reserved for single images.</code></h3>
+        <br>
+<pre><p>&lt;a href="..." <span>data-hb="<em>single</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
+&lt;a href="..." <span>data-hb="<em>single</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
+&lt;a href="..." <span>data-hb="<em>single</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;</p></pre>
+        <br>
+        
+        <h3><code>Or you can set a unique data-hb value to a single anchor tag and it will be treated as a single image.</code></h3>
+        <br>
+<pre><p>&lt;a href="..." <span>data-hb="<em>singleImage1</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
+&lt;a href="..." <span>data-hb="<em>singleImage2</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;</p></pre>
+        <br>
+        
+        <h4><code>Javascript for Galleries</code></h4>
         <br>
         <pre>
-<p><span>halkaBox.gallery("<em>gallery1</em>");
-halkaBox.gallery("<em>gallery2</em>");
-halkaBox.singles();</span></p></pre>
+<p><span>halkaBox.run("<em>gallery1</em>");
+halkaBox.run("<em>gallery2</em>");</span></p></pre>
+        <br>
+        
+        <h4><code>Javascript for Single Images</code></h4>
+        <br>
+        <pre>
+<p><span>halkaBox.run("<em>single</em>");
+halkaBox.run("<em>singleImage1</em>");
+halkaBox.run("<em>singleImage2</em>");</span></p></pre>
+        <br>
+        
+        <h4><code>For options and more documentation, visit <a href="https://github.com/ahmednooor/halkaBox.js" target="_blank">Github</a></code></h4>
     </div>
     
     <br>
@@ -285,9 +325,19 @@ halkaBox.singles();</span></p></pre>
     
     <script src="js/halkaBox.min.js"></script>
     <script>
-            halkaBox.gallery("gallery1");
-            halkaBox.gallery("gallery2");
-            halkaBox.singles();
+        halkaBox.run("gallery1");
+        halkaBox.run("gallery2", {
+            animation: "fade",
+            theme: "dark",
+            hideButtons: false
+        });
+        halkaBox.run("single");
+        halkaBox.run("singleImage1", {
+            theme: "dark"
+        });
+        halkaBox.run("singleImage2", {
+            theme: "dark"
+        });
     </script>
     
 </body>
