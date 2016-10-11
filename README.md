@@ -64,8 +64,6 @@ halkaBox.run("singleImage2");
 
 ## Options
 ### Setting Options Globally
-<!--> For setting options globally to all galleries and single images.-->
-
 ```javascript
 halkaBox.options({
     hideButtons: true,  // hide buttons on touch devices (true || false)
@@ -78,8 +76,6 @@ halkaBox.run("...");
 > `halkaBox.options()` should come before `halkaBox.run()`.
 
 ### Setting Options Individually
-<!--> For setting options individually.-->
-
 ```javascript
 halkaBox.run("...", {
     hideButtons: true,  // hide buttons on touch devices (true || false)
