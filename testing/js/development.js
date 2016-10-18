@@ -395,11 +395,11 @@ var halkaBox = (function () {
                 hbWrapper.addEventListener("touchmove", touchMove);
                 hbWrapper.addEventListener("touchend", touchEnd);
             }
-            if ("ontouchstart" in window === false) {
+//            if ("ontouchstart" in window === false) {
                 for (x = 0; x < imageLinksQty; x += 1) {
                     imageObjects[x].addEventListener("click", zoomIn);
                 }
-            }
+//            }
         };
 
         // function to unbind events
@@ -420,11 +420,11 @@ var halkaBox = (function () {
                 hbWrapper.removeEventListener("touchmove", touchMove);
                 hbWrapper.removeEventListener("touchend", touchEnd);
             }
-            if ("ontouchstart" in window === false) {
+//            if ("ontouchstart" in window === false) {
                 for (x = 0; x < imageLinksQty; x += 1) {
                     imageObjects[x].removeEventListener("click", zoomIn);
                 }
-            }
+//            }
         };
 
         // function to trigger the lightbox overlay when an image link(imageLinks[i]) is clicked
