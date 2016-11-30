@@ -11,7 +11,7 @@ var halkaBox = (function () {
             // default options
             hideButtons: true,     // hide buttons on touch devices (true || false)
             animation: "slide",    // animation type on next/prev ("slide" || "fade")
-            theme: "light",        // lightbox overlay theme ("light" || "dark")
+            theme: "light"         // lightbox overlay theme ("light" || "dark")
         };
     
     // function to set options for all galleries and single images
@@ -132,19 +132,17 @@ var halkaBox = (function () {
         
         // since the script creates the required html elements for the lightbox overlay on pageload so its necessary to set display to none
         hbWrapper.style.display = "none";
-        
+
         // creating and cahing image elements according to the imageLinksQty
-        // caching part
         (function imageCacheF() {
             for (p = 0; p < imageLinksQty; p += 1) {
-                imageObjects[p] = new Image();
+                imageObjects[p] = document.createElement("img");
                 imageObjects[p].src = imageLinks[p].href;
                 imageObjects[p].style.opacity = 0;
                 imageObjects[p].style.display = "none";
                 hbImageContainer.appendChild(imageObjects[p]);
             }
         }());
-        // end caching part
 
         // appending complete structure of above created lightbox overlay elements to body
         body.appendChild(hbWrapper);
@@ -330,56 +328,9 @@ var halkaBox = (function () {
         function touchEnd() {
             touchEnabled = false;
         }
-        
-        function zoomIn(event) {
-            var newW = imageObjects[i].width * 2,
-                newH = imageObjects[i].height * 2;
-            body.classList.add("hb-noscroll");
-            
-            imageObjects[i].removeEventListener("click", zoomIn);
-            imageObjects[i].classList.add("hb-zoom");
-            imageObjects[i].style.animation = "none";
-            imageObjects[i].style.width = newW + "px";
-            imageObjects[i].style.height = newH + "px";
-            imageObjects[i].style.opacity = "1";
-            imageObjects[i].addEventListener("click", zoomOut);
-            
-            hbImageContainer.classList.add("hb-zoom-container");
-            hbImageContainer.scrollLeft = event.clientX - (window.innerWidth - (newW / 2));
-            hbImageContainer.scrollTop = event.clientY - (window.innerHeight - (newH / 2));
-            
-            hbRightIconContainer.style.display = "none";
-            hbLeftIconContainer.style.display = "none";
-            hbCloseIconContainer.style.display = "none";
-            eventsUnbinder();
-        }
 
-        function zoomOut(event) {
-            body.classList.remove("hb-noscroll");
-            
-            imageObjects[i].removeEventListener("click", zoomOut);
-            imageObjects[i].classList.remove("hb-zoom");
-            imageObjects[i].style.animation = "none";
-            imageObjects[i].style.removeProperty("width");
-            imageObjects[i].style.removeProperty("height");
-            imageObjects[i].addEventListener("click", zoomIn);
-            
-            hbImageContainer.classList.remove("hb-zoom-container");
-            
-            if (("ontouchstart" in window && customOptions.hideButtons === true) || selector === "single" || imageLinks.length === 1) {
-                hbRightIconContainer.style.display = "none";
-                hbLeftIconContainer.style.display = "none";
-            } else {
-                hbRightIconContainer.style.display = "block";
-                hbLeftIconContainer.style.display = "block";
-            }
-            hbCloseIconContainer.style.display = "block";
-            eventsBinder();
-        }
-        
         // function to bind events
         eventsBinder = function eventsBinderF() {
-            var x;
             // check if the selecter is not eq-to "single" then attach next/prev events
             if (selector !== "single") {
                 hbRight.addEventListener("click", next);
@@ -395,16 +346,10 @@ var halkaBox = (function () {
                 hbWrapper.addEventListener("touchmove", touchMove);
                 hbWrapper.addEventListener("touchend", touchEnd);
             }
-//            if ("ontouchstart" in window === false) {
-                for (x = 0; x < imageLinksQty; x += 1) {
-                    imageObjects[x].addEventListener("click", zoomIn);
-                }
-//            }
         };
 
         // function to unbind events
         eventsUnbinder = function eventsUnbinderF() {
-            var x;
             // check if the selecter is not eq-to "single" then remove next/prev events
             if (selector !== "single") {
                 hbRight.removeEventListener("click", next);
@@ -420,11 +365,6 @@ var halkaBox = (function () {
                 hbWrapper.removeEventListener("touchmove", touchMove);
                 hbWrapper.removeEventListener("touchend", touchEnd);
             }
-//            if ("ontouchstart" in window === false) {
-                for (x = 0; x < imageLinksQty; x += 1) {
-                    imageObjects[x].removeEventListener("click", zoomIn);
-                }
-//            }
         };
 
         // function to trigger the lightbox overlay when an image link(imageLinks[i]) is clicked
