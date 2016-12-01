@@ -295,10 +295,17 @@ var halkaBox = (function () {
         // functions for touch support
         touchEnabled = false;
         // calculate the width of the document so that if the document is zoomed the touch does not trigger
-        viewport = window.screen.width;
+        viewport = window.innerWidth;
+        
+        window.addEventListener("deviceorientation", function(event) {
+            if (event.absolute == true) {
+                viewport = window.innerWidth;
+            }
+        });
+        
         function touchStart(event) {
             // to confirm it is a single touch and browser is not zoomed in
-            if ((window.screen.availWidth <= viewport || window.screen.availHeight <= viewport) && event.touches.length === 1) {
+            if (window.innerWidth <= viewport && event.touches.length === 1) {
                 // collecting x axis position
                 touchPositionX = event.changedTouches[0].pageX;
                 return;
@@ -310,7 +317,7 @@ var halkaBox = (function () {
             var touch = event.touches[0] || event.changedTouches[0],
                 touches = event.touches.length;
             // to check if touchEnabled is false, touches are not two and browser is not zoomed in
-            if (touchEnabled === false && (window.screen.availWidth <= viewport || window.screen.availHeight <= viewport) && touches !== 2) {
+            if (touchEnabled === false && window.innerWidth <= viewport && touches !== 2) {
                 event.preventDefault();
                 // slide at least below mentioned pixels to trigger next or previous functions
                 if (touch.pageX - touchPositionX > 50) {
