@@ -300,8 +300,17 @@ var halkaBox = (function () {
         window.addEventListener("orientationchange", function (event) {
             setTimeout(function () {
                 viewport = window.innerWidth;
-//                console.log(viewport);
-            }, 300);
+            }, 250);
+        });
+        
+        window.addEventListener("resize", function (event) {
+            setTimeout(function () {
+                if (window.innerHeight > window.innerWidth) {
+                    viewport = window.innerWidth;
+                } else if (window.innerHeight < window.innerWidth) {
+                    viewport = window.innerWidth;
+                }
+            }, 250);
         });
         
         function touchStart(event) {
