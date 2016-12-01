@@ -299,7 +299,9 @@ var halkaBox = (function () {
         
         window.addEventListener("deviceorientation", function(event) {
             viewport = window.innerWidth;
-            return;
+            console.log(viewport);
+            console.log(event.beta);
+            console.log(event.beta);
         });
         
         function touchStart(event) {
