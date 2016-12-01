@@ -297,11 +297,9 @@ var halkaBox = (function () {
         // calculate the width of the document so that if the document is zoomed the touch does not trigger
         viewport = window.innerWidth;
         
-        window.addEventListener("deviceorientation", function(event) {
+        window.addEventListener("orientationchange", function(event) {
             viewport = window.innerWidth;
             console.log(viewport);
-            console.log(event.beta);
-            console.log(event.beta);
         });
         
         function touchStart(event) {
