@@ -297,7 +297,7 @@ var halkaBox = (function () {
         touchEnabled = false;
         // calculate the width of the document so that if the document is zoomed the touch does not trigger
         viewport = window.innerWidth;
-        orientation = window.innerWidth < window.innerHeight;
+        orientation = window.innerWidth < window.innerHeight ? true : false;
         
 //        window.addEventListener("orientationchange", function (event) {
 //            var detectViewportChange = setInterval(function () {
@@ -310,6 +310,7 @@ var halkaBox = (function () {
         
         function touchStart(event) {
             if ((window.innerWidth < window.innerHeight) !== orientation) {
+                orientation = orientation === true ? false ; true;
                 viewport = window.innerWidth;
             }
             // to confirm it is a single touch and browser is not zoomed in
