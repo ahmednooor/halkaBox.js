@@ -59,6 +59,7 @@ var halkaBox = (function () {
             hbRightIconSvg = "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\"xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 306 306\" enable-background=\"new 0 0 306 306\" xml:space=\"preserve\"><g><g id=\"chevron-right\"><polygon points=\"94.3,0 58.7,35.7 175.9,153 58.7,270.3 94.3,306 247.4,153\"/></g></g></svg>",
             touchEnabled,
             viewport,
+            orientation,
             touchPositionX,
             eventsBinder,
             eventsUnbinder,
@@ -296,27 +297,21 @@ var halkaBox = (function () {
         touchEnabled = false;
         // calculate the width of the document so that if the document is zoomed the touch does not trigger
         viewport = window.innerWidth;
+        orientation = window.innerWidth < window.innerHeight;
         
-        window.addEventListener("orientationchange", function (event) {
-            var detectViewportChange = setInterval(function () {
-                if (window.innerWidth > viewport || window.innerWidth < viewport) {
-                    viewport = window.innerWidth;
-                    clearInterval(detectViewportChange);
-                }
-            }, 50);
-        });
-        
-//        window.addEventListener("resize", function (event) {
-//            setTimeout(function () {
-//                if (window.innerHeight > window.innerWidth) {
+//        window.addEventListener("orientationchange", function (event) {
+//            var detectViewportChange = setInterval(function () {
+//                if (window.innerWidth > viewport || window.innerWidth < viewport) {
 //                    viewport = window.innerWidth;
-//                } else if (window.innerHeight < window.innerWidth) {
-//                    viewport = window.innerWidth;
+//                    clearInterval(detectViewportChange);
 //                }
-//            }, 250);
+//            }, 50);
 //        });
         
         function touchStart(event) {
+            if ((window.innerWidth < window.innerHeight) !== orientation) {
+                viewport = window.innerWidth;
+            }
             // to confirm it is a single touch and browser is not zoomed in
             if (window.innerWidth === viewport && event.touches.length === 1) {
                 // collecting x axis position
