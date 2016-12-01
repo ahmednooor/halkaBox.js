@@ -298,8 +298,8 @@ var halkaBox = (function () {
         viewport = window.innerWidth;
         function touchStart(event) {
             // to confirm it is a single touch and browser is not zoomed in
-            if (window.innerWidth <= window.outerWidth && event.touches.length === 1) {
                 // collecting x axis position
+            if ((window.innerWidth <= viewport || viewport <= window.innerHeight) && event.touches.length === 1) {
                 touchPositionX = event.changedTouches[0].pageX;
                 return;
             } else {
@@ -310,7 +310,7 @@ var halkaBox = (function () {
             var touch = event.touches[0] || event.changedTouches[0],
                 touches = event.touches.length;
             // to check if touchEnabled is false, touches are not two and browser is not zoomed in
-            if (touchEnabled === false && window.innerWidth <= window.outerWidth && touches !== 2) {
+            if (touchEnabled === false && (window.innerWidth <= viewport || viewport <= window.innerHeight) && touches !== 2) {
                 event.preventDefault();
                 // slide at least below mentioned pixels to trigger next or previous functions
                 if (touch.pageX - touchPositionX > 50) {
