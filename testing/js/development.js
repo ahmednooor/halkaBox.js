@@ -310,7 +310,7 @@ var halkaBox = (function () {
         
         function touchStart(event) {
             if ((window.innerWidth < window.innerHeight) !== orientation) {
-                orientation = orientation === true ? false ; true;
+                orientation = orientation === true ? false : true;
                 viewport = window.innerWidth;
             }
             // to confirm it is a single touch and browser is not zoomed in
