@@ -5,10 +5,6 @@
     License: MIT , url: https://opensource.org/licenses/MIT
 */
 
-.hb-noscroll {
-    overflow: hidden;
-}
-
 .hb-wrapper {
     margin: 0;
     padding: 0;
@@ -142,28 +138,6 @@
     z-index: 9993;
 }
 
-.hb-wrapper .hb-zoom-container {
-    overflow: auto;
-    padding: 0;
-}
-
-.hb-wrapper .hb-image-container img.hb-zoom {
-    display: block;
-    width: auto;
-    height: auto;
-    max-width: none;
-    max-height: none;
-    position: relative;
-    top: auto;
-    left: auto;
-    margin: 0 auto;
-    opacity: inherit;
-    transform: none;
-    backface-visibility: hidden;
-    transition: none;
-    cursor: zoom-out;
-}
-
 .hb-wrapper .hb-image-container img {
     display: block;
     max-width: 100%;
@@ -180,11 +154,10 @@
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     backface-visibility: hidden;
-    -webkit-transition: opacity 0.3s ease-in-out;
-    -moz-transition: opacity 0.3s ease-in-out;
-    -o-transition: opacity 0.3s ease-in-out;
-    transition: opacity 0.3s ease-in-out;
-    cursor: zoom-in;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     z-index: 9994;
 }
 

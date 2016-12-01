@@ -298,20 +298,23 @@ var halkaBox = (function () {
         viewport = window.innerWidth;
         
         window.addEventListener("orientationchange", function (event) {
-            setTimeout(function () {
-                viewport = window.innerWidth;
-            }, 250);
+            var detectViewportChange = setInterval(function () {
+                if (window.innerWidth > viewport || window.innerWidth < viewport) {
+                    viewport = window.innerWidth;
+                    clearInterval(detectViewportChange);
+                }
+            }, 50);
         });
         
-        window.addEventListener("resize", function (event) {
-            setTimeout(function () {
-                if (window.innerHeight > window.innerWidth) {
-                    viewport = window.innerWidth;
-                } else if (window.innerHeight < window.innerWidth) {
-                    viewport = window.innerWidth;
-                }
-            }, 250);
-        });
+//        window.addEventListener("resize", function (event) {
+//            setTimeout(function () {
+//                if (window.innerHeight > window.innerWidth) {
+//                    viewport = window.innerWidth;
+//                } else if (window.innerHeight < window.innerWidth) {
+//                    viewport = window.innerWidth;
+//                }
+//            }, 250);
+//        });
         
         function touchStart(event) {
             // to confirm it is a single touch and browser is not zoomed in
