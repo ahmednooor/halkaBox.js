@@ -12,7 +12,7 @@ var halkaBox = (function () {
             hideButtons: true,     // hide buttons on touch devices (true || false)
             animation: "slide",    // animation type on next/prev ("slide" || "fade")
             theme: "light",        // lightbox overlay theme ("light" || "dark")
-            preload: 1             // number of images to preload
+            preload: 2             // number of images to preload
         };
     
     // function to set options for all galleries and single images
@@ -482,20 +482,20 @@ var halkaBox = (function () {
                 // assigning the value of ir to i via index
                 i = index;
 
+                imageLinks[i].blur();
+
                 hbWrapper.style.display = "block";
                 window.setTimeout(function () {
                     hbWrapper.style.opacity = 1;
-                }, 0);
+                }, 50);
                 
                 preloadNext(i, customOptions.preload);
                 preloadPrev(i, customOptions.preload);
-                imageObjects[i].style.display = "block";
                 imageObjects[i].style.animation = "none";
-                window.setTimeout(function () {
+                imageObjects[i].style.display = "block";
+                // window.setTimeout(function () {
                     imageObjects[i].style.opacity = 1;
-                }, 0);
-
-                imageLinks[i].blur();
+                // }, 50);
 
                 // bind events to the elements inside overlay
                 eventsBinder();
