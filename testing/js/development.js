@@ -12,7 +12,7 @@ var halkaBox = (function () {
             hideButtons: true,     // hide buttons on touch devices (true || false)
             animation: "slide",    // animation type on next/prev ("slide" || "fade")
             theme: "light",        // lightbox overlay theme ("light" || "dark")
-            preload: 2             // number of images to preload
+            preload: 1             // number of images to preload
         };
     
     // function to set options for all galleries and single images
@@ -39,12 +39,10 @@ var halkaBox = (function () {
             // incrementors/decrementors
             ir,
             i,
-            p,
             // creating html elements for the lightbox popup
             hbWrapper = document.createElement("div"),
             hbMainContainer = document.createElement("div"),
             hbImageContainer = document.createElement("div"),
-            hbLoader = document.createElement("div"),
             hbCloseIconContainer = document.createElement("div"),
             hbCloseIconElement = document.createElement("a"),
             hbLeftIconContainer = document.createElement("div"),
@@ -87,8 +85,6 @@ var halkaBox = (function () {
         hbWrapper.setAttribute("id", "hb-wrapper" + selector);
         hbMainContainer.setAttribute("class", "hb-main-container");
         hbImageContainer.setAttribute("class", "hb-image-container");
-        hbLoader.setAttribute("id", "hb-loader");
-        hbLoader.setAttribute("class", "hb-loader");
         hbCloseIconContainer.setAttribute("class", "hb-close-icon-container");
         hbCloseIconElement.setAttribute("id", "hb-close-" + selector);
         hbCloseIconElement.setAttribute("class", "hb-close");
@@ -106,7 +102,6 @@ var halkaBox = (function () {
         hbLeftIconElement.innerHTML = hbLeftIconSvg;
         hbCloseIconContainer.appendChild(hbCloseIconElement);
         hbCloseIconElement.innerHTML = hbCloseIconSvg;
-        hbMainContainer.appendChild(hbLoader);
         hbMainContainer.appendChild(hbImageContainer);
         hbMainContainer.appendChild(hbCloseIconContainer);
         hbMainContainer.appendChild(hbLeftIconContainer);
@@ -121,11 +116,10 @@ var halkaBox = (function () {
         
         // for setting dark theme
         if (customOptions.theme === "dark") {
-            hbMainContainer.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
+            hbMainContainer.setAttribute("style", "background-color: #000; background-color: rgba(0, 0, 0, 0.9);");
             hbRightIconElement.children[0].style.fill = "#fff";
             hbLeftIconElement.children[0].style.fill = "#fff";
             hbCloseIconElement.children[0].style.fill = "#fff";
-            hbLoader.style.borderTop = "5px solid #999";
             if (window.innerWidth <= 960) {
                 hbRightIconElement.children[0].style.fill = "#111";
                 hbLeftIconElement.children[0].style.fill = "#111";
@@ -144,15 +138,20 @@ var halkaBox = (function () {
             var x = index;
             function preloadImage() {
                 if (!imageObjects[x] && x <= (index + limit)) {
+                    var loader = document.createElement("div");
+                    loader.classList.add("hb-loader");
+                    if (customOptions.theme === "dark") {
+                        loader.style.borderTop = "5px solid #999";
+                    }
                     var newImage = document.createElement("img");
                     imageObjects[x] = document.createElement("div");
                     imageObjects[x].style.opacity = 0;
                     imageObjects[x].style.display = "none";
                     hbImageContainer.appendChild(imageObjects[x]);
-                    hbLoader.style.display = "block";
+                    imageObjects[x].appendChild(loader);
+                    imageObjects[x].appendChild(newImage);
                     newImage.onload = function () {
-                        hbLoader.style.display = "none";
-                        imageObjects[x].appendChild(newImage);
+                        loader.style.display = "none";
                         x += 1;
                         preloadImage();
                     };
@@ -164,7 +163,7 @@ var halkaBox = (function () {
                         } else if (customOptions.theme === "dark") {
                             errText.classList.add("hb-err-text-white");
                         }
-                        hbLoader.style.display = "none";
+                        loader.style.display = "none";
                         imageObjects[x].appendChild(errText);
                         x += 1;
                         preloadImage();
@@ -184,15 +183,20 @@ var halkaBox = (function () {
             var x = index;
             function preloadImage() {
                 if (!imageObjects[x] && x >= (index - limit)) {
+                    var loader = document.createElement("div");
+                    loader.classList.add("hb-loader");
+                    if (customOptions.theme === "dark") {
+                        loader.style.borderTop = "5px solid #999";
+                    }
                     var newImage = document.createElement("img");
                     imageObjects[x] = document.createElement("div");
                     imageObjects[x].style.opacity = 0;
                     imageObjects[x].style.display = "none";
                     hbImageContainer.appendChild(imageObjects[x]);
-                    hbLoader.style.display = "block";
+                    imageObjects[x].appendChild(loader);
+                    imageObjects[x].appendChild(newImage);
                     newImage.onload = function () {
-                        hbLoader.style.display = "none";
-                        imageObjects[x].appendChild(newImage);
+                        loader.style.display = "none";
                         x -= 1;
                         preloadImage();
                     };
@@ -204,7 +208,7 @@ var halkaBox = (function () {
                         } else if (customOptions.theme === "dark") {
                             errText.classList.add("hb-err-text-white");
                         }
-                        hbLoader.style.display = "none";
+                        loader.style.display = "none";
                         imageObjects[x].appendChild(errText);
                         x -= 1;
                         preloadImage();
@@ -271,7 +275,7 @@ var halkaBox = (function () {
                         window.setTimeout(function () {
                             // set the opacity of the next image to 1
                             imageObjects[i].style.opacity = 1;
-                        }, 100);
+                        }, 50);
                     }, 300);
                 }
             }
@@ -320,7 +324,7 @@ var halkaBox = (function () {
                         window.setTimeout(function () {
                             // set the opacity of the next image to 1
                             imageObjects[i].style.opacity = 1;
-                        }, 100);
+                        }, 50);
                     }, 300);
                 }
             }
@@ -478,46 +482,19 @@ var halkaBox = (function () {
                 // assigning the value of ir to i via index
                 i = index;
 
-                // set the popup html structure and currently clicked image opacity to 1
-                if (!imageObjects[i]) {
-                    var newImage = document.createElement("img");
-                    imageObjects[i] = document.createElement("div");
-                    imageObjects[i].style.display = "block";
+                hbWrapper.style.display = "block";
+                window.setTimeout(function () {
+                    hbWrapper.style.opacity = 1;
+                }, 0);
+                
+                preloadNext(i, customOptions.preload);
+                preloadPrev(i, customOptions.preload);
+                imageObjects[i].style.display = "block";
+                imageObjects[i].style.animation = "none";
+                window.setTimeout(function () {
                     imageObjects[i].style.opacity = 1;
-                    hbImageContainer.appendChild(imageObjects[i]);
-                    hbLoader.style.display = "block";
-                    hbWrapper.style.display = "block";
-                    newImage.onload = function () {
-                        hbLoader.style.display = "none";
-                        imageObjects[i].appendChild(newImage);
-                        hbWrapper.style.opacity = 1;
-                    };
-                    newImage.onerror = function () {
-                        var errText = document.createElement('p');
-                        errText.innerHTML = 'Image not found.';
-                        if (customOptions.theme === "light") {
-                            errText.classList.add("hb-err-text-black");
-                        } else if (customOptions.theme === "dark") {
-                            errText.classList.add("hb-err-text-white");
-                        }
-                        hbLoader.style.display = "none";
-                        imageObjects[i].appendChild(errText);
-                        hbWrapper.style.opacity = 1;
-                    };
-                    newImage.src = imageLinks[i].href;
-                    preloadNext(i, customOptions.preload);
-                    preloadPrev(i, customOptions.preload);
-                } else {
-                    hbWrapper.style.display = "block";
-                    imageObjects[i].style.display = "block";
-                    imageObjects[i].style.animation = "none";
-                    imageObjects[i].style.opacity = 1;
-                    preloadNext(i, customOptions.preload);
-                    preloadPrev(i, customOptions.preload);
-                    window.setTimeout(function () {
-                        hbWrapper.style.opacity = 1;
-                    }, 100);
-                }
+                }, 0);
+
                 imageLinks[i].blur();
 
                 // bind events to the elements inside overlay

@@ -46,14 +46,7 @@
     box-sizing: border-box;
 }
 
-.hb-wrapper * {
-    margin: 0;
-    padding: 0;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
+.hb-wrapper *,
 .hb-wrapper *:before,
 .hb-wrapper *:after {
     margin: 0;
@@ -121,12 +114,13 @@
     z-index: 9993;
 }
 
-.hb-wrapper .hb-loader {
+.hb-wrapper .hb-image-container div div.hb-loader {
+    display: block;
+    width: 35px;
+    height: 35px;
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 35px;
-    height: 35px;
     -webkit-border-radius: 1000px;
     -moz-border-radius: 1000px;
     border-radius: 1000px;
@@ -140,31 +134,8 @@
     -moz-animation: spinner 600ms linear infinite;
     -o-animation: spinner 600ms linear infinite;
     animation: spinner 600ms linear infinite;
-    z-index: 9993;
-    display: none;
+    z-index: 9998;
 }
-
-.hb-wrapper .hb-zoom-container {
-    overflow: auto;
-    padding: 0;
-}
-
-/*.hb-wrapper .hb-image-container img.hb-zoom {
-    display: block;
-    width: auto;
-    height: auto;
-    max-width: none;
-    max-height: none;
-    position: relative;
-    top: auto;
-    left: auto;
-    margin: 0 auto;
-    opacity: inherit;
-    transform: none;
-    backface-visibility: hidden;
-    transition: none;
-    cursor: zoom-out;
-}*/
 
 .hb-wrapper .hb-image-container div img {
     display: block;
@@ -179,13 +150,6 @@
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    /*-webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    backface-visibility: hidden;*/
-    /*-webkit-transition: opacity 0.1s ease-in-out;*/
-    /*-moz-transition: opacity 0.1s ease-in-out;*/
-    /*-o-transition: opacity 0.1s ease-in-out;*/
-    /*transition: opacity 0.1s ease-in-out;*/
 }
 
 .hb-wrapper .hb-image-container div p {
@@ -196,11 +160,11 @@
     transform: translate(0, -50%);
 }
 
-p.hb-err-text-white {
+.hb-wrapper .hb-image-container div p.hb-err-text-white {
     color: white;
 }
 
-p.hb-err-text-black {
+.hb-wrapper .hb-image-container div p.hb-err-text-black {
     color: black;
 }
 
@@ -218,13 +182,13 @@ p.hb-err-text-black {
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    backface-visibility: hidden;
     -webkit-transition: opacity 0.3s ease-in-out;
     -moz-transition: opacity 0.3s ease-in-out;
     -o-transition: opacity 0.3s ease-in-out;
     transition: opacity 0.3s ease-in-out;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
     z-index: 9994;
 }
 
