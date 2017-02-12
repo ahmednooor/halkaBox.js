@@ -1,9 +1,13 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 0.4.1
+    Version: 0.5
     Author: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
+
+.hb-noscroll {
+    overflow: hidden;
+}
 
 .hb-wrapper {
     margin: 0;
@@ -14,6 +18,8 @@
     display: block;
     margin: 0;
     padding: 0;
+    width: 100%;
+    height: 100%;
     position: fixed;
     top: 0;
     right: 0;
@@ -21,6 +27,7 @@
     left: 0;
     z-index: 9990;
     opacity: 0;
+    overflow: hidden;
     -webkit-transition: opacity 0.3s linear;
     -moz-transition: opacity 0.3s linear;
     -o-transition: opacity 0.3s linear;
@@ -28,10 +35,6 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    -webkit-transition: all 0.3s ease-in-out;
-    -moz-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
 }
 
 .hb-wrapper:before,
@@ -62,13 +65,11 @@
 
 .hb-wrapper .hb-main-container {
     display: block;
+    width: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    position: relative;
     background-color: #fff;
     background-color: rgba(255, 255, 255, 0.9);
     -webkit-backface-visibility: hidden;
@@ -87,6 +88,10 @@
     line-height: 0;
     opacity: 0.7;
     z-index: 9995;
+    -webkit-transition: opacity 0.3s ease-in-out;
+    -moz-transition: opacity 0.3s ease-in-out;
+    -o-transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .hb-wrapper .hb-main-container a:hover {
@@ -136,16 +141,78 @@
     -o-animation: spinner 600ms linear infinite;
     animation: spinner 600ms linear infinite;
     z-index: 9993;
+    display: none;
 }
 
-.hb-wrapper .hb-image-container img {
+.hb-wrapper .hb-zoom-container {
+    overflow: auto;
+    padding: 0;
+}
+
+/*.hb-wrapper .hb-image-container img.hb-zoom {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    position: relative;
+    top: auto;
+    left: auto;
+    margin: 0 auto;
+    opacity: inherit;
+    transform: none;
+    backface-visibility: hidden;
+    transition: none;
+    cursor: zoom-out;
+}*/
+
+.hb-wrapper .hb-image-container div img {
     display: block;
     max-width: 100%;
     max-height: 100%;
     position: relative;
     top: 50%;
     left: 50%;
-    opacity: inherit;
+    opacity: 1;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    /*-webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;*/
+    /*-webkit-transition: opacity 0.1s ease-in-out;*/
+    /*-moz-transition: opacity 0.1s ease-in-out;*/
+    /*-o-transition: opacity 0.1s ease-in-out;*/
+    /*transition: opacity 0.1s ease-in-out;*/
+}
+
+.hb-wrapper .hb-image-container div p {
+    display: block;
+    text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+p.hb-err-text-white {
+    color: white;
+}
+
+p.hb-err-text-black {
+    color: black;
+}
+
+.hb-wrapper .hb-image-container div {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    opacity: 1;
+    overflow: hidden;
     -webkit-transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
@@ -154,10 +221,10 @@
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     backface-visibility: hidden;
-    -webkit-transition: all 0.3s ease-in-out;
-    -moz-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
+    -webkit-transition: opacity 0.3s ease-in-out;
+    -moz-transition: opacity 0.3s ease-in-out;
+    -o-transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
     z-index: 9994;
 }
 
