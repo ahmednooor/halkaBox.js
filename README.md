@@ -68,7 +68,8 @@ halkaBox.run("singleImage2");
 halkaBox.options({
     hideButtons: true,  // hide buttons on touch devices (true || false)
     animation: "slide", // animation type on next/prev ("slide" || "fade")
-    theme: "light"      // lightbox overlay theme ("light" || "dark")
+    theme: "light",      // lightbox overlay theme ("light" || "dark")
+    preload: 2             // number of images to preload
 });
 halkaBox.run("...");
 ...
@@ -80,7 +81,8 @@ halkaBox.run("...");
 halkaBox.run("...", {
     hideButtons: true,  // hide buttons on touch devices (true || false)
     animation: "slide", // animation type on next/prev ("slide" || "fade")
-    theme: "light"      // lightbox overlay theme ("light" || "dark")
+    theme: "light",      // lightbox overlay theme ("light" || "dark")
+    preload: 2             // number of images to preload
 });
 ...
 ```
@@ -91,6 +93,7 @@ halkaBox.run("...", {
 | `hideButtons` | `Boolean` | `true` | `true`, `false` | Hides next/previous buttons on touch devices. |
 | `animation` | `String` | `"slide"` | `"slide"`, `"fade"` | Sets animation type on next/previous actions. |
 | `theme` | `String` | `"light"` | `"light"`, `"dark"` | Sets lightbox overlay theme. |
+| `preload` | `Number` | `"2"` | `"0"`, `"1,2,3, ..."` | Sets the number of images to preload. |
 
 ## Compatibility
 All the latest versions of,
@@ -102,6 +105,8 @@ All the latest versions of,
 * Opera
 
 > Feel free to report any issues and share your feedback in the issues tracker.
+
+> NOTE: If you are going to look at source code, beware that you will be entering in a procedural mess :D
 
 ## Licence and Credits
 

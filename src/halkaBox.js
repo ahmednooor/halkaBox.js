@@ -1,6 +1,6 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 0.4.1
+    Version: 0.5
     Auther: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
@@ -11,7 +11,8 @@ var halkaBox = (function () {
             // default options
             hideButtons: true,     // hide buttons on touch devices (true || false)
             animation: "slide",    // animation type on next/prev ("slide" || "fade")
-            theme: "light"         // lightbox overlay theme ("light" || "dark")
+            theme: "light",        // lightbox overlay theme ("light" || "dark")
+            preload: 2             // number of images to preload
         };
     
     // function to set options for all galleries and single images
@@ -38,12 +39,10 @@ var halkaBox = (function () {
             // incrementors/decrementors
             ir,
             i,
-            p,
             // creating html elements for the lightbox popup
             hbWrapper = document.createElement("div"),
             hbMainContainer = document.createElement("div"),
             hbImageContainer = document.createElement("div"),
-            hbLoader = document.createElement("div"),
             hbCloseIconContainer = document.createElement("div"),
             hbCloseIconElement = document.createElement("a"),
             hbLeftIconContainer = document.createElement("div"),
@@ -83,10 +82,9 @@ var halkaBox = (function () {
 
         // setting attributes to created elements for the lightbox overlay
         hbWrapper.setAttribute("class", "hb-wrapper");
+        hbWrapper.setAttribute("id", "hb-wrapper" + selector);
         hbMainContainer.setAttribute("class", "hb-main-container");
         hbImageContainer.setAttribute("class", "hb-image-container");
-        hbLoader.setAttribute("id", "hb-loader");
-        hbLoader.setAttribute("class", "hb-loader");
         hbCloseIconContainer.setAttribute("class", "hb-close-icon-container");
         hbCloseIconElement.setAttribute("id", "hb-close-" + selector);
         hbCloseIconElement.setAttribute("class", "hb-close");
@@ -104,7 +102,6 @@ var halkaBox = (function () {
         hbLeftIconElement.innerHTML = hbLeftIconSvg;
         hbCloseIconContainer.appendChild(hbCloseIconElement);
         hbCloseIconElement.innerHTML = hbCloseIconSvg;
-        hbMainContainer.appendChild(hbLoader);
         hbMainContainer.appendChild(hbImageContainer);
         hbMainContainer.appendChild(hbCloseIconContainer);
         hbMainContainer.appendChild(hbLeftIconContainer);
@@ -112,18 +109,17 @@ var halkaBox = (function () {
         hbWrapper.appendChild(hbMainContainer);
 
         // for hiding buttons if touch is supported or image is single
-        if (("ontouchstart" in window && customOptions.hideButtons === true) || selector === "single" || imageLinks.length === 1) {
+        if (("ontouchstart" in window && customOptions.hideButtons === true) || selector === "single" || imageLinksQty === 1) {
             hbRightIconContainer.style.display = "none";
             hbLeftIconContainer.style.display = "none";
         }
         
         // for setting dark theme
         if (customOptions.theme === "dark") {
-            hbMainContainer.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
+            hbMainContainer.setAttribute("style", "background-color: #000; background-color: rgba(0, 0, 0, 0.9);");
             hbRightIconElement.children[0].style.fill = "#fff";
             hbLeftIconElement.children[0].style.fill = "#fff";
             hbCloseIconElement.children[0].style.fill = "#fff";
-            hbLoader.style.borderTop = "5px solid #999";
             if (window.innerWidth <= 960) {
                 hbRightIconElement.children[0].style.fill = "#111";
                 hbLeftIconElement.children[0].style.fill = "#111";
@@ -134,16 +130,98 @@ var halkaBox = (function () {
         // since the script creates the required html elements for the lightbox overlay on pageload so its necessary to set display to none
         hbWrapper.style.display = "none";
 
-        // creating and cahing image elements according to the imageLinksQty
-        (function imageCacheF() {
-            for (p = 0; p < imageLinksQty; p += 1) {
-                imageObjects[p] = document.createElement("img");
-                imageObjects[p].src = imageLinks[p].href;
-                imageObjects[p].style.opacity = 0;
-                imageObjects[p].style.display = "none";
-                hbImageContainer.appendChild(imageObjects[p]);
+        // preloading functions
+        function preloadNext(index, limit) {
+            if (index + limit >= imageLinksQty) {
+                limit = imageLinksQty - index - 1;
             }
-        }());
+            var x = index;
+            function preloadImage() {
+                if (!imageObjects[x] && x <= (index + limit)) {
+                    var loader = document.createElement("div");
+                    loader.classList.add("hb-loader");
+                    if (customOptions.theme === "dark") {
+                        loader.style.borderTop = "5px solid #999";
+                    }
+                    var newImage = document.createElement("img");
+                    imageObjects[x] = document.createElement("div");
+                    imageObjects[x].style.opacity = 0;
+                    imageObjects[x].style.display = "none";
+                    hbImageContainer.appendChild(imageObjects[x]);
+                    imageObjects[x].appendChild(loader);
+                    imageObjects[x].appendChild(newImage);
+                    newImage.onload = function () {
+                        loader.style.display = "none";
+                        x += 1;
+                        preloadImage();
+                    };
+                    newImage.onerror = function () {
+                        var errText = document.createElement('p');
+                        errText.innerHTML = 'Image not found.';
+                        if (customOptions.theme === "light") {
+                            errText.classList.add("hb-err-text-black");
+                        } else if (customOptions.theme === "dark") {
+                            errText.classList.add("hb-err-text-white");
+                        }
+                        loader.style.display = "none";
+                        imageObjects[x].appendChild(errText);
+                        x += 1;
+                        preloadImage();
+                    };
+                    newImage.src = imageLinks[x].href;
+                } else if (x <= (index + limit)){
+                    x += 1;
+                    preloadImage();
+                }
+            }
+            preloadImage();
+        }
+        function preloadPrev(index, limit) {
+            if (index - limit < 0) {
+                limit = index;
+            }
+            var x = index;
+            function preloadImage() {
+                if (!imageObjects[x] && x >= (index - limit)) {
+                    var loader = document.createElement("div");
+                    loader.classList.add("hb-loader");
+                    if (customOptions.theme === "dark") {
+                        loader.style.borderTop = "5px solid #999";
+                    }
+                    var newImage = document.createElement("img");
+                    imageObjects[x] = document.createElement("div");
+                    imageObjects[x].style.opacity = 0;
+                    imageObjects[x].style.display = "none";
+                    hbImageContainer.appendChild(imageObjects[x]);
+                    imageObjects[x].appendChild(loader);
+                    imageObjects[x].appendChild(newImage);
+                    newImage.onload = function () {
+                        loader.style.display = "none";
+                        x -= 1;
+                        preloadImage();
+                    };
+                    newImage.onerror = function () {
+                        var errText = document.createElement('p');
+                        errText.innerHTML = 'Image not found.';
+                        if (customOptions.theme === "light") {
+                            errText.classList.add("hb-err-text-black");
+                        } else if (customOptions.theme === "dark") {
+                            errText.classList.add("hb-err-text-white");
+                        }
+                        loader.style.display = "none";
+                        imageObjects[x].appendChild(errText);
+                        x -= 1;
+                        preloadImage();
+                    };
+                    newImage.src = imageLinks[x].href;
+                } else if (x >= (index - limit)){
+                    x -= 1;
+                    preloadImage();
+                }
+            }
+            preloadImage();
+        }
+        
 
         // appending complete structure of above created lightbox overlay elements to body
         body.appendChild(hbWrapper);
@@ -156,7 +234,7 @@ var halkaBox = (function () {
         // control functions
         // function for jumping to next image
         function next(ev) {
-            if (imageLinks.length !== 1) {
+            if (imageLinksQty !== 1) {
                 if (customOptions.animation === "slide") {
                     // set css animation property to the currently displayed image to slide out from center to left
                     imageObjects[i].style.animation = "slideNextOut 0.3s ease-out forwards";
@@ -167,11 +245,12 @@ var halkaBox = (function () {
                         // set the current image display to none
                         imageObjects[i].style.display = "none";
                         // to check if the number of image has reached the maximum length of imageLinks if yes then set to -1
-                        if (i > (imageLinks.length - 2)) {
+                        if (i > (imageLinksQty - 2)) {
                             i = -1;
                         }
                         // increment the number of image to display the next image
                         i += 1;
+                        preloadNext(i, customOptions.preload);
                         // set the display to block so that next image is visible
                         imageObjects[i].style.display = "block";
                         // set css animation to the next image to slide in from right to center
@@ -185,17 +264,18 @@ var halkaBox = (function () {
                         // set the current image display to none
                         imageObjects[i].style.display = "none";
                         // to check if the number of image has reached the maximum length of imageLinks if yes then set to -1
-                        if (i > (imageLinks.length - 2)) {
+                        if (i > (imageLinksQty - 2)) {
                             i = -1;
                         }
                         // increment the number of image to display the next image
                         i += 1;
+                        preloadNext(i, customOptions.preload);
                         // set the display to block so that next image is visible
                         imageObjects[i].style.display = "block";
                         window.setTimeout(function () {
                             // set the opacity of the next image to 1
                             imageObjects[i].style.opacity = 1;
-                        }, 100);
+                        }, 50);
                     }, 300);
                 }
             }
@@ -203,7 +283,7 @@ var halkaBox = (function () {
         
         // function for jumping to previous image
         function previous(ev) {
-            if (imageLinks.length !== 1) {
+            if (imageLinksQty !== 1) {
                 if (customOptions.animation === "slide") {
                     // set css animation property to the currently displayed image to slide out from center to right
                     imageObjects[i].style.animation = "slidePreviousOut 0.3s ease-out forwards";
@@ -215,10 +295,11 @@ var halkaBox = (function () {
                         imageObjects[i].style.display = "none";
                         // to check if the number of image has reached the minimum length of imageLinks if yes then set to imageLinks maximum length
                         if (i === 0) {
-                            i = (imageLinks.length);
+                            i = (imageLinksQty);
                         }
                         // decrement the number of image to display the previous image
                         i -= 1;
+                        preloadPrev(i, customOptions.preload);
                         // set the display to block so that previous image is visible
                         imageObjects[i].style.display = "block";
                         // set css animation to the next image to slide in from left to center
@@ -233,16 +314,17 @@ var halkaBox = (function () {
                         imageObjects[i].style.display = "none";
                         // to check if the number of image has reached the minimum length of imageLinks if yes then set to imageLinks maximum length
                         if (i === 0) {
-                            i = (imageLinks.length);
+                            i = (imageLinksQty);
                         }
                         // decrement the number of image to display the previous image
                         i -= 1;
+                        preloadPrev(i, customOptions.preload);
                         // set the display to block so that next image is visible
                         imageObjects[i].style.display = "block";
                         window.setTimeout(function () {
                             // set the opacity of the next image to 1
                             imageObjects[i].style.opacity = 1;
-                        }, 100);
+                        }, 50);
                     }, 300);
                 }
             }
@@ -274,7 +356,7 @@ var halkaBox = (function () {
             ev.stopPropagation();
             ev.preventDefault();
             // to check if the event occured only outside of image
-            if (ev.target === hbImageContainer || ev.target === hbMainContainer) {
+            if (ev.target === hbImageContainer || ev.target === hbMainContainer || ev.target === imageObjects[i]) {
                 // calling close function
                 closeLightbox(ev);
             }
@@ -338,22 +420,36 @@ var halkaBox = (function () {
             touchEnabled = false;
         }
 
+        // functions to hide controls when mouse is not on overlay and to show controls when mouse is on overlay
+        function hideControls() {
+            hbRightIconElement.style.opacity = 0;
+            hbLeftIconElement.style.opacity = 0;
+            hbCloseIconElement.style.opacity = 0;
+        }
+        function showControls() {
+            hbRightIconElement.style.opacity = null;
+            hbLeftIconElement.style.opacity = null;
+            hbCloseIconElement.style.opacity = null;
+        }
+
         // function to bind events
         eventsBinder = function eventsBinderF() {
             // check if the selecter is not eq-to "single" then attach next/prev events
             if (selector !== "single") {
-                hbRight.addEventListener("click", next);
-                hbLeft.addEventListener("click", previous);
+                hbRight.addEventListener("click", next, false);
+                hbLeft.addEventListener("click", previous, false);
             }
-            hbClose.addEventListener("click", closeLightbox);
-            hbMainContainer.addEventListener("click", bgClickClose);
-            hbImageContainer.addEventListener("click", bgClickClose);
-            window.addEventListener("keyup", keyboardSupport);
+            hbClose.addEventListener("click", closeLightbox, false);
+            hbMainContainer.addEventListener("click", bgClickClose, false);
+            hbImageContainer.addEventListener("click", bgClickClose, false);
+            hbWrapper.addEventListener('mouseout', hideControls, false);
+            hbWrapper.addEventListener('mouseover', showControls, false);
+            window.addEventListener("keyup", keyboardSupport, false);
             // check if the selecter is not eq-to "single" then attach next/prev touch events
             if (selector !== "single") {
-                hbWrapper.addEventListener("touchstart", touchStart);
-                hbWrapper.addEventListener("touchmove", touchMove);
-                hbWrapper.addEventListener("touchend", touchEnd);
+                hbWrapper.addEventListener("touchstart", touchStart, false);
+                hbWrapper.addEventListener("touchmove", touchMove, false);
+                hbWrapper.addEventListener("touchend", touchEnd, false);
             }
         };
 
@@ -367,6 +463,8 @@ var halkaBox = (function () {
             hbClose.removeEventListener("click", closeLightbox);
             hbMainContainer.removeEventListener("click", bgClickClose);
             hbImageContainer.removeEventListener("click", bgClickClose);
+            hbWrapper.removeEventListener('mouseout', hideControls, false);
+            hbWrapper.removeEventListener('mouseover', showControls, false);
             window.removeEventListener("keyup", keyboardSupport);
             // check if the selecter is not eq-to "single" then remove next/prev touch events
             if (selector !== "single") {
@@ -384,19 +482,18 @@ var halkaBox = (function () {
                 // assigning the value of ir to i via index
                 i = index;
 
+                imageLinks[i].blur();
 
-                // set time out to wait for the below statements to complete with transition effect
+                hbWrapper.style.display = "block";
                 window.setTimeout(function () {
-                    // set the popup html structure and currently clicked image opacity to 1
                     hbWrapper.style.opacity = 1;
-                    imageObjects[i].style.opacity = 1;
-                    imageLinks[i].blur();
-                }, 100);
-
-                // set animation of currently clicked image to none in case lightbox overlay has been previously triggered and then set display to block for image and popup structure
+                }, 50);
+                
+                preloadNext(i, customOptions.preload);
+                preloadPrev(i, customOptions.preload);
                 imageObjects[i].style.animation = "none";
                 imageObjects[i].style.display = "block";
-                hbWrapper.style.display = "block";
+                imageObjects[i].style.opacity = 1;
 
                 // bind events to the elements inside overlay
                 eventsBinder();

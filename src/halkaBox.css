@@ -1,19 +1,23 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 0.4.1
+    Version: 0.5
     Author: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
 
+.hb-noscroll {
+    overflow: hidden;
+}
+
 .hb-wrapper {
     margin: 0;
     padding: 0;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
     display: block;
     margin: 0;
     padding: 0;
+    width: 100%;
+    height: 100%;
     position: fixed;
     top: 0;
     right: 0;
@@ -21,58 +25,37 @@
     left: 0;
     z-index: 9990;
     opacity: 0;
+    overflow: hidden;
     -webkit-transition: opacity 0.3s linear;
-    -moz-transition: opacity 0.3s linear;
-    -o-transition: opacity 0.3s linear;
     transition: opacity 0.3s linear;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
-    -webkit-transition: all 0.3s ease-in-out;
-    -moz-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
 }
 
 .hb-wrapper:before,
 .hb-wrapper:after {
     margin: 0;
     padding: 0;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
 
-.hb-wrapper * {
-    margin: 0;
-    padding: 0;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
+.hb-wrapper *,
 .hb-wrapper *:before,
 .hb-wrapper *:after {
     margin: 0;
     padding: 0;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
 
 .hb-wrapper .hb-main-container {
     display: block;
+    width: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    position: relative;
     background-color: #fff;
     background-color: rgba(255, 255, 255, 0.9);
     -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
     backface-visibility: hidden;
     z-index: 9991;
 }
@@ -87,13 +70,14 @@
     line-height: 0;
     opacity: 0.7;
     z-index: 9995;
+    -webkit-transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .hb-wrapper .hb-main-container a:hover {
     cursor: pointer;
     opacity: 1;
     -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
     backface-visibility: hidden;
 }
 
@@ -102,7 +86,6 @@
     max-height: 100%;
     fill: #000;
     -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
     backface-visibility: hidden;
 }
 
@@ -116,49 +99,67 @@
     z-index: 9993;
 }
 
-.hb-wrapper .hb-loader {
+.hb-wrapper .hb-image-container div {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    opacity: 1;
+    overflow: hidden;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    -webkit-transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    z-index: 9994;
+}
+
+.hb-wrapper .hb-image-container div div.hb-loader {
+    display: block;
+    width: 35px;
+    height: 35px;
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 35px;
-    height: 35px;
-    -webkit-border-radius: 1000px;
-    -moz-border-radius: 1000px;
     border-radius: 1000px;
     border-top: 5px solid #444;
     -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     -webkit-animation: spinner 600ms linear infinite;
-    -moz-animation: spinner 600ms linear infinite;
-    -o-animation: spinner 600ms linear infinite;
     animation: spinner 600ms linear infinite;
-    z-index: 9993;
+    z-index: 9998;
 }
 
-.hb-wrapper .hb-image-container img {
+.hb-wrapper .hb-image-container div img {
     display: block;
     max-width: 100%;
     max-height: 100%;
     position: relative;
     top: 50%;
     left: 50%;
-    opacity: inherit;
+    opacity: 1;
     -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-transition: all 0.3s ease-in-out;
-    -moz-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-    z-index: 9994;
+}
+
+.hb-wrapper .hb-image-container div p {
+    display: block;
+    text-align: center;
+    position: relative;
+    top: 50%;
+    -webkit-transform: translate(0, -50%);
+            transform: translate(0, -50%);
+}
+
+.hb-wrapper .hb-image-container div p.hb-err-text-white {
+    color: white;
+}
+
+.hb-wrapper .hb-image-container div p.hb-err-text-black {
+    color: black;
 }
 
 @-webkit-keyframes spinner {
@@ -172,77 +173,23 @@
     }
 }
 
-@-moz-keyframes spinner {
-    0% {
-        -webkit-transform: translate(-50%, -50%) rotate(0);
-        -moz-transform: translate(-50%, -50%) rotate(0);
-        transform: translate(-50%, -50%) rotate(0);
-    }
-    100% {
-        -webkit-transform: translate(-50%, -50%) rotate(360deg);
-        -moz-transform: translate(-50%, -50%) rotate(360deg);
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
-}
-
-@-o-keyframes spinner {
-    0% {
-        -webkit-transform: translate(-50%, -50%) rotate(0);
-        -o-transform: translate(-50%, -50%) rotate(0);
-        transform: translate(-50%, -50%) rotate(0);
-    }
-    100% {
-        -webkit-transform: translate(-50%, -50%) rotate(360deg);
-        -o-transform: translate(-50%, -50%) rotate(360deg);
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
-}
-
 @keyframes spinner {
     0% {
         -webkit-transform: translate(-50%, -50%) rotate(0);
-        -moz-transform: translate(-50%, -50%) rotate(0);
-        -o-transform: translate(-50%, -50%) rotate(0);
         transform: translate(-50%, -50%) rotate(0);
     }
     100% {
         -webkit-transform: translate(-50%, -50%) rotate(360deg);
-        -moz-transform: translate(-50%, -50%) rotate(360deg);
-        -o-transform: translate(-50%, -50%) rotate(360deg);
         transform: translate(-50%, -50%) rotate(360deg);
     }
 }
 
 .hb-slidenextin {
     -webkit-animation: slideNextIn 0.3s ease-in-out forwards;
-    -moz-animation: slideNextIn 0.3s ease-in-out forwards;
-    -o-animation: slideNextIn 0.3s ease-in-out forwards;
     animation: slideNextIn 0.3s ease-in-out forwards;
 }
 
 @-webkit-keyframes slideNextIn {
-    0% {
-        left: 100%;
-        opacity: 0;
-    }
-    100% {
-        left: 50%;
-        opacity: 1;
-    }
-}
-
-@-moz-keyframes slideNextIn {
-    0% {
-        left: 100%;
-        opacity: 0;
-    }
-    100% {
-        left: 50%;
-        opacity: 1;
-    }
-}
-
-@-o-keyframes slideNextIn {
     0% {
         left: 100%;
         opacity: 0;
@@ -266,34 +213,10 @@
 
 .hb-slidenextout {
     -webkit-animation: slideNextOut 0.3s ease-in-out forwards;
-    -moz-animation: slideNextOut 0.3s ease-in-out forwards;
-    -o-animation: slideNextOut 0.3s ease-in-out forwards;
     animation: slideNextOut 0.3s ease-in-out forwards;
 }
 
 @-webkit-keyframes slideNextOut {
-    0% {
-        left: 50%;
-        opacity: 1;
-    }
-    100% {
-        left: 0;
-        opacity: 0;
-    }
-}
-
-@-moz-keyframes slideNextOut {
-    0% {
-        left: 50%;
-        opacity: 1;
-    }
-    100% {
-        left: 0;
-        opacity: 0;
-    }
-}
-
-@-o-keyframes slideNextOut {
     0% {
         left: 50%;
         opacity: 1;
@@ -317,34 +240,10 @@
 
 .hb-slidepreviousin {
     -webkit-animation: slidePreviousIn 0.3s ease-in-out forwards;
-    -moz-animation: slidePreviousIn 0.3s ease-in-out forwards;
-    -o-animation: slidePreviousIn 0.3s ease-in-out forwards;
     animation: slidePreviousIn 0.3s ease-in-out forwards;
 }
 
 @-webkit-keyframes slidePreviousIn {
-    0% {
-        left: 0;
-        opacity: 0;
-    }
-    100% {
-        left: 50%;
-        opacity: 1;
-    }
-}
-
-@-moz-keyframes slidePreviousIn {
-    0% {
-        left: 0;
-        opacity: 0;
-    }
-    100% {
-        left: 50%;
-        opacity: 1;
-    }
-}
-
-@-o-keyframes slidePreviousIn {
     0% {
         left: 0;
         opacity: 0;
@@ -368,34 +267,10 @@
 
 .hb-slidepreviousout {
     -webkit-animation: slidePreviousOut 0.3s ease-in-out forwards;
-    -moz-animation: slidePreviousOut 0.3s ease-in-out forwards;
-    -o-animation: slidePreviousOut 0.3s ease-in-out forwards;
     animation: slidePreviousOut 0.3s ease-in-out forwards;
 }
 
 @-webkit-keyframes slidePreviousOut {
-    0% {
-        left: 50%;
-        opacity: 1;
-    }
-    100% {
-        left: 100%;
-        opacity: 0;
-    }
-}
-
-@-moz-keyframes slidePreviousOut {
-    0% {
-        left: 50%;
-        opacity: 1;
-    }
-    100% {
-        left: 100%;
-        opacity: 0;
-    }
-}
-
-@-o-keyframes slidePreviousOut {
     0% {
         left: 50%;
         opacity: 1;
@@ -424,7 +299,6 @@
     top: 0;
     right: 0;
     -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
     backface-visibility: hidden;
     z-index: 9995;
 }
@@ -436,12 +310,8 @@
     top: 50%;
     left: 0;
     -webkit-transform: translate(0, -50%);
-    -moz-transform: translate(0, -50%);
-    -ms-transform: translate(0, -50%);
-    -o-transform: translate(0, -50%);
     transform: translate(0, -50%);
     -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
     backface-visibility: hidden;
     z-index: 9995;
 }
@@ -453,12 +323,8 @@
     top: 50%;
     right: 0;
     -webkit-transform: translate(0, -50%);
-    -moz-transform: translate(0, -50%);
-    -ms-transform: translate(0, -50%);
-    -o-transform: translate(0, -50%);
     transform: translate(0, -50%);
     -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
     backface-visibility: hidden;
     z-index: 9995;
 }
@@ -485,9 +351,6 @@
         right: 0;
         top: 0;
         -webkit-transform: translate(0, 0);
-        -moz-transform: translate(0, 0);
-        -ms-transform: translate(0, 0);
-        -o-transform: translate(0, 0);
         transform: translate(0, 0);
         background-color: #fff;
         background-color: rgba(255, 255, 255, 0.7);
@@ -499,9 +362,6 @@
         top: auto;
         bottom: 0;
         -webkit-transform: translate(0, 0);
-        -moz-transform: translate(0, 0);
-        -ms-transform: translate(0, 0);
-        -o-transform: translate(0, 0);
         transform: translate(0, 0);
         background-color: #fff;
         background-color: rgba(255, 255, 255, 0.7);
