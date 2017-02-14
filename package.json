@@ -1,0 +1,30 @@
+{
+  "name": "halkabox",
+  "version": "0.5.0",
+  "author": "Ahmed Noor",
+  "description": "A simple and basic Javascript lightbox",
+  "license": "MIT",
+  "homepage": "https://github.com/ahmednooor/halkaBox.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahmednooor/halkaBox.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ahmednooor/halkaBox.js/issues"
+  },
+  "main": "dist/halkaBox.min.js",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": [
+    "lightbox",
+    "gallery",
+    "vanilla",
+    "javascript",
+    "responsive"
+  ]
+}

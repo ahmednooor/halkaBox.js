@@ -1,4 +1,8 @@
 # halkaBox.js
+![Version](https://img.shields.io/badge/version-0.5-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Dependecies](https://img.shields.io/badge/dependencies-none-blue.svg)
+
 A simple and basic Javascript lightbox.
 
 [Demo Page](https://ahmednooor.github.io/halkaBox.js)
@@ -14,12 +18,19 @@ A simple and basic Javascript lightbox.
 * SVG Icons.
 * Transitions via CSS Keyframes.
 
+## Download
+
+### npm
+```sh
+npm install halkabox --save
+```
+
 ## Usage Example
 
 ### Files
 ```html
-<link rel="stylesheet" href="css/halkaBox.min.css">
-<script src="js/halkaBox.min.js"></script>
+<link rel="stylesheet" href="path/to/halkaBox.min.css">
+<script src="path/to/halkaBox.min.js"></script>
 ```
 
 ### Markup for Galleries
