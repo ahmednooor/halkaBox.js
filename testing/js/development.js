@@ -143,10 +143,14 @@ var halkaBox = (function () {
             hbCloseIconElement.children[0].style.fill = "#fff";
             hbCounter.style.color = "#fff";
             if (window.innerWidth <= 960) {
-                hbRightIconElement.children[0].style.fill = "#111";
-                hbLeftIconElement.children[0].style.fill = "#111";
-                hbCloseIconElement.children[0].style.fill = "#111";
-                hbCounter.style.color = "#111";
+                // hbRightIconElement.children[0].style.fill = "#111";
+                // hbLeftIconElement.children[0].style.fill = "#111";
+                // hbCloseIconElement.children[0].style.fill = "#111";
+                // hbCounter.style.color = "#111";
+                hbRightIconContainer.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+                hbLeftIconContainer.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+                hbCloseIconContainer.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+                hbCounter.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
             }
         }
         
