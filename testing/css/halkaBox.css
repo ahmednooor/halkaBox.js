@@ -76,12 +76,15 @@
     font-weight: bold;
     font-size: 1.5rem;
     line-height: 0;
-    opacity: 0.6;
+    opacity: 0.7;
     z-index: 9995;
     -webkit-transition: opacity 0.3s ease-in-out;
     transition: opacity 0.3s ease-in-out;
 }
 
+.hb-wrapper .hb-main-container a:focus {
+    /* opacity: 0.7 */
+}
 .hb-wrapper .hb-main-container a:hover {
     cursor: pointer;
     opacity: 1;
@@ -288,7 +291,7 @@
     font-family: Verdana, Geneva, sans-serif;
     font-weight: normal;
     transition: opacity 0.3s ease-in-out;
-    opacity: 0.8;
+    /* opacity: 0.8; */
 }
 
 @media only screen and (max-width: 960px) {
