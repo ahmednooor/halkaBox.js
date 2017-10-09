@@ -49,13 +49,19 @@ var halkaBox = (function () {
             hbLeftIconElement = document.createElement("a"),
             hbRightIconContainer = document.createElement("div"),
             hbRightIconElement = document.createElement("a"),
+            hbCounter = document.createElement("p"),
+            hbCounterTotal = document.createElement("span"),
+            hbCounterCurrent = document.createElement("span"),
             hbClose,
             hbLeft,
             hbRight,
+            hbGalleryCounter,
+            hbGalleryCounterTotal,
+            hbGalleryCounterCurrent,
             // svg icons
-            hbCloseIconSvg = "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\"xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\"y=\"0px\" viewBox=\"0 0 357 357\" enable-background=\"new 0 0 357 357\" xml:space=\"preserve\"><g><g id=\"close\"><polygon points=\"357,35.7 321.3,0 178.5,142.8 35.7,0 0,35.7 142.8,178.5 0,321.3 35.7,357 178.5,214.2 321.3,357 357,321.3 214.2,178.5\"/></g></g></svg>",
-            hbLeftIconSvg = "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"viewBox=\"0 0 306 306\" enable-background=\"new 0 0 306 306\" xml:space=\"preserve\"><g><g id=\"chevron-right\"><polygon points=\"58.7,153 211.7,306 247.4,270.3 130.1,153 247.4,35.7 211.7,0\"/></g></g></svg>",
-            hbRightIconSvg = "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\"xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 306 306\" enable-background=\"new 0 0 306 306\" xml:space=\"preserve\"><g><g id=\"chevron-right\"><polygon points=\"94.3,0 58.7,35.7 175.9,153 58.7,270.3 94.3,306 247.4,153\"/></g></g></svg>",
+            hbCloseIconSvg = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 580 580" style="enable-background:new 0 0 580 580;" xml:space="preserve"><path d="M332.1,290l235-235c11.7-11.7,11.7-30.7,0-42.4c-11.7-11.7-30.7-11.7-42.4,0L290,247.2L55.3,12.5c-11.7-11.7-30.7-11.7-42.4,0C1.2,24.3,1.2,43.2,12.9,55l235,235l-235,235c-11.7,11.7-11.7,30.7,0,42.4c5.9,5.9,13.5,8.8,21.2,8.8s15.4-2.9,21.2-8.8L290,332.8l234.7,234.7c5.9,5.9,13.5,8.8,21.2,8.8s15.4-2.9,21.2-8.8c11.7-11.7,11.7-30.7,0-42.4L332.1,290z"/></svg>',
+            hbLeftIconSvg = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 580 580" style="enable-background:new 0 0 580 580;" xml:space="preserve"><path d="M576,289.5c0-16.6-13.4-30-30-30H106.4L311,55c11.7-11.7,11.7-30.7,0-42.4c-11.7-11.7-30.7-11.7-42.4,0L12.8,268.3C7,274.1,3.9,281.8,4,289.7c0,0.1,0,0.2,0,0.3c0,0.1,0,0.2,0,0.3c-0.1,7.9,3,15.7,8.8,21.4l255.8,255.8c5.9,5.9,13.5,8.8,21.2,8.8s15.4-2.9,21.2-8.8c11.7-11.7,11.7-30.7,0-42.4L106.4,320.5H546c16.6,0,30-13.4,30-30c0-0.2,0-0.3,0-0.5	C576,289.8,576,289.7,576,289.5z"/></svg>',
+            hbRightIconSvg = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 580 580" style="enable-background:new 0 0 580 580;" xml:space="preserve"><path d="M576,290c0-0.1,0-0.2,0-0.3c0.1-7.9-3-15.7-8.8-21.4L311.5,12.5c-11.7-11.7-30.7-11.7-42.4,0s-11.7,30.7,0,42.4l204.5,204.5 H34c-16.6,0-30,13.4-30,30c0,0.2,0,0.3,0,0.5c0,0.2,0,0.3,0,0.5c0,16.6,13.4,30,30,30h439.6L269,525c-11.7,11.7-11.7,30.7,0,42.4 c5.9,5.9,13.5,8.8,21.2,8.8s15.4-2.9,21.2-8.8l255.7-255.8c5.8-5.8,8.8-13.6,8.8-21.4C576,290.2,576,290.1,576,290z"/></svg>',
             touchEnabled,
             viewport,
             orientPortrait,
@@ -64,7 +70,9 @@ var halkaBox = (function () {
             eventsUnbinder,
             lightboxTrigger,
             props,
-            customOptions = {};
+            customOptions = {},
+            controlsHidden = true,
+            captionHidden = true;
         
         // inheriting properties from options to customOptions
         for (props in options) {
@@ -94,8 +102,17 @@ var halkaBox = (function () {
         hbRightIconContainer.setAttribute("class", "hb-right-icon-container");
         hbRightIconElement.setAttribute("id", "hb-right-" + selector);
         hbRightIconElement.setAttribute("class", "hb-right");
+        hbCounter.setAttribute("id", "hb-counter-" + selector);
+        hbCounter.setAttribute("class", "hb-counter");
+        hbCounterTotal.setAttribute("id", "hb-counter-total" + selector);
+        hbCounterTotal.setAttribute("class", "hb-counter-total");
+        hbCounterCurrent.setAttribute("id", "hb-counter-current" + selector);
+        hbCounterCurrent.setAttribute("class", "hb-counter-current");
 
         // appending elements in a parent child structure from top(children) to bottom(parents)
+        hbCounter.appendChild(hbCounterCurrent);
+        hbCounter.appendChild(hbCounterTotal);
+        hbCounterTotal.innerHTML = "/ " + imageLinksQty;
         hbRightIconContainer.appendChild(hbRightIconElement);
         hbRightIconElement.innerHTML = hbRightIconSvg;
         hbLeftIconContainer.appendChild(hbLeftIconElement);
@@ -106,12 +123,16 @@ var halkaBox = (function () {
         hbMainContainer.appendChild(hbCloseIconContainer);
         hbMainContainer.appendChild(hbLeftIconContainer);
         hbMainContainer.appendChild(hbRightIconContainer);
+        hbMainContainer.appendChild(hbCounter);
         hbWrapper.appendChild(hbMainContainer);
 
         // for hiding buttons if touch is supported or image is single
         if (("ontouchstart" in window && customOptions.hideButtons === true) || selector === "single" || imageLinksQty === 1) {
             hbRightIconContainer.style.display = "none";
             hbLeftIconContainer.style.display = "none";
+        }
+        if (selector === "single" || imageLinksQty === 1) {
+            hbCounter.style.display = "none";
         }
         
         // for setting dark theme
@@ -120,10 +141,12 @@ var halkaBox = (function () {
             hbRightIconElement.children[0].style.fill = "#fff";
             hbLeftIconElement.children[0].style.fill = "#fff";
             hbCloseIconElement.children[0].style.fill = "#fff";
+            hbCounter.style.color = "#fff";
             if (window.innerWidth <= 960) {
                 hbRightIconElement.children[0].style.fill = "#111";
                 hbLeftIconElement.children[0].style.fill = "#111";
                 hbCloseIconElement.children[0].style.fill = "#111";
+                hbCounter.style.color = "#111";
             }
         }
         
@@ -145,11 +168,23 @@ var halkaBox = (function () {
                     }
                     var newImage = document.createElement("img");
                     imageObjects[x] = document.createElement("div");
+                    imageObjects[x].classList.add("hb-image-div");
                     imageObjects[x].style.opacity = 0;
                     imageObjects[x].style.display = "none";
                     hbImageContainer.appendChild(imageObjects[x]);
                     imageObjects[x].appendChild(loader);
                     imageObjects[x].appendChild(newImage);
+                    if (imageLinks[x].getAttribute("title")) {
+                        var captionText = document.createElement("p");
+                        captionText.classList.add("hb-caption");
+                        captionText.innerHTML = '<span class="hb-caption-text">' + imageLinks[x].getAttribute("title") + '</span>';
+                        imageObjects[x].appendChild(captionText);
+                        if (customOptions.theme === "light") {
+                            captionText.classList.add("hb-caption-white");
+                        } else if (customOptions.theme === "dark") {
+                            captionText.classList.add("hb-caption-black");
+                        }
+                    }
                     newImage.onload = function () {
                         loader.style.display = "none";
                         x += 1;
@@ -190,11 +225,23 @@ var halkaBox = (function () {
                     }
                     var newImage = document.createElement("img");
                     imageObjects[x] = document.createElement("div");
+                    imageObjects[x].classList.add("hb-image-div");
                     imageObjects[x].style.opacity = 0;
                     imageObjects[x].style.display = "none";
                     hbImageContainer.appendChild(imageObjects[x]);
                     imageObjects[x].appendChild(loader);
                     imageObjects[x].appendChild(newImage);
+                    if (imageLinks[x].getAttribute("title")) {
+                        var captionText = document.createElement("p");
+                        captionText.classList.add("hb-caption");
+                        captionText.innerHTML = '<span class="hb-caption-text">' + imageLinks[x].getAttribute("title") + '</span>';
+                        imageObjects[x].appendChild(captionText);
+                        if (customOptions.theme === "light") {
+                            captionText.classList.add("hb-caption-white");
+                        } else if (customOptions.theme === "dark") {
+                            captionText.classList.add("hb-caption-black");
+                        }
+                    }
                     newImage.onload = function () {
                         loader.style.display = "none";
                         x -= 1;
@@ -221,7 +268,6 @@ var halkaBox = (function () {
             }
             preloadImage();
         }
-        
 
         // appending complete structure of above created lightbox overlay elements to body
         body.appendChild(hbWrapper);
@@ -230,6 +276,15 @@ var halkaBox = (function () {
         hbClose = document.getElementById("hb-close-" + selector);
         hbLeft = document.getElementById("hb-left-" + selector);
         hbRight = document.getElementById("hb-right-" + selector);
+
+        hbGalleryCounter = document.getElementById("hb-counter-" + selector);
+        hbGalleryCounterTotal = document.getElementById("hb-counter-total" + selector);
+        hbGalleryCounterCurrent = document.getElementById("hb-counter-current" + selector);
+
+        // counter function
+        function updateCounter(index) {
+            hbGalleryCounterCurrent.innerHTML = index + 1 + " ";
+        }
 
         // control functions
         // function for jumping to next image
@@ -250,6 +305,7 @@ var halkaBox = (function () {
                         }
                         // increment the number of image to display the next image
                         i += 1;
+                        updateCounter(i);
                         preloadNext(i, customOptions.preload);
                         // set the display to block so that next image is visible
                         imageObjects[i].style.display = "block";
@@ -269,6 +325,7 @@ var halkaBox = (function () {
                         }
                         // increment the number of image to display the next image
                         i += 1;
+                        updateCounter(i);
                         preloadNext(i, customOptions.preload);
                         // set the display to block so that next image is visible
                         imageObjects[i].style.display = "block";
@@ -299,6 +356,7 @@ var halkaBox = (function () {
                         }
                         // decrement the number of image to display the previous image
                         i -= 1;
+                        updateCounter(i);
                         preloadPrev(i, customOptions.preload);
                         // set the display to block so that previous image is visible
                         imageObjects[i].style.display = "block";
@@ -318,6 +376,7 @@ var halkaBox = (function () {
                         }
                         // decrement the number of image to display the previous image
                         i -= 1;
+                        updateCounter(i);
                         preloadPrev(i, customOptions.preload);
                         // set the display to block so that next image is visible
                         imageObjects[i].style.display = "block";
@@ -348,6 +407,9 @@ var halkaBox = (function () {
             imageLinks[i].blur();
             // unbind events attached to the elements inside overlay
             eventsUnbinder();
+
+            controlsHidden = true;
+            captionHidden = true;
         }
 
         // function for closing popup by clicking on empty space
@@ -359,6 +421,8 @@ var halkaBox = (function () {
             if (ev.target === hbImageContainer || ev.target === hbMainContainer || ev.target === imageObjects[i]) {
                 // calling close function
                 closeLightbox(ev);
+            } else {
+                showHideControlsCaption();
             }
         }
 
@@ -420,16 +484,50 @@ var halkaBox = (function () {
             touchEnabled = false;
         }
 
-        // functions to hide controls when mouse is not on overlay and to show controls when mouse is on overlay
+        // functions to hide controls / captions
         function hideControls() {
-            hbRightIconElement.style.opacity = 0;
-            hbLeftIconElement.style.opacity = 0;
-            hbCloseIconElement.style.opacity = 0;
+            hbRightIconContainer.style.opacity = 0;
+            hbLeftIconContainer.style.opacity = 0;
+            hbCloseIconContainer.style.opacity = 0;
+            hbCounter.style.opacity = 0;
+            controlsHidden = true;
         }
         function showControls() {
-            hbRightIconElement.style.opacity = null;
-            hbLeftIconElement.style.opacity = null;
-            hbCloseIconElement.style.opacity = null;
+            hbRightIconContainer.style.opacity = null;
+            hbLeftIconContainer.style.opacity = null;
+            hbCloseIconContainer.style.opacity = null;
+            hbCounter.style.opacity = null;
+            controlsHidden = false;
+        }
+        function hideCaption() {
+            var captions = hbImageContainer.getElementsByClassName("hb-caption");
+            var j = 0;
+            for (j = 0; j < captions.length; j += 1) {
+                // captions[j].style.bottom = "-" + captions[j].clientHeight + "px";
+                captions[j].style.display = "none";
+            }
+            captionHidden = true;
+        }
+        function showCaption() {
+            var captions = hbImageContainer.getElementsByClassName("hb-caption");
+            var j = 0;
+            for (j = 0; j < captions.length; j += 1) {
+                captions[j].style.display = null;
+            }
+            captionHidden = false;
+        }
+        function showHideControlsCaption(ev) {
+            if (captionHidden) {
+                showCaption();
+            } else {
+                hideCaption();
+            }
+
+            if (controlsHidden && !captionHidden) {
+                showControls();
+            } else if (!controlsHidden && captionHidden) {
+                hideControls();
+            }
         }
 
         // function to bind events
@@ -440,10 +538,11 @@ var halkaBox = (function () {
                 hbLeft.addEventListener("click", previous, false);
             }
             hbClose.addEventListener("click", closeLightbox, false);
-            hbMainContainer.addEventListener("click", bgClickClose, false);
+            // hbMainContainer.addEventListener("click", bgClickClose, false);
             hbImageContainer.addEventListener("click", bgClickClose, false);
-            hbWrapper.addEventListener('mouseout', hideControls, false);
-            hbWrapper.addEventListener('mouseover', showControls, false);
+            // hbImageContainer.addEventListener("click", showHideControlsCaption, false);
+            window.addEventListener('mouseout', hideControls, false);
+            window.addEventListener('mouseover', showControls, false);
             window.addEventListener("keyup", keyboardSupport, false);
             // check if the selecter is not eq-to "single" then attach next/prev touch events
             if (selector !== "single") {
@@ -461,10 +560,10 @@ var halkaBox = (function () {
                 hbLeft.removeEventListener("click", previous);
             }
             hbClose.removeEventListener("click", closeLightbox);
-            hbMainContainer.removeEventListener("click", bgClickClose);
+            // hbMainContainer.removeEventListener("click", bgClickClose);
             hbImageContainer.removeEventListener("click", bgClickClose);
-            hbWrapper.removeEventListener('mouseout', hideControls, false);
-            hbWrapper.removeEventListener('mouseover', showControls, false);
+            window.removeEventListener('mouseout', hideControls, false);
+            window.removeEventListener('mouseover', showControls, false);
             window.removeEventListener("keyup", keyboardSupport);
             // check if the selecter is not eq-to "single" then remove next/prev touch events
             if (selector !== "single") {
@@ -484,6 +583,8 @@ var halkaBox = (function () {
 
                 imageLinks[i].blur();
 
+                updateCounter(i);
+
                 hbWrapper.style.display = "block";
                 window.setTimeout(function () {
                     hbWrapper.style.opacity = 1;
@@ -493,9 +594,10 @@ var halkaBox = (function () {
                 preloadPrev(i, customOptions.preload);
                 imageObjects[i].style.animation = "none";
                 imageObjects[i].style.display = "block";
-                // window.setTimeout(function () {
-                    imageObjects[i].style.opacity = 1;
-                // }, 50);
+                imageObjects[i].style.opacity = 1;
+
+                // showControls();
+                showHideControlsCaption();
 
                 // bind events to the elements inside overlay
                 eventsBinder();
