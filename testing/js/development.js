@@ -1,6 +1,6 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 0.5
+    Version: 0.6.0
     Auther: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
@@ -44,11 +44,11 @@ var halkaBox = (function () {
             hbMainContainer = document.createElement("div"),
             hbImageContainer = document.createElement("div"),
             hbCloseIconContainer = document.createElement("div"),
-            hbCloseIconElement = document.createElement("a"),
+            hbCloseIconElement = document.createElement("button"),
             hbLeftIconContainer = document.createElement("div"),
-            hbLeftIconElement = document.createElement("a"),
+            hbLeftIconElement = document.createElement("button"),
             hbRightIconContainer = document.createElement("div"),
-            hbRightIconElement = document.createElement("a"),
+            hbRightIconElement = document.createElement("button"),
             hbCounter = document.createElement("p"),
             hbCounterTotal = document.createElement("span"),
             hbCounterCurrent = document.createElement("span"),
@@ -69,22 +69,22 @@ var halkaBox = (function () {
             eventsBinder,
             eventsUnbinder,
             lightboxTrigger,
-            props,
+            option,
             customOptions = {},
             controlsHidden = true,
             captionHidden = true;
         
         // inheriting properties from options to customOptions
-        for (props in options) {
-            if (options.hasOwnProperty(props)) {
-                customOptions[props] = options[props];
+        for (option in options) {
+            if (options.hasOwnProperty(option)) {
+                customOptions[option] = options[option];
             }
         }
         
         // changing customOptions for separate galleries if user wants separate options for separate galleries
-        for (props in customOptionsParam) {
-            if (customOptionsParam.hasOwnProperty(props)) {
-                customOptions[props] = customOptionsParam[props];
+        for (option in customOptionsParam) {
+            if (customOptionsParam.hasOwnProperty(option)) {
+                customOptions[option] = customOptionsParam[option];
             }
         }
 
@@ -147,10 +147,10 @@ var halkaBox = (function () {
                 // hbLeftIconElement.children[0].style.fill = "#111";
                 // hbCloseIconElement.children[0].style.fill = "#111";
                 // hbCounter.style.color = "#111";
-                hbRightIconContainer.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
-                hbLeftIconContainer.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
-                hbCloseIconContainer.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
-                hbCounter.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+                hbRightIconContainer.style.backgroundColor = "rgba(0, 0, 0, 0.6)";
+                hbLeftIconContainer.style.backgroundColor = "rgba(0, 0, 0, 0.6)";
+                hbCloseIconContainer.style.backgroundColor = "rgba(0, 0, 0, 0.6)";
+                hbCounter.style.backgroundColor = "rgba(0, 0, 0, 0.6)";
             }
         }
         
@@ -600,7 +600,6 @@ var halkaBox = (function () {
                 imageObjects[i].style.display = "block";
                 imageObjects[i].style.opacity = 1;
 
-                // showControls();
                 showHideControlsCaption();
 
                 // bind events to the elements inside overlay
