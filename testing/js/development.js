@@ -66,6 +66,7 @@ var halkaBox = (function () {
             viewport,
             orientPortrait,
             touchPositionX,
+            touchPositionY,
             eventsBinder,
             eventsUnbinder,
             lightboxTrigger,
@@ -460,6 +461,7 @@ var halkaBox = (function () {
             if (window.innerWidth === viewport && event.touches.length === 1) {
                 // collecting x axis position
                 touchPositionX = event.changedTouches[0].pageX;
+                touchPositionY = event.changedTouches[0].pageY;
                 return;
             } else {
                 return false;
@@ -472,10 +474,10 @@ var halkaBox = (function () {
             if (touchEnabled === false && window.innerWidth === viewport && touches !== 2) {
 //                 event.preventDefault();
                 // slide at least below mentioned pixels to trigger next or previous functions
-                if (touch.pageX - touchPositionX > 50) {
+                if (touch.pageX - touchPositionX > 50 && (touch.pageY - touchPositionY < 50 && touch.pageY - touchPositionY > -50)) {
                     touchEnabled = true;
                     previous();
-                } else if (touch.pageX - touchPositionX < -50) {
+                } else if (touch.pageX - touchPositionX < -50 && (touch.pageY - touchPositionY < 50 && touch.pageY - touchPositionY > -50)) {
                     touchEnabled = true;
                     next();
                 }
