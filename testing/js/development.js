@@ -460,8 +460,8 @@ var halkaBox = (function () {
             // to confirm it is a single touch and browser is not zoomed in
             if (window.innerWidth === viewport && event.touches.length === 1) {
                 // collecting x axis position
-                touchPositionX = event.changedTouches[0].pageX;
-                touchPositionY = event.changedTouches[0].pageY;
+                touchPositionX = event.changedTouches[0].clientX;
+                touchPositionY = event.changedTouches[0].clientY;
                 return;
             } else {
                 return false;
@@ -474,10 +474,10 @@ var halkaBox = (function () {
             if (touchEnabled === false && window.innerWidth === viewport && touches !== 2) {
 //                 event.preventDefault();
                 // slide at least below mentioned pixels to trigger next or previous functions
-                if (touch.pageX - touchPositionX > 50 && (touch.pageY - touchPositionY < 50 && touch.pageY - touchPositionY > -50)) {
+                if (touch.clientX - touchPositionX > 50 && (touch.clientY - touchPositionY < 50 && touch.clientY - touchPositionY > -50)) {
                     touchEnabled = true;
                     previous();
-                } else if (touch.pageX - touchPositionX < -50 && (touch.pageY - touchPositionY < 50 && touch.pageY - touchPositionY > -50)) {
+                } else if (touch.clientX - touchPositionX < -50 && (touch.clientY - touchPositionY < 50 && touch.clientY - touchPositionY > -50)) {
                     touchEnabled = true;
                     next();
                 }
