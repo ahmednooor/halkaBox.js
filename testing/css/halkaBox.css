@@ -1,6 +1,6 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 0.5
+    Version: 0.6.0
     Author: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
@@ -68,7 +68,11 @@
     z-index: 9991;
 }
 
-.hb-wrapper .hb-main-container a {
+.hb-wrapper .hb-main-container button {
+    background-color: transparent;
+    border: none;
+    outline: 0;
+    box-shadow: 0;
     display: block;
     width: 100%;
     height: 100%;
@@ -82,17 +86,19 @@
     transition: opacity 0.3s ease-in-out;
 }
 
-.hb-wrapper .hb-main-container a:focus {
-    /* opacity: 0.7 */
-}
-.hb-wrapper .hb-main-container a:hover {
+
+/* .hb-wrapper .hb-main-container button:focus {
+    opacity: 0.7
+} */
+
+.hb-wrapper .hb-main-container button:hover {
     cursor: pointer;
     opacity: 1;
     /* -webkit-backface-visibility: hidden;
     backface-visibility: hidden; */
 }
 
-.hb-wrapper .hb-main-container a svg {
+.hb-wrapper .hb-main-container button svg {
     max-width: 100%;
     max-height: 100%;
     fill: #000;
@@ -146,7 +152,7 @@
     z-index: 9998;
 }
 
-.hb-wrapper .hb-image-container div img {
+.hb-wrapper .hb-image-container div.hb-image-div img {
     display: block;
     max-width: 100%;
     max-height: 100%;
@@ -162,7 +168,7 @@
     /* transform: none !important; */
 }
 
-.hb-wrapper .hb-image-container div p {
+.hb-wrapper .hb-image-container div.hb-image-div p {
     display: block;
     /* max-width: 320px; */
     text-align: center;
@@ -170,10 +176,10 @@
     top: 50%;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
-.hb-wrapper .hb-image-container div p.hb-caption {
+.hb-wrapper .hb-image-container div.hb-image-div p.hb-caption {
     padding: 4px 12px 6px 12px;
     position: absolute;
     bottom: 0;
@@ -200,18 +206,21 @@
     user-select: auto;
     z-index: 9995;
 }
+
 .hb-wrapper .hb-image-container div p.hb-caption span.hb-caption-text {
     /* max-width: 640px; */
     /* text-align: left; */
     display: block;
     margin: 0 auto;
 }
+
 .hb-wrapper .hb-image-container div p.hb-caption-white {
     /* background-color: rgba(0, 0, 0, 0.6);
     background-color: #fff; */
     background-color: rgba(255, 255, 255, 0.8);
     color: black;
 }
+
 .hb-wrapper .hb-image-container div p.hb-caption-black {
     background-color: rgba(0, 0, 0, 0.7);
     /* background-color: rgba(255, 255, 255, 0.7); */
@@ -225,7 +234,6 @@
 .hb-wrapper .hb-image-container div p.hb-err-text-black {
     color: black;
 }
-
 
 .hb-wrapper .hb-close-icon-container {
     width: 40px;
@@ -352,7 +360,6 @@
         background-color: rgba(255, 255, 255, 0.7);
     }
 }
-
 
 
 /* 
