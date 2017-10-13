@@ -1,6 +1,6 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 0.6.0
+    Version: 1.0.0
     Auther: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
@@ -8,12 +8,12 @@
 var halkaBox = (function () {
     "use strict";
     var options = {
-            // default options
-            hideButtons: true,     // hide buttons on touch devices (true || false)
-            animation: "slide",    // animation type on next/prev ("slide" || "fade")
-            theme: "light",        // lightbox overlay theme ("light" || "dark")
-            preload: 2             // number of images to preload
-        };
+        // default options
+        hideButtons: true,     // hide buttons on touch devices (true || false)
+        animation: "slide",    // animation type on next/prev ("slide" || "fade")
+        theme: "light",        // lightbox overlay theme ("light" || "dark")
+        preload: 2             // number of images to preload
+    };
     
     // function to set options for all galleries and single images
     function optionSetter(opt) {
@@ -31,7 +31,7 @@ var halkaBox = (function () {
         // variables
         var body = document.getElementsByTagName("body")[0],
             // collecting all the anchor tags having data-hb attribute with their respective values
-            imageLinks = document.querySelectorAll("a[data-hb=\"" + selector + "\"]"),
+            imageLinks = document.getElementsByClassName(selector),
             // determine how many anchor tags have been collected
             imageLinksQty = imageLinks.length,
             // array to be used for image cahing and creating and appending respective image tags
@@ -128,11 +128,11 @@ var halkaBox = (function () {
         hbWrapper.appendChild(hbMainContainer);
 
         // for hiding buttons if touch is supported or image is single
-        if (("ontouchstart" in window && customOptions.hideButtons === true) || selector === "single" || imageLinksQty === 1) {
+        if (("ontouchstart" in window && customOptions.hideButtons === true) || selector === "hb-single" || imageLinksQty === 1) {
             hbRightIconContainer.style.display = "none";
             hbLeftIconContainer.style.display = "none";
         }
-        if (selector === "single" || imageLinksQty === 1) {
+        if (selector === "hb-single" || imageLinksQty === 1) {
             hbCounter.style.display = "none";
         }
         
@@ -144,10 +144,6 @@ var halkaBox = (function () {
             hbCloseIconElement.children[0].style.fill = "#fff";
             hbCounter.style.color = "#fff";
             if (window.innerWidth <= 960) {
-                // hbRightIconElement.children[0].style.fill = "#111";
-                // hbLeftIconElement.children[0].style.fill = "#111";
-                // hbCloseIconElement.children[0].style.fill = "#111";
-                // hbCounter.style.color = "#111";
                 hbRightIconContainer.style.backgroundColor = "rgba(0, 0, 0, 0.6)";
                 hbLeftIconContainer.style.backgroundColor = "rgba(0, 0, 0, 0.6)";
                 hbCloseIconContainer.style.backgroundColor = "rgba(0, 0, 0, 0.6)";
@@ -437,9 +433,9 @@ var halkaBox = (function () {
             key.preventDefault();
             if (key.which === 27) {
                 closeLightbox(key);
-            } else if (key.which === 37 && selector !== "single") {
+            } else if (key.which === 37 && selector !== "hb-single") {
                 previous();
-            } else if (key.which === 39 && selector !== "single") {
+            } else if (key.which === 39 && selector !== "hb-single") {
                 next();
             }
         }
@@ -539,45 +535,36 @@ var halkaBox = (function () {
 
         // function to bind events
         eventsBinder = function eventsBinderF() {
-            // check if the selecter is not eq-to "single" then attach next/prev events
-            if (selector !== "single") {
+            // check if the selecter is not eq-to "hb-single" then attach next/prev & touch events
+            if (selector !== "hb-single") {
                 hbRight.addEventListener("click", next, false);
                 hbLeft.addEventListener("click", previous, false);
-            }
-            hbClose.addEventListener("click", closeLightbox, false);
-            // hbMainContainer.addEventListener("click", bgClickClose, false);
-            hbImageContainer.addEventListener("click", bgClickClose, false);
-            // hbImageContainer.addEventListener("click", showHideControlsCaption, false);
-            window.addEventListener('mouseout', hideControls, false);
-            window.addEventListener('mouseover', showControls, false);
-            window.addEventListener("keyup", keyboardSupport, false);
-            // check if the selecter is not eq-to "single" then attach next/prev touch events
-            if (selector !== "single") {
                 hbWrapper.addEventListener("touchstart", touchStart, false);
                 hbWrapper.addEventListener("touchmove", touchMove, false);
                 hbWrapper.addEventListener("touchend", touchEnd, false);
             }
+            hbClose.addEventListener("click", closeLightbox, false);
+            hbImageContainer.addEventListener("click", bgClickClose, false);
+            window.addEventListener('mouseout', hideControls, false);
+            window.addEventListener('mouseover', showControls, false);
+            window.addEventListener("keyup", keyboardSupport, false);
         };
 
         // function to unbind events
         eventsUnbinder = function eventsUnbinderF() {
-            // check if the selecter is not eq-to "single" then remove next/prev events
-            if (selector !== "single") {
+            // check if the selecter is not eq-to "hb-single" then remove next/prev & touch events
+            if (selector !== "hb-single") {
                 hbRight.removeEventListener("click", next);
                 hbLeft.removeEventListener("click", previous);
-            }
-            hbClose.removeEventListener("click", closeLightbox);
-            // hbMainContainer.removeEventListener("click", bgClickClose);
-            hbImageContainer.removeEventListener("click", bgClickClose);
-            window.removeEventListener('mouseout', hideControls, false);
-            window.removeEventListener('mouseover', showControls, false);
-            window.removeEventListener("keyup", keyboardSupport);
-            // check if the selecter is not eq-to "single" then remove next/prev touch events
-            if (selector !== "single") {
                 hbWrapper.removeEventListener("touchstart", touchStart);
                 hbWrapper.removeEventListener("touchmove", touchMove);
                 hbWrapper.removeEventListener("touchend", touchEnd);
             }
+            hbClose.removeEventListener("click", closeLightbox);
+            hbImageContainer.removeEventListener("click", bgClickClose);
+            window.removeEventListener('mouseout', hideControls);
+            window.removeEventListener('mouseover', showControls);
+            window.removeEventListener("keyup", keyboardSupport);
         };
 
         // function to trigger the lightbox overlay when an image link(imageLinks[i]) is clicked
@@ -603,6 +590,7 @@ var halkaBox = (function () {
                 imageObjects[i].style.display = "block";
                 imageObjects[i].style.opacity = 1;
 
+                // show/hide controls according to controlsHidden and captionHidden switches
                 showHideControlsCaption();
 
                 // bind events to the elements inside overlay
