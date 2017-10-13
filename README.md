@@ -1,5 +1,5 @@
 # halkaBox.js
-![Version](https://img.shields.io/badge/version-0.5-blue.svg)
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Dependecies](https://img.shields.io/badge/dependencies-none-blue.svg)
 
@@ -7,7 +7,7 @@ A simple and basic Javascript lightbox.
 
 [Demo Page](https://ahmednooor.github.io/halkaBox.js)
 
-![Screenshot](https://github.com/ahmednooor/halkaBox.js/blob/master/demo/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/ahmednooor/halkaBox.js/master/demo/screenshot.png)
 
 ## Features
 * Made with Javascript. No dependencies required.
@@ -17,12 +17,19 @@ A simple and basic Javascript lightbox.
 * Swipe gestures supported on touch devices.
 * SVG Icons.
 * Transitions via CSS Keyframes.
+* Minimal.
+* Light and Dark themes.
 
 ## Download
 
 ### npm
 ```sh
 npm install halkabox --save
+```
+
+### yarn
+```sh
+yarn add halkabox
 ```
 
 ## Usage Example
@@ -34,30 +41,31 @@ npm install halkabox --save
 ```
 
 ### Markup for Galleries
-> Anchor tags with same `data-hb` values will be treated as galleries.
+> Anchor tags with `shared classes` will be treated as galleries.
+> Put captions if any, in the `title` attributes.
 
 ```html
-<a href="..." data-hb="gallery1"><img src="..." alt="..."></a>
-<a href="..." data-hb="gallery1"><img src="..." alt="..."></a>
-<a href="..." data-hb="gallery1"><img src="..." alt="..."></a>
+<a href="..." class="gallery1" title="Caption One"><img src="..."></a>
+<a href="..." class="gallery1" title="Caption Two"><img src="..."></a>
+<a href="..." class="gallery1"><img src="..."></a>
 
-<a href="..." data-hb="gallery2"><img src="..." alt="..."></a>
-<a href="..." data-hb="gallery2"><img src="..." alt="..."></a>
-<a href="..." data-hb="gallery2"><img src="..." alt="..."></a>
+<a href="..." class="gallery2"><img src="..."></a>
+<a href="..." class="gallery2" title="Caption One"><img src="..."></a>
+<a href="..." class="gallery2" title="Caption Two"><img src="..."></a>
 ```
 ### Markup for Single Images
-> `data-hb="single"` is reserved for single images. This way you can set options for all single images at once.
+> `"hb-single"` class is reserved for single images. This way you can set options for all single images at once.
 
 ```html
-<a href="..." data-hb="single"><img src="..." alt="..."></a>
-<a href="..." data-hb="single"><img src="..." alt="..."></a>
-<a href="..." data-hb="single"><img src="..." alt="..."></a>
+<a href="..." class="hb-single" title="Caption"><img src="..."></a>
+<a href="..." class="hb-single"><img src="..."></a>
+<a href="..." class="hb-single" title="Caption"><img src="..."></a>
 ```
-> Or you can set a unique `data-hb` value to a single anchor tag and it will be treated as a single image. You can use custom options for each single image this way.
+> Or you can set a `unique class` to each anchor tag and it will be treated as a single image. You can use custom options for each single image this way.
 
 ```html
-<a href="..." data-hb="singleImage1"><img src="..." alt="..."></a>
-<a href="..." data-hb="singleImage2"><img src="..." alt="..."></a>
+<a href="..." class="singleImage1" title="Caption"><img src="..."></a>
+<a href="..." class="singleImage2"><img src="..."></a>
 ```
 
 ### Javascript for Galleries
@@ -68,7 +76,7 @@ halkaBox.run("gallery2");
 
 ### Javascript for Single Images
 ```javascript
-halkaBox.run("single");
+halkaBox.run("hb-single");
 halkaBox.run("singleImage1");
 halkaBox.run("singleImage2");
 ```
@@ -114,10 +122,11 @@ All the latest versions of,
 * Edge
 * IE
 * Opera
+* Safari
 
 > Feel free to report any issues and share your feedback in the issues tracker.
 
-> NOTE: If you are going to look at source code, beware that you will be entering in a procedural mess :D
+> NOTE: If you are going to look at the source code, beware that you will be entering in a procedural mess :D
 
 ## Licence and Credits
 
@@ -125,4 +134,4 @@ License: [MIT](https://opensource.org/licenses/MIT)
 
 Author:  [Ahmed Noor](https://github.com/ahmednooor)
 
-Credits: [Unsplash](https://unsplash.com/) for images. [Google](https://www.google.com) for control icons.
+Credits: [Unsplash](https://unsplash.com/) for images.
