@@ -470,7 +470,7 @@ var halkaBox = (function () {
         function touchMove(event) {
             var touch = event.touches[0] || event.changedTouches[0],
                 touches = event.touches.length;
-            if (window.innerWidth === viewport) {
+            if (window.innerWidth === viewport && touches !== 2) {
                 event.preventDefault();
             }
             // to check if touchEnabled is false, touches are not two and browser is not zoomed in
