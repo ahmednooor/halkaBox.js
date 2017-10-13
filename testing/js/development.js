@@ -447,18 +447,21 @@ var halkaBox = (function () {
         // functions for touch support
         touchEnabled = false;
         // calculate the width of the document so that if the document is zoomed the touch does not trigger
-        viewport = window.innerWidth;
+        viewport = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        var viewportY = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
         // check if the view orientation on a mobile is portrait or not
-        orientPortrait = window.innerWidth < window.innerHeight ? true : false;
+        orientPortrait = viewport < viewportY ? true : false;
         
         function touchStart(event) {
+            var nViewportX = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+                nViewportY = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
             // if orientation has been changed then set orientPortrait to false or vice versa and set viewort equal to new window.innerWidth
-            if ((window.innerWidth < window.innerHeight) !== orientPortrait) {
+            if ((nViewportX < nViewportY) !== orientPortrait) {
                 orientPortrait = orientPortrait === true ? false : true;
-                viewport = window.innerWidth;
+                viewport = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
             }
             // to confirm it is a single touch and browser is not zoomed in
-            if (window.innerWidth === viewport && event.touches.length === 1) {
+            if (nViewportXh === viewport && event.touches.length === 1) {
                 // collecting x axis position
                 touchPositionX = event.changedTouches[0].clientX;
                 touchPositionY = event.changedTouches[0].clientY;
@@ -470,11 +473,12 @@ var halkaBox = (function () {
         function touchMove(event) {
             var touch = event.touches[0] || event.changedTouches[0],
                 touches = event.touches.length;
-            if (window.innerWidth === viewport && touches !== 2) {
+            var nViewportX = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            if (nViewportX === viewport && touches !== 2) {
                 event.preventDefault();
             }
             // to check if touchEnabled is false, touches are not two and browser is not zoomed in
-            if (touchEnabled === false && window.innerWidth === viewport && touches !== 2) {
+            if (touchEnabled === false && nViewportX === viewport && touches !== 2) {
                 // slide at least below mentioned pixels to trigger next or previous functions
                 if (touch.clientX - touchPositionX > 50 && (touch.clientY - touchPositionY < 25 && touch.clientY - touchPositionY > -25)) {
                     event.preventDefault();
