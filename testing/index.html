@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>halkaBox.js | A simple and basic Javascript lightbox.</title>
-    <link rel="stylesheet" href="css/halkaBox.css">
+    <link rel="stylesheet" href="css/development.css">
     <style>
         *, *:before, *:after {
             margin: 0;
@@ -216,10 +216,10 @@
         <h2>Gallery</h2>
         <p class="dscr"><code>with default options</code></p>
         <br>
-        <a href="img/01.jpg" data-hb="gallery1" title="This is a Caption"><img src="img/thumbnails/01.jpg" alt="1"></a>
-        <a href="img/02.jpg" data-hb="gallery1" title="Golden Gate Bridge. Image Credits: Unsplash.Com"><img src="img/thumbnails/02.jpg" alt="2"></a>
-        <a href="img/00.jpg" data-hb="gallery1"><img src="img/thumbnails/03.jpg" alt="3"></a>
-        <a href="img/04.jpg" data-hb="gallery1"><img src="img/thumbnails/04.jpg" alt="4"></a>
+        <a href="img/01.jpg" class="gallery1" title="The Blues || Image Credits: unsplash.com"><img src="img/thumbnails/01.jpg" alt="1"></a>
+        <a href="img/02.png" class="gallery1" title="Golden Gate Bridge | Credits: unsplash"><img src="img/thumbnails/02.jpg" alt="2"></a>
+        <a href="img/00.jpg" class="gallery1"><img src="img/thumbnails/03.jpg" alt="3"></a>
+        <a href="img/04.jpg" class="gallery1"><img src="img/thumbnails/04.jpg" alt="4"></a>
     </div>
     
     <br>
@@ -229,10 +229,10 @@
         <h2>Another Gallery</h2>
         <p class="dscr"><code>with custom options</code></p>
         <br>
-        <a href="img/05.jpg" data-hb="gallery2" title="This is a long Caption. Lorem ipsum dolor sit amet, consectetur adipisicing elit."><img src="img/thumbnails/05.jpg" alt="5"></a>
-        <a href="img/06.jpg" data-hb="gallery2"><img src="img/thumbnails/06.jpg" alt="7"></a>
-        <a href="img/00.jpg" data-hb="gallery2"><img src="img/thumbnails/07.jpg" alt="6"></a>
-        <a href="img/08.jpg" data-hb="gallery2" title="Train Station"><img src="img/thumbnails/08.jpg" alt="8"></a>
+        <a href="img/05.jpg" class="gallery2" data-hb="gallery1" title="Lorem ipsum dolor sit amet."><img src="img/thumbnails/05.jpg" alt="5"></a>
+        <a href="img/06.jpg" class="gallery2" data-hb="gallery1" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat, quam voluptatibus nulla aliquid assumenda quidem nam beatae, voluptates ut nostrum.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat, quam voluptatibus nulla aliquid assumenda quidem nam beatae, voluptates ut nostrum.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat, quam voluptatibus nulla aliquid assumenda quidem nam beatae, voluptates ut nostrum."><img src="img/thumbnails/06.jpg" alt="7"></a>
+        <a href="img/00.jpg" class="gallery2"><img src="img/thumbnails/07.jpg" alt="6"></a>
+        <a href="img/08.jpg" class="gallery2"><img src="img/thumbnails/08.jpg" alt="8"></a>
     </div>
     
     <br>
@@ -242,15 +242,15 @@
         <h2>Single Images</h2>
         <p class="dscr"><code>with default and custom options</code></p>
         <br>
-        <a href="img/09.jpg" data-hb="single"><img src="img/thumbnails/09.jpg" alt="9"></a>
-        <a href="img/10.jpg" data-hb="singleImage1"><img src="img/thumbnails/10.jpg" alt="10"></a>
-        <a href="img/11.jpg" data-hb="single"><img src="img/thumbnails/11.jpg" alt="11"></a>
-        <a href="img/12.jpg" data-hb="singleImage2"><img src="img/thumbnails/12.jpg" alt="12"></a>
+        <a href="img/09.jpg" class="hb-single" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit."><img src="img/thumbnails/09.jpg" alt="9"></a>
+        <a href="img/10.jpg" class="singleImage1" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit."><img src="img/thumbnails/10.jpg" alt="10"></a>
+        <a href="img/11.jpg" class="hb-single"><img src="img/thumbnails/11.jpg" alt="11"></a>
+        <a href="img/12.jpg" class="singleImage2"><img src="img/thumbnails/12.jpg" alt="12"></a>
     </div>
     
     <br>
     <br>
-    
+    <!-- 
     <div id="usage" class="wrapper usage">
         <h2>Usage Example</h2>
         <br>
@@ -266,27 +266,27 @@
         <h3><code>anchor tags with same data-hb values will be treated as galleries.</code></h3>
         <br>
         <pre>
-<p>&lt;a href="..." <span>data-hb="<em>gallery1</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
-&lt;a href="..." <span>data-hb="<em>gallery1</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
-&lt;a href="..." <span>data-hb="<em>gallery1</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
+<p>&lt;a href="..." <span>class="<em>gallery1</em>"</span> <span>title="<em>Caption One</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;
+&lt;a href="..." <span>class="<em>gallery1</em>"</span> <span>title="<em>Caption Two</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;
+&lt;a href="..." <span>class="<em>gallery1</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;
 
-&lt;a href="..." <span>data-hb="<em>gallery2</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
-&lt;a href="..." <span>data-hb="<em>gallery2</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
-&lt;a href="..." <span>data-hb="<em>gallery2</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;</p></pre>
+&lt;a href="..." <span>class="<em>gallery2</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;
+&lt;a href="..." <span>class="<em>gallery2</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;
+&lt;a href="..." <span>class="<em>gallery2</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;</p></pre>
         <br>
         
         <h4><code>Markup for Single Images</code></h4>
-        <h3><code>data-hb="single" is reserved for single images.</code></h3>
+        <h3><code>class="hb-single" is reserved for single images.</code></h3>
         <br>
-<pre><p>&lt;a href="..." <span>data-hb="<em>single</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
-&lt;a href="..." <span>data-hb="<em>single</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
-&lt;a href="..." <span>data-hb="<em>single</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;</p></pre>
+<pre><p>&lt;a href="..." <span>class="<em>hb-single</em>"</span> <span>title="<em>Caption One</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;
+&lt;a href="..." <span>class="<em>hb-single</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;
+&lt;a href="..." <span>class="<em>hb-single</em>"</span> <span>title="<em>Caption Two</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;</p></pre>
         <br>
         
-        <h3><code>Or you can set a unique data-hb value to a single anchor tag and it will be treated as a single image.</code></h3>
+        <h3><code>Or you can set a unique class value to a single anchor tag and it will be treated as a single image.</code></h3>
         <br>
-<pre><p>&lt;a href="..." <span>data-hb="<em>singleImage1</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
-&lt;a href="..." <span>data-hb="<em>singleImage2</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;</p></pre>
+<pre><p>&lt;a href="..." <span>class="<em>singleImage1</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;
+&lt;a href="..." <span>class="<em>singleImage2</em>"</span>&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;</p></pre>
         <br>
         
         <h4><code>Javascript for Galleries</code></h4>
@@ -299,15 +299,17 @@ halkaBox.run("<em>gallery2</em>");</span></p></pre>
         <h4><code>Javascript for Single Images</code></h4>
         <br>
         <pre>
-<p><span>halkaBox.run("<em>single</em>");
+<p><span>halkaBox.run("<em>hb-single</em>");
 halkaBox.run("<em>singleImage1</em>");
 halkaBox.run("<em>singleImage2</em>");</span></p></pre>
         <br>
         
-        <h4><code>For options and more documentation, visit <a href="https://github.com/ahmednooor/halkaBox.js" target="_blank">Github</a></code></h4>
     </div>
-    
-    <br>
+-->
+    <div id="usage" class="wrapper usage">
+        <h4><code>For documentation, visit <a href="https://github.com/ahmednooor/halkaBox.js">Github</a></code></h4>
+    </div>
+    <!-- <br> -->
     <br>
     
     <footer class="wrapper">
@@ -319,7 +321,7 @@ halkaBox.run("<em>singleImage2</em>");</span></p></pre>
             <br>
             Author: <a href="https://github.com/ahmednooor" target="_blank">Ahmed Noor</a>
             <br>
-            Credits: <a href="https://unsplash.com/" target="_blank">Unsplash</a> for images, <a href="https://www.google.com/" target="_blank">Google</a> for control icons.
+            Credits: <a href="https://unsplash.com/" target="_blank">Unsplash</a> for images.
         </code>
     </footer>
     
@@ -333,7 +335,7 @@ halkaBox.run("<em>singleImage2</em>");</span></p></pre>
                 hideButtons: false,
                 preload: 0
             });
-            halkaBox.run("single");
+            halkaBox.run("hb-single");
             halkaBox.run("singleImage1", {
                 theme: "dark"
             });
