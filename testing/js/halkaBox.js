@@ -1,6 +1,6 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 1.0.0
+    Version: 1.1.0
     Auther: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
@@ -66,7 +66,9 @@ var halkaBox = (function () {
             viewport,
             orientPortrait,
             touchPositionX,
+            touch2PositionX,
             touchPositionY,
+            touch2PositionY,
             eventsBinder,
             eventsUnbinder,
             lightboxTrigger,
@@ -290,7 +292,7 @@ var halkaBox = (function () {
         // control functions
         // function for jumping to next image
         function next(ev) {
-            if (imageLinksQty !== 1) {
+            if (imageLinksQty > 1 && selector !== "hb-single") {
                 if (customOptions.animation === "slide") {
                     // set css animation property to the currently displayed image to slide out from center to left
                     imageObjects[i].style.animation = "slideNextOut 0.3s ease-out forwards";
@@ -300,6 +302,7 @@ var halkaBox = (function () {
                         imageObjects[i].style.opacity = 0;
                         // set the current image display to none
                         imageObjects[i].style.display = "none";
+                        resetZoom(imageObjects[i].getElementsByTagName('img')[0]);
                         // to check if the number of image has reached the maximum length of imageLinks if yes then set to -1
                         if (i > (imageLinksQty - 2)) {
                             i = -1;
@@ -320,6 +323,7 @@ var halkaBox = (function () {
                     window.setTimeout(function () {
                         // set the current image display to none
                         imageObjects[i].style.display = "none";
+                        resetZoom(imageObjects[i].getElementsByTagName('img')[0]);
                         // to check if the number of image has reached the maximum length of imageLinks if yes then set to -1
                         if (i > (imageLinksQty - 2)) {
                             i = -1;
@@ -341,7 +345,7 @@ var halkaBox = (function () {
         
         // function for jumping to previous image
         function previous(ev) {
-            if (imageLinksQty !== 1) {
+            if (imageLinksQty > 1 && selector !== "hb-single") {
                 if (customOptions.animation === "slide") {
                     // set css animation property to the currently displayed image to slide out from center to right
                     imageObjects[i].style.animation = "slidePreviousOut 0.3s ease-out forwards";
@@ -351,6 +355,7 @@ var halkaBox = (function () {
                         imageObjects[i].style.opacity = 0;
                         // set the current image display to none
                         imageObjects[i].style.display = "none";
+                        resetZoom(imageObjects[i].getElementsByTagName('img')[0]);
                         // to check if the number of image has reached the minimum length of imageLinks if yes then set to imageLinks maximum length
                         if (i === 0) {
                             i = (imageLinksQty);
@@ -371,6 +376,7 @@ var halkaBox = (function () {
                     window.setTimeout(function () {
                         // set the current image display to none
                         imageObjects[i].style.display = "none";
+                        resetZoom(imageObjects[i].getElementsByTagName('img')[0]);
                         // to check if the number of image has reached the minimum length of imageLinks if yes then set to imageLinks maximum length
                         if (i === 0) {
                             i = (imageLinksQty);
@@ -402,6 +408,7 @@ var halkaBox = (function () {
                 // set the current image and the structure display to none
                 imageObjects[i].style.display = "none";
                 hbWrapper.style.display = "none";
+                resetZoom(imageObjects[i].getElementsByTagName('img')[0]);
             }, 300);
             // to set focus to the element that triggered the lightbox and blur it again to preven user-agent focus styles
             imageLinks[i].focus();
@@ -446,45 +453,159 @@ var halkaBox = (function () {
         viewport = window.innerWidth;
         // check if the view orientation on a mobile is portrait or not
         orientPortrait = window.innerWidth < window.innerHeight ? true : false;
-        
+        var isZoomed = false;
+        var zoomPercentage = 100;
+        function resetZoom(img) {
+            img.style = null;
+            img.style.transition = "all 0.15s ease-in-out";
+            zoomPercentage = 100;
+            isZoomed = false;
+            window.setTimeout(function() {
+                img.style = null;
+            }, 160);
+        }
+        function checkCorners(img) {
+
+            img.style.transition = "all 0.15s ease-in-out";
+            
+            if (parseInt(window.getComputedStyle(img,null).getPropertyValue('width')) >= window.innerWidth) {
+                if (parseInt(window.getComputedStyle(img,null).getPropertyValue('left')) > (parseInt(window.getComputedStyle(img,null).getPropertyValue('width'))/2)) {
+                    img.style.left = (parseInt(window.getComputedStyle(img,null).getPropertyValue('width'))/2) + "px";
+                    img.style.right = "auto";
+                } else if (parseInt(window.getComputedStyle(img,null).getPropertyValue('left')) < -1*(parseInt(window.getComputedStyle(img,null).getPropertyValue('width')) - window.innerWidth - (parseInt(window.getComputedStyle(img,null).getPropertyValue('width'))/2))) {
+                    img.style.left = -1*(parseInt(window.getComputedStyle(img,null).getPropertyValue('width')) - window.innerWidth - (parseInt(window.getComputedStyle(img,null).getPropertyValue('width'))/2)) + "px";
+                    img.style.right = "auto";
+                }
+            }
+            
+            if (parseInt(window.getComputedStyle(img,null).getPropertyValue('height')) >= window.innerHeight) {
+                if (parseInt(window.getComputedStyle(img,null).getPropertyValue('top')) > (parseInt(window.getComputedStyle(img,null).getPropertyValue('height'))/2)) {
+                    img.style.top = (parseInt(window.getComputedStyle(img,null).getPropertyValue('height'))/2) + "px";
+                    img.style.bottom = "auto";
+                } else if (parseInt(window.getComputedStyle(img,null).getPropertyValue('top')) < -1*(parseInt(window.getComputedStyle(img,null).getPropertyValue('height')) - window.innerHeight - (parseInt(window.getComputedStyle(img,null).getPropertyValue('height'))/2))) {
+                    img.style.top = -1*(parseInt(window.getComputedStyle(img,null).getPropertyValue('height')) - window.innerHeight - (parseInt(window.getComputedStyle(img,null).getPropertyValue('height'))/2)) + "px";
+                    img.style.bottom = "auto";
+                }
+            }
+
+            if (parseInt(window.getComputedStyle(img,null).getPropertyValue('height')) <= window.innerHeight) {
+                if (parseInt(window.getComputedStyle(img,null).getPropertyValue('top')) < (parseInt(window.getComputedStyle(img,null).getPropertyValue('height'))/2)) {
+                    img.style.top = (parseInt(window.getComputedStyle(img,null).getPropertyValue('height'))/2) + "px";
+                    img.style.bottom = "auto";
+                } else if (parseInt(window.getComputedStyle(img,null).getPropertyValue('top')) > window.innerHeight - parseInt(window.getComputedStyle(img,null).getPropertyValue('height')) + (parseInt(window.getComputedStyle(img,null).getPropertyValue('height'))/2)) {
+                    img.style.top = window.innerHeight - parseInt(window.getComputedStyle(img,null).getPropertyValue('height')) + (parseInt(window.getComputedStyle(img,null).getPropertyValue('height'))/2) + "px";
+                    img.style.bottom = "auto";
+                }
+            }
+
+            if (parseInt(window.getComputedStyle(img,null).getPropertyValue('width')) <= window.innerWidth) {
+                if (parseInt(window.getComputedStyle(img,null).getPropertyValue('left')) < (parseInt(window.getComputedStyle(img,null).getPropertyValue('width'))/2)) {
+                    img.style.left = (parseInt(window.getComputedStyle(img,null).getPropertyValue('width'))/2) + "px";
+                    img.style.right = "auto";
+                } else if (parseInt(window.getComputedStyle(img,null).getPropertyValue('left')) > window.innerWidth - parseInt(window.getComputedStyle(img,null).getPropertyValue('width')) + (parseInt(window.getComputedStyle(img,null).getPropertyValue('width'))/2)) {
+                    img.style.left = window.innerWidth - parseInt(window.getComputedStyle(img,null).getPropertyValue('width')) + (parseInt(window.getComputedStyle(img,null).getPropertyValue('width'))/2) + "px";
+                    img.style.right = "auto";
+                }
+            }
+
+            if (parseInt(window.getComputedStyle(img,null).getPropertyValue('width')) <= window.innerWidth && parseInt(window.getComputedStyle(img,null).getPropertyValue('height')) <= window.innerHeight) {
+                resetZoom(img);
+            }
+
+            window.setTimeout(function() {
+                img.style.transition = null;
+            }, 160);
+        }
+        function moveImage(x, y, img) {
+            img.style.position = "absolute";
+
+            var numericLeft = window
+            .getComputedStyle(img,null)
+            .getPropertyValue('left');
+            
+            var numericTop = window
+            .getComputedStyle(img,null)
+            .getPropertyValue('top');
+            
+            img.style.top = (parseInt(numericTop) + (y)) + "px";
+            img.style.left = (parseInt(numericLeft) + (x)) + "px";
+            img.style.right = "auto";
+            img.style.bottom = "auto";
+        }
+        function zoomImage(img) {
+            if (zoomPercentage >= 50 && zoomPercentage <= 400) {
+                img.style.position = "absolute";
+                img.style.maxWidth = parseInt(zoomPercentage) + "%";
+                img.style.maxHeight = parseInt(zoomPercentage) + "%";
+                isZoomed = true;
+            } else if (zoomPercentage >= img.naturalWidth || zoomPercentage >= 400) {
+                zoomPercentage = 400;
+            } else if (zoomPercentage >= img.naturalHeight  || zoomPercentage >= 400) {
+                zoomPercentage = 400;
+            } else {
+                isZoomed = false;
+            }
+        }
         function touchStart(event) {
             // if orientation has been changed then set orientPortrait to false or vice versa and set viewort equal to new window.innerWidth
             if ((window.innerWidth < window.innerHeight) !== orientPortrait) {
                 orientPortrait = orientPortrait === true ? false : true;
                 viewport = window.innerWidth;
             }
-            // to confirm it is a single touch and browser is not zoomed in
-            if (window.innerWidth === viewport && event.touches.length === 1) {
-                // collecting x axis position
-                touchPositionX = event.changedTouches[0].clientX;
-                touchPositionY = event.changedTouches[0].clientY;
-                return;
+            // collecting x,y axis positions
+            touchPositionX = event.touches[0].clientX;
+            touchPositionY = event.touches[0].clientY;
+            if (event.touches.length > 1) {
+                touch2PositionX = event.touches[1].clientX;
+                touch2PositionY = event.touches[1].clientY;
             } else {
                 return false;
             }
         }
         function touchMove(event) {
+            event.preventDefault();
             var touch = event.touches[0] || event.changedTouches[0],
                 touches = event.touches.length;
             // to check if touchEnabled is false, touches are not two and browser is not zoomed in
-            if (touchEnabled === false && window.innerWidth === viewport && touches !== 2) {
+            if (touchEnabled === false && isZoomed === false && window.innerWidth === viewport && touches !== 2) {
                 // slide at least below mentioned pixels to trigger next or previous functions
                 if (touch.clientX - touchPositionX > 50 && (touch.clientY - touchPositionY < 25 && touch.clientY - touchPositionY > -25)) {
-                    event.preventDefault();
                     touchEnabled = true;
                     previous();
                 } else if (touch.clientX - touchPositionX < -50 && (touch.clientY - touchPositionY < 25 && touch.clientY - touchPositionY > -25)) {
-                    event.preventDefault();
                     touchEnabled = true;
                     next();
                 }
                 return;
+            } else if (touches === 2) {
+                touchEnabled = true;
+                var oldTouchSpan = Math.sqrt(Math.pow(touch2PositionX - touchPositionX, 2) + Math.pow(touch2PositionY - touchPositionY, 2));
+                var newTouchSpan = Math.sqrt(Math.pow(event.touches[1].clientX - event.touches[0].clientX, 2) + Math.pow(event.touches[1].clientY - event.touches[0].clientY, 2));
+
+                touchPositionX = event.touches[0].clientX;
+                touchPositionY = event.touches[0].clientY;
+                touch2PositionX = event.touches[1].clientX;
+                touch2PositionY = event.touches[1].clientY;
+
+                if (oldTouchSpan < newTouchSpan) {
+                    zoomPercentage += newTouchSpan - oldTouchSpan;
+                } else {
+                    zoomPercentage -= oldTouchSpan - newTouchSpan;
+                }
+                zoomImage(imageObjects[i].getElementsByTagName('img')[0]);
+            } else if (isZoomed === true) {
+                var touchDiffX = (event.touches[0].clientX - touchPositionX);
+                var touchDiffY = (event.touches[0].clientY - touchPositionY);
+                touchPositionX = event.touches[0].clientX;
+                touchPositionY = event.touches[0].clientY;
+                moveImage(touchDiffX, touchDiffY, imageObjects[i].getElementsByTagName('img')[0]);
             } else {
                 return false;
             }
         }
         function touchEnd() {
             touchEnabled = false;
+            checkCorners(imageObjects[i].getElementsByTagName('img')[0]);
         }
 
         // functions to hide controls / captions
@@ -539,10 +660,10 @@ var halkaBox = (function () {
             if (selector !== "hb-single") {
                 hbRight.addEventListener("click", next, false);
                 hbLeft.addEventListener("click", previous, false);
-                hbWrapper.addEventListener("touchstart", touchStart, false);
-                hbWrapper.addEventListener("touchmove", touchMove, false);
-                hbWrapper.addEventListener("touchend", touchEnd, false);
             }
+            hbWrapper.addEventListener("touchstart", touchStart, false);
+            hbWrapper.addEventListener("touchmove", touchMove, false);
+            hbWrapper.addEventListener("touchend", touchEnd, false);
             hbClose.addEventListener("click", closeLightbox, false);
             hbImageContainer.addEventListener("click", bgClickClose, false);
             window.addEventListener('mouseout', hideControls, false);
@@ -556,10 +677,10 @@ var halkaBox = (function () {
             if (selector !== "hb-single") {
                 hbRight.removeEventListener("click", next);
                 hbLeft.removeEventListener("click", previous);
-                hbWrapper.removeEventListener("touchstart", touchStart);
-                hbWrapper.removeEventListener("touchmove", touchMove);
-                hbWrapper.removeEventListener("touchend", touchEnd);
             }
+            hbWrapper.removeEventListener("touchstart", touchStart);
+            hbWrapper.removeEventListener("touchmove", touchMove);
+            hbWrapper.removeEventListener("touchend", touchEnd);
             hbClose.removeEventListener("click", closeLightbox);
             hbImageContainer.removeEventListener("click", bgClickClose);
             window.removeEventListener('mouseout', hideControls);
@@ -589,6 +710,8 @@ var halkaBox = (function () {
                 imageObjects[i].style.animation = "none";
                 imageObjects[i].style.display = "block";
                 imageObjects[i].style.opacity = 1;
+
+                resetZoom(imageObjects[i].getElementsByTagName('img')[0]);
 
                 // show/hide controls according to controlsHidden and captionHidden switches
                 showHideControlsCaption();
