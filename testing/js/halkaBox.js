@@ -69,6 +69,8 @@ var halkaBox = (function () {
             touch2PositionX,
             touchPositionY,
             touch2PositionY,
+            isZoomed = false,
+            zoomPercentage = 100,
             eventsBinder,
             eventsUnbinder,
             lightboxTrigger,
@@ -291,7 +293,7 @@ var halkaBox = (function () {
 
         // control functions
         // function for jumping to next image
-        function next(ev) {
+        function next(event) {
             if (imageLinksQty > 1 && selector !== "hb-single") {
                 if (customOptions.animation === "slide") {
                     // set css animation property to the currently displayed image to slide out from center to left
@@ -344,7 +346,7 @@ var halkaBox = (function () {
         }
         
         // function for jumping to previous image
-        function previous(ev) {
+        function previous(event) {
             if (imageLinksQty > 1 && selector !== "hb-single") {
                 if (customOptions.animation === "slide") {
                     // set css animation property to the currently displayed image to slide out from center to right
@@ -397,8 +399,8 @@ var halkaBox = (function () {
         }
 
         // function for closing lightbox overlay
-        function closeLightbox(ev) {
-            ev.preventDefault();
+        function closeLightbox(event) {
+            event.preventDefault();
             // set opacity of displayed image and the structure to 0 for fade out effect
             imageObjects[i].style.opacity = 0;
             hbWrapper.style.opacity = 0;
@@ -421,14 +423,14 @@ var halkaBox = (function () {
         }
 
         // function for closing popup by clicking on empty space
-        function bgClickClose(ev) {
+        function bgClickClose(event) {
             // to prevent bubbling
-            ev.stopPropagation();
-            ev.preventDefault();
+            event.stopPropagation();
+            event.preventDefault();
             // to check if the event occured only outside of image
-            if (ev.target === hbImageContainer || ev.target === hbMainContainer || ev.target === imageObjects[i]) {
+            if (event.target === hbImageContainer || event.target === hbMainContainer || event.target === imageObjects[i]) {
                 // calling close function
-                closeLightbox(ev);
+                closeLightbox(event);
             } else {
                 showHideControlsCaption();
             }
@@ -453,11 +455,9 @@ var halkaBox = (function () {
         viewport = window.innerWidth;
         // check if the view orientation on a mobile is portrait or not
         orientPortrait = window.innerWidth < window.innerHeight ? true : false;
-        var isZoomed = false;
-        var zoomPercentage = 100;
         function resetZoom(img) {
             img.style = null;
-            img.style.transition = "all 0.15s ease-in-out";
+            img.style.transition = "all 150ms ease-in-out";
             zoomPercentage = 100;
             isZoomed = false;
             window.setTimeout(function() {
@@ -465,50 +465,50 @@ var halkaBox = (function () {
             }, 160);
         }
         function checkCorners(img) {
+            var imgComputedWidth = parseInt(window.getComputedStyle(img,null).getPropertyValue('width'));
+            var imgComputedHeight = parseInt(window.getComputedStyle(img,null).getPropertyValue('height'));
+            var imgComputedLeft = parseInt(window.getComputedStyle(img,null).getPropertyValue('left'));
+            var imgComputedTop = parseInt(window.getComputedStyle(img,null).getPropertyValue('top'));
 
-            img.style.transition = "all 0.15s ease-in-out";
+            img.style.transition = "all 150ms ease-in-out";
             
-            if (parseInt(window.getComputedStyle(img,null).getPropertyValue('width')) >= window.innerWidth) {
-                if (parseInt(window.getComputedStyle(img,null).getPropertyValue('left')) > (parseInt(window.getComputedStyle(img,null).getPropertyValue('width'))/2)) {
-                    img.style.left = (parseInt(window.getComputedStyle(img,null).getPropertyValue('width'))/2) + "px";
+            if (imgComputedWidth >= window.innerWidth) {
+                if (imgComputedLeft > (imgComputedWidth/2)) {
+                    img.style.left = (imgComputedWidth/2) + "px";
                     img.style.right = "auto";
-                } else if (parseInt(window.getComputedStyle(img,null).getPropertyValue('left')) < -1*(parseInt(window.getComputedStyle(img,null).getPropertyValue('width')) - window.innerWidth - (parseInt(window.getComputedStyle(img,null).getPropertyValue('width'))/2))) {
-                    img.style.left = -1*(parseInt(window.getComputedStyle(img,null).getPropertyValue('width')) - window.innerWidth - (parseInt(window.getComputedStyle(img,null).getPropertyValue('width'))/2)) + "px";
+                } else if (imgComputedLeft < -1*(imgComputedWidth - window.innerWidth - (imgComputedWidth/2))) {
+                    img.style.left = -1*(imgComputedWidth - window.innerWidth - (imgComputedWidth/2)) + "px";
+                    img.style.right = "auto";
+                }
+            } else if (imgComputedWidth < window.innerWidth) {
+                if (imgComputedLeft < (imgComputedWidth/2)) {
+                    img.style.left = (imgComputedWidth/2) + "px";
+                    img.style.right = "auto";
+                } else if (imgComputedLeft > window.innerWidth - imgComputedWidth + (imgComputedWidth/2)) {
+                    img.style.left = window.innerWidth - imgComputedWidth + (imgComputedWidth/2) + "px";
                     img.style.right = "auto";
                 }
             }
             
-            if (parseInt(window.getComputedStyle(img,null).getPropertyValue('height')) >= window.innerHeight) {
-                if (parseInt(window.getComputedStyle(img,null).getPropertyValue('top')) > (parseInt(window.getComputedStyle(img,null).getPropertyValue('height'))/2)) {
-                    img.style.top = (parseInt(window.getComputedStyle(img,null).getPropertyValue('height'))/2) + "px";
+            if (imgComputedHeight >= window.innerHeight) {
+                if (imgComputedTop > (imgComputedHeight/2)) {
+                    img.style.top = (imgComputedHeight/2) + "px";
                     img.style.bottom = "auto";
-                } else if (parseInt(window.getComputedStyle(img,null).getPropertyValue('top')) < -1*(parseInt(window.getComputedStyle(img,null).getPropertyValue('height')) - window.innerHeight - (parseInt(window.getComputedStyle(img,null).getPropertyValue('height'))/2))) {
-                    img.style.top = -1*(parseInt(window.getComputedStyle(img,null).getPropertyValue('height')) - window.innerHeight - (parseInt(window.getComputedStyle(img,null).getPropertyValue('height'))/2)) + "px";
+                } else if (imgComputedTop < -1*(imgComputedHeight - window.innerHeight - (imgComputedHeight/2))) {
+                    img.style.top = -1*(imgComputedHeight - window.innerHeight - (imgComputedHeight/2)) + "px";
+                    img.style.bottom = "auto";
+                }
+            } else if (imgComputedHeight < window.innerHeight) {
+                if (imgComputedTop < (imgComputedHeight/2)) {
+                    img.style.top = (imgComputedHeight/2) + "px";
+                    img.style.bottom = "auto";
+                } else if (imgComputedTop > window.innerHeight - imgComputedHeight + (imgComputedHeight/2)) {
+                    img.style.top = window.innerHeight - imgComputedHeight + (imgComputedHeight/2) + "px";
                     img.style.bottom = "auto";
                 }
             }
 
-            if (parseInt(window.getComputedStyle(img,null).getPropertyValue('height')) <= window.innerHeight) {
-                if (parseInt(window.getComputedStyle(img,null).getPropertyValue('top')) < (parseInt(window.getComputedStyle(img,null).getPropertyValue('height'))/2)) {
-                    img.style.top = (parseInt(window.getComputedStyle(img,null).getPropertyValue('height'))/2) + "px";
-                    img.style.bottom = "auto";
-                } else if (parseInt(window.getComputedStyle(img,null).getPropertyValue('top')) > window.innerHeight - parseInt(window.getComputedStyle(img,null).getPropertyValue('height')) + (parseInt(window.getComputedStyle(img,null).getPropertyValue('height'))/2)) {
-                    img.style.top = window.innerHeight - parseInt(window.getComputedStyle(img,null).getPropertyValue('height')) + (parseInt(window.getComputedStyle(img,null).getPropertyValue('height'))/2) + "px";
-                    img.style.bottom = "auto";
-                }
-            }
-
-            if (parseInt(window.getComputedStyle(img,null).getPropertyValue('width')) <= window.innerWidth) {
-                if (parseInt(window.getComputedStyle(img,null).getPropertyValue('left')) < (parseInt(window.getComputedStyle(img,null).getPropertyValue('width'))/2)) {
-                    img.style.left = (parseInt(window.getComputedStyle(img,null).getPropertyValue('width'))/2) + "px";
-                    img.style.right = "auto";
-                } else if (parseInt(window.getComputedStyle(img,null).getPropertyValue('left')) > window.innerWidth - parseInt(window.getComputedStyle(img,null).getPropertyValue('width')) + (parseInt(window.getComputedStyle(img,null).getPropertyValue('width'))/2)) {
-                    img.style.left = window.innerWidth - parseInt(window.getComputedStyle(img,null).getPropertyValue('width')) + (parseInt(window.getComputedStyle(img,null).getPropertyValue('width'))/2) + "px";
-                    img.style.right = "auto";
-                }
-            }
-
-            if (parseInt(window.getComputedStyle(img,null).getPropertyValue('width')) <= window.innerWidth && parseInt(window.getComputedStyle(img,null).getPropertyValue('height')) <= window.innerHeight) {
+            if (imgComputedWidth <= window.innerWidth && imgComputedHeight <= window.innerHeight) {
                 resetZoom(img);
             }
 
@@ -517,30 +517,33 @@ var halkaBox = (function () {
             }, 160);
         }
         function moveImage(x, y, img) {
+            var numericLeft = window.getComputedStyle(img,null).getPropertyValue('left');
+            var numericTop = window.getComputedStyle(img,null).getPropertyValue('top');
+            
             img.style.position = "absolute";
 
-            var numericLeft = window
-            .getComputedStyle(img,null)
-            .getPropertyValue('left');
-            
-            var numericTop = window
-            .getComputedStyle(img,null)
-            .getPropertyValue('top');
-            
             img.style.top = (parseInt(numericTop) + (y)) + "px";
             img.style.left = (parseInt(numericLeft) + (x)) + "px";
             img.style.right = "auto";
             img.style.bottom = "auto";
         }
         function zoomImage(img) {
-            if (zoomPercentage >= 50 && zoomPercentage <= 400) {
-                img.style.position = "absolute";
-                img.style.maxWidth = parseInt(zoomPercentage) + "%";
-                img.style.maxHeight = parseInt(zoomPercentage) + "%";
+            var imgComputedWidth = parseInt(window.getComputedStyle(img, null).getPropertyValue('width'));
+            var imgComputedHeight = parseInt(window.getComputedStyle(img, null).getPropertyValue('height'));
+
+            if (zoomPercentage >= 50 && zoomPercentage <= 400 && imgComputedWidth < img.naturalWidth && imgComputedHeight < img.naturalHeight) {
+                img.style.position = 'absolute';
+                img.style.maxWidth = parseInt(zoomPercentage) + '%';
+                img.style.maxHeight = parseInt(zoomPercentage) + '%';
                 isZoomed = true;
-            } else if (zoomPercentage >= img.naturalWidth || zoomPercentage >= 400) {
-                zoomPercentage = 400;
-            } else if (zoomPercentage >= img.naturalHeight  || zoomPercentage >= 400) {
+            } else if (zoomPercentage >= 50 && zoomPercentage <= 400 && zoomPercentage <= parseInt(img.style.maxWidth)) {
+                img.style.position = 'absolute';
+                img.style.maxWidth = parseInt(zoomPercentage) + '%';
+                img.style.maxHeight = parseInt(zoomPercentage) + '%';
+                isZoomed = true;
+            } else if (imgComputedWidth >= img.naturalWidth || imgComputedHeight >= img.naturalHeight) {
+                zoomPercentage = parseInt(img.style.maxWidth);
+            } else if (zoomPercentage >= 400) {
                 zoomPercentage = 400;
             } else {
                 isZoomed = false;
@@ -592,12 +595,16 @@ var halkaBox = (function () {
                 } else {
                     zoomPercentage -= oldTouchSpan - newTouchSpan;
                 }
+                
                 zoomImage(imageObjects[i].getElementsByTagName('img')[0]);
             } else if (isZoomed === true) {
-                var touchDiffX = (event.touches[0].clientX - touchPositionX);
-                var touchDiffY = (event.touches[0].clientY - touchPositionY);
+                touchEnabled = true;
+                var touchDiffX = event.touches[0].clientX - touchPositionX;
+                var touchDiffY = event.touches[0].clientY - touchPositionY;
+                
                 touchPositionX = event.touches[0].clientX;
                 touchPositionY = event.touches[0].clientY;
+                
                 moveImage(touchDiffX, touchDiffY, imageObjects[i].getElementsByTagName('img')[0]);
             } else {
                 return false;
@@ -627,7 +634,6 @@ var halkaBox = (function () {
             var captions = hbImageContainer.getElementsByClassName("hb-caption");
             var j = 0;
             for (j = 0; j < captions.length; j += 1) {
-                // captions[j].style.bottom = "-" + captions[j].clientHeight + "px";
                 captions[j].style.display = "none";
             }
             captionHidden = true;
@@ -640,7 +646,7 @@ var halkaBox = (function () {
             }
             captionHidden = false;
         }
-        function showHideControlsCaption(ev) {
+        function showHideControlsCaption(event) {
             if (captionHidden) {
                 showCaption();
             } else {
@@ -690,8 +696,8 @@ var halkaBox = (function () {
 
         // function to trigger the lightbox overlay when an image link(imageLinks[i]) is clicked
         lightboxTrigger = function lightboxTriggerF(index) {
-            return function (e) {
-                e.preventDefault();
+            return function (event) {
+                event.preventDefault();
 
                 // assigning the value of ir to i via index
                 i = index;
