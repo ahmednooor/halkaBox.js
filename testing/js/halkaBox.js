@@ -297,7 +297,7 @@ var halkaBox = (function () {
             if (imageLinksQty > 1 && selector !== "hb-single") {
                 if (customOptions.animation === "slide") {
                     // set css animation property to the currently displayed image to slide out from center to left
-                    imageObjects[i].style.animation = "slideNextOut 0.3s ease-out forwards";
+                    imageObjects[i].style.animation = "slideNextOut 0.3s ease-in-out forwards";
                     // setTimeout for the animation to complete and then run the code inside
                     window.setTimeout(function () {
                         // set currently displayed and slided image opacity to 0
@@ -316,7 +316,7 @@ var halkaBox = (function () {
                         // set the display to block so that next image is visible
                         imageObjects[i].style.display = "block";
                         // set css animation to the next image to slide in from right to center
-                        imageObjects[i].style.animation = "slideNextIn 0.3s ease-out forwards";
+                        imageObjects[i].style.animation = "slideNextIn 0.3s ease-in-out forwards";
                     }, 300);
                 } else if (customOptions.animation === "fade") {
                     // set opacity of the current image to 0
@@ -350,7 +350,7 @@ var halkaBox = (function () {
             if (imageLinksQty > 1 && selector !== "hb-single") {
                 if (customOptions.animation === "slide") {
                     // set css animation property to the currently displayed image to slide out from center to right
-                    imageObjects[i].style.animation = "slidePreviousOut 0.3s ease-out forwards";
+                    imageObjects[i].style.animation = "slidePreviousOut 0.3s ease-in-out forwards";
                     // setTimeout for the animation to complete and then run the code inside
                     window.setTimeout(function () {
                         // set currently displayed and slided image opacity to 0
@@ -369,7 +369,7 @@ var halkaBox = (function () {
                         // set the display to block so that previous image is visible
                         imageObjects[i].style.display = "block";
                         // set css animation to the next image to slide in from left to center
-                        imageObjects[i].style.animation = "slidePreviousIn 0.3s ease-out forwards";
+                        imageObjects[i].style.animation = "slidePreviousIn 0.3s ease-in-out forwards";
                     }, 300);
                 } else if (customOptions.animation === "fade") {
                     // set opacity of the current image to 0
