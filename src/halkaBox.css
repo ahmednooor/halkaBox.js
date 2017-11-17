@@ -1,6 +1,6 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 1.0.0
+    Version: 1.1.0
     Author: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
@@ -149,12 +149,12 @@
     max-height: 100%;
     position: relative;
     top: 50%;
+    left: 50%;
     opacity: 1;
-    margin: 0 auto;
     -webkit-transition: opacity 0.3s ease-in-out;
     transition: opacity 0.3s ease-in-out;
-    -webkit-transform: translate(0, -50%);
-            transform: translate(0, -50%);
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
 }
 
 .hb-wrapper .hb-image-container div.hb-image-div p {
@@ -285,8 +285,6 @@
         left: 50%;
         opacity: 1;
         margin: 0 auto;
-        -webkit-transition: opacity 0.3s ease-in-out;
-        transition: opacity 0.3s ease-in-out;
         -webkit-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
     }
@@ -368,8 +366,8 @@
 
 @-webkit-keyframes slideNextIn {
     0% {
-        left: 100%;
-        opacity: 0;
+        left: 150%;
+        opacity: 1;
     }
     100% {
         left: 50%;
@@ -379,8 +377,8 @@
 
 @keyframes slideNextIn {
     0% {
-        left: 100%;
-        opacity: 0;
+        left: 150%;
+        opacity: 1;
     }
     100% {
         left: 50%;
@@ -399,8 +397,8 @@
         opacity: 1;
     }
     100% {
-        left: 0;
-        opacity: 0;
+        left: -50%;
+        opacity: 1;
     }
 }
 
@@ -410,8 +408,8 @@
         opacity: 1;
     }
     100% {
-        left: 0;
-        opacity: 0;
+        left: -50%;
+        opacity: 1;
     }
 }
 
@@ -422,8 +420,8 @@
 
 @-webkit-keyframes slidePreviousIn {
     0% {
-        left: 0;
-        opacity: 0;
+        left: -50%;
+        opacity: 1;
     }
     100% {
         left: 50%;
@@ -433,8 +431,8 @@
 
 @keyframes slidePreviousIn {
     0% {
-        left: 0;
-        opacity: 0;
+        left: -50%;
+        opacity: 1;
     }
     100% {
         left: 50%;
@@ -453,8 +451,8 @@
         opacity: 1;
     }
     100% {
-        left: 100%;
-        opacity: 0;
+        left: 150%;
+        opacity: 1;
     }
 }
 
@@ -464,7 +462,7 @@
         opacity: 1;
     }
     100% {
-        left: 100%;
-        opacity: 0;
+        left: 150%;
+        opacity: 1;
     }
 }

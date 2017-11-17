@@ -1,5 +1,5 @@
 # halkaBox.js
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Dependecies](https://img.shields.io/badge/dependencies-none-blue.svg)
 
@@ -15,6 +15,7 @@ A simple and basic Javascript lightbox.
 * Multiple galleries. Custom options for each.
 * Keyboard arrow keys to navigate and escape to close supported.
 * Swipe gestures supported on touch devices.
+* Spread/Pinch to Zoom In/Out supported on touch devices.
 * SVG Icons.
 * Transitions via CSS Keyframes.
 * Minimal.
