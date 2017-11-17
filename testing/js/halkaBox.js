@@ -38,7 +38,7 @@ var halkaBox = (function () {
             imageObjects = [],
             // incrementors/decrementors
             ir,
-            i,
+            curIndex,
             // creating html elements for the lightbox popup
             hbWrapper = document.createElement("div"),
             hbMainContainer = document.createElement("div"),
@@ -196,8 +196,8 @@ var halkaBox = (function () {
                         preloadImage();
                     };
                     newImage.onerror = function () {
-                        var errText = document.createElement('p');
-                        errText.innerHTML = 'Image not found.';
+                        var errText = document.createElement("p");
+                        errText.innerHTML = "Image not found.";
                         if (customOptions.theme === "light") {
                             errText.classList.add("hb-err-text-black");
                         } else if (customOptions.theme === "dark") {
@@ -253,8 +253,8 @@ var halkaBox = (function () {
                         preloadImage();
                     };
                     newImage.onerror = function () {
-                        var errText = document.createElement('p');
-                        errText.innerHTML = 'Image not found.';
+                        var errText = document.createElement("p");
+                        errText.innerHTML = "Image not found.";
                         if (customOptions.theme === "light") {
                             errText.classList.add("hb-err-text-black");
                         } else if (customOptions.theme === "dark") {
@@ -297,48 +297,48 @@ var halkaBox = (function () {
             if (imageLinksQty > 1 && selector !== "hb-single") {
                 if (customOptions.animation === "slide") {
                     // set css animation property to the currently displayed image to slide out from center to left
-                    imageObjects[i].style.animation = "slideNextOut 0.3s ease-in-out forwards";
+                    imageObjects[curIndex].style.animation = "slideNextOut 0.3s ease-out forwards";
                     // setTimeout for the animation to complete and then run the code inside
                     window.setTimeout(function () {
                         // set currently displayed and slided image opacity to 0
-                        imageObjects[i].style.opacity = 0;
+                        imageObjects[curIndex].style.opacity = 0;
                         // set the current image display to none
-                        imageObjects[i].style.display = "none";
-                        resetZoom(imageObjects[i].getElementsByTagName('img')[0]);
+                        imageObjects[curIndex].style.display = "none";
+                        resetZoom(imageObjects[curIndex].getElementsByTagName("img")[0]);
                         // to check if the number of image has reached the maximum length of imageLinks if yes then set to -1
-                        if (i > (imageLinksQty - 2)) {
-                            i = -1;
+                        if (curIndex > (imageLinksQty - 2)) {
+                            curIndex = -1;
                         }
                         // increment the number of image to display the next image
-                        i += 1;
-                        updateCounter(i);
-                        preloadNext(i, customOptions.preload);
+                        curIndex += 1;
+                        updateCounter(curIndex);
+                        preloadNext(curIndex, customOptions.preload);
                         // set the display to block so that next image is visible
-                        imageObjects[i].style.display = "block";
+                        imageObjects[curIndex].style.display = "block";
                         // set css animation to the next image to slide in from right to center
-                        imageObjects[i].style.animation = "slideNextIn 0.3s ease-in-out forwards";
+                        imageObjects[curIndex].style.animation = "slideNextIn 0.3s ease-out forwards";
                     }, 300);
                 } else if (customOptions.animation === "fade") {
                     // set opacity of the current image to 0
-                    imageObjects[i].style.opacity = 0;
+                    imageObjects[curIndex].style.opacity = 0;
                     // setTimeout for the opacity transition to complete and then run the code inside
                     window.setTimeout(function () {
                         // set the current image display to none
-                        imageObjects[i].style.display = "none";
-                        resetZoom(imageObjects[i].getElementsByTagName('img')[0]);
+                        imageObjects[curIndex].style.display = "none";
+                        resetZoom(imageObjects[curIndex].getElementsByTagName("img")[0]);
                         // to check if the number of image has reached the maximum length of imageLinks if yes then set to -1
-                        if (i > (imageLinksQty - 2)) {
-                            i = -1;
+                        if (curIndex > (imageLinksQty - 2)) {
+                            curIndex = -1;
                         }
                         // increment the number of image to display the next image
-                        i += 1;
-                        updateCounter(i);
-                        preloadNext(i, customOptions.preload);
+                        curIndex += 1;
+                        updateCounter(curIndex);
+                        preloadNext(curIndex, customOptions.preload);
                         // set the display to block so that next image is visible
-                        imageObjects[i].style.display = "block";
+                        imageObjects[curIndex].style.display = "block";
                         window.setTimeout(function () {
                             // set the opacity of the next image to 1
-                            imageObjects[i].style.opacity = 1;
+                            imageObjects[curIndex].style.opacity = 1;
                         }, 50);
                     }, 300);
                 }
@@ -350,48 +350,48 @@ var halkaBox = (function () {
             if (imageLinksQty > 1 && selector !== "hb-single") {
                 if (customOptions.animation === "slide") {
                     // set css animation property to the currently displayed image to slide out from center to right
-                    imageObjects[i].style.animation = "slidePreviousOut 0.3s ease-in-out forwards";
+                    imageObjects[curIndex].style.animation = "slidePreviousOut 0.3s ease-out forwards";
                     // setTimeout for the animation to complete and then run the code inside
                     window.setTimeout(function () {
                         // set currently displayed and slided image opacity to 0
-                        imageObjects[i].style.opacity = 0;
+                        imageObjects[curIndex].style.opacity = 0;
                         // set the current image display to none
-                        imageObjects[i].style.display = "none";
-                        resetZoom(imageObjects[i].getElementsByTagName('img')[0]);
+                        imageObjects[curIndex].style.display = "none";
+                        resetZoom(imageObjects[curIndex].getElementsByTagName("img")[0]);
                         // to check if the number of image has reached the minimum length of imageLinks if yes then set to imageLinks maximum length
-                        if (i === 0) {
-                            i = (imageLinksQty);
+                        if (curIndex === 0) {
+                            curIndex = (imageLinksQty);
                         }
                         // decrement the number of image to display the previous image
-                        i -= 1;
-                        updateCounter(i);
-                        preloadPrev(i, customOptions.preload);
+                        curIndex -= 1;
+                        updateCounter(curIndex);
+                        preloadPrev(curIndex, customOptions.preload);
                         // set the display to block so that previous image is visible
-                        imageObjects[i].style.display = "block";
+                        imageObjects[curIndex].style.display = "block";
                         // set css animation to the next image to slide in from left to center
-                        imageObjects[i].style.animation = "slidePreviousIn 0.3s ease-in-out forwards";
+                        imageObjects[curIndex].style.animation = "slidePreviousIn 0.3s ease-out forwards";
                     }, 300);
                 } else if (customOptions.animation === "fade") {
                     // set opacity of the current image to 0
-                    imageObjects[i].style.opacity = 0;
+                    imageObjects[curIndex].style.opacity = 0;
                     // setTimeout for the animation to complete and then run the code inside
                     window.setTimeout(function () {
                         // set the current image display to none
-                        imageObjects[i].style.display = "none";
-                        resetZoom(imageObjects[i].getElementsByTagName('img')[0]);
+                        imageObjects[curIndex].style.display = "none";
+                        resetZoom(imageObjects[curIndex].getElementsByTagName("img")[0]);
                         // to check if the number of image has reached the minimum length of imageLinks if yes then set to imageLinks maximum length
-                        if (i === 0) {
-                            i = (imageLinksQty);
+                        if (curIndex === 0) {
+                            curIndex = (imageLinksQty);
                         }
                         // decrement the number of image to display the previous image
-                        i -= 1;
-                        updateCounter(i);
-                        preloadPrev(i, customOptions.preload);
+                        curIndex -= 1;
+                        updateCounter(curIndex);
+                        preloadPrev(curIndex, customOptions.preload);
                         // set the display to block so that next image is visible
-                        imageObjects[i].style.display = "block";
+                        imageObjects[curIndex].style.display = "block";
                         window.setTimeout(function () {
                             // set the opacity of the next image to 1
-                            imageObjects[i].style.opacity = 1;
+                            imageObjects[curIndex].style.opacity = 1;
                         }, 50);
                     }, 300);
                 }
@@ -402,19 +402,19 @@ var halkaBox = (function () {
         function closeLightbox(event) {
             event.preventDefault();
             // set opacity of displayed image and the structure to 0 for fade out effect
-            imageObjects[i].style.opacity = 0;
+            imageObjects[curIndex].style.opacity = 0;
             hbWrapper.style.opacity = 0;
 
             // setTimeout for the fade out to complete and then run the code inside
             window.setTimeout(function () {
                 // set the current image and the structure display to none
-                imageObjects[i].style.display = "none";
+                imageObjects[curIndex].style.display = "none";
                 hbWrapper.style.display = "none";
-                resetZoom(imageObjects[i].getElementsByTagName('img')[0]);
+                resetZoom(imageObjects[curIndex].getElementsByTagName("img")[0]);
             }, 300);
             // to set focus to the element that triggered the lightbox and blur it again to preven user-agent focus styles
-            imageLinks[i].focus();
-            imageLinks[i].blur();
+            imageLinks[curIndex].focus();
+            imageLinks[curIndex].blur();
             // unbind events attached to the elements inside overlay
             eventsUnbinder();
 
@@ -428,7 +428,7 @@ var halkaBox = (function () {
             event.stopPropagation();
             event.preventDefault();
             // to check if the event occured only outside of image
-            if (event.target === hbImageContainer || event.target === hbMainContainer || event.target === imageObjects[i]) {
+            if (event.target === hbImageContainer || event.target === hbMainContainer || event.target === imageObjects[curIndex]) {
                 // calling close function
                 closeLightbox(event);
             } else {
@@ -457,7 +457,7 @@ var halkaBox = (function () {
         orientPortrait = window.innerWidth < window.innerHeight ? true : false;
         function resetZoom(img) {
             img.style = null;
-            img.style.transition = "all 150ms ease-in-out";
+            img.style.transition = "all 150ms ease-out";
             zoomPercentage = 100;
             isZoomed = false;
             window.setTimeout(function() {
@@ -465,12 +465,12 @@ var halkaBox = (function () {
             }, 160);
         }
         function checkCorners(img) {
-            var imgComputedWidth = parseInt(window.getComputedStyle(img,null).getPropertyValue('width'));
-            var imgComputedHeight = parseInt(window.getComputedStyle(img,null).getPropertyValue('height'));
-            var imgComputedLeft = parseInt(window.getComputedStyle(img,null).getPropertyValue('left'));
-            var imgComputedTop = parseInt(window.getComputedStyle(img,null).getPropertyValue('top'));
+            var imgComputedWidth = parseInt(window.getComputedStyle(img,null).getPropertyValue("width"));
+            var imgComputedHeight = parseInt(window.getComputedStyle(img,null).getPropertyValue("height"));
+            var imgComputedLeft = parseInt(window.getComputedStyle(img,null).getPropertyValue("left"));
+            var imgComputedTop = parseInt(window.getComputedStyle(img,null).getPropertyValue("top"));
 
-            img.style.transition = "all 150ms ease-in-out";
+            img.style.transition = "all 150ms ease-out";
             
             if (imgComputedWidth >= window.innerWidth) {
                 if (imgComputedLeft > (imgComputedWidth/2)) {
@@ -517,8 +517,8 @@ var halkaBox = (function () {
             }, 160);
         }
         function moveImage(x, y, img) {
-            var numericLeft = window.getComputedStyle(img,null).getPropertyValue('left');
-            var numericTop = window.getComputedStyle(img,null).getPropertyValue('top');
+            var numericLeft = window.getComputedStyle(img,null).getPropertyValue("left");
+            var numericTop = window.getComputedStyle(img,null).getPropertyValue("top");
             
             img.style.position = "absolute";
 
@@ -528,18 +528,18 @@ var halkaBox = (function () {
             img.style.bottom = "auto";
         }
         function zoomImage(img) {
-            var imgComputedWidth = parseInt(window.getComputedStyle(img, null).getPropertyValue('width'));
-            var imgComputedHeight = parseInt(window.getComputedStyle(img, null).getPropertyValue('height'));
+            var imgComputedWidth = parseInt(window.getComputedStyle(img, null).getPropertyValue("width"));
+            var imgComputedHeight = parseInt(window.getComputedStyle(img, null).getPropertyValue("height"));
 
             if (zoomPercentage >= 50 && zoomPercentage <= 400 && imgComputedWidth < img.naturalWidth && imgComputedHeight < img.naturalHeight) {
-                img.style.position = 'absolute';
-                img.style.maxWidth = parseInt(zoomPercentage) + '%';
-                img.style.maxHeight = parseInt(zoomPercentage) + '%';
+                img.style.position = "absolute";
+                img.style.maxWidth = parseInt(zoomPercentage) + "%";
+                img.style.maxHeight = parseInt(zoomPercentage) + "%";
                 isZoomed = true;
             } else if (zoomPercentage >= 50 && zoomPercentage <= 400 && zoomPercentage <= parseInt(img.style.maxWidth)) {
-                img.style.position = 'absolute';
-                img.style.maxWidth = parseInt(zoomPercentage) + '%';
-                img.style.maxHeight = parseInt(zoomPercentage) + '%';
+                img.style.position = "absolute";
+                img.style.maxWidth = parseInt(zoomPercentage) + "%";
+                img.style.maxHeight = parseInt(zoomPercentage) + "%";
                 isZoomed = true;
             } else if (imgComputedWidth >= img.naturalWidth || imgComputedHeight >= img.naturalHeight) {
                 zoomPercentage = parseInt(img.style.maxWidth);
@@ -596,7 +596,7 @@ var halkaBox = (function () {
                     zoomPercentage -= oldTouchSpan - newTouchSpan;
                 }
                 
-                zoomImage(imageObjects[i].getElementsByTagName('img')[0]);
+                zoomImage(imageObjects[curIndex].getElementsByTagName("img")[0]);
             } else if (isZoomed === true) {
                 touchEnabled = true;
                 var touchDiffX = event.touches[0].clientX - touchPositionX;
@@ -605,14 +605,14 @@ var halkaBox = (function () {
                 touchPositionX = event.touches[0].clientX;
                 touchPositionY = event.touches[0].clientY;
                 
-                moveImage(touchDiffX, touchDiffY, imageObjects[i].getElementsByTagName('img')[0]);
+                moveImage(touchDiffX, touchDiffY, imageObjects[curIndex].getElementsByTagName("img")[0]);
             } else {
                 return false;
             }
         }
         function touchEnd() {
             touchEnabled = false;
-            checkCorners(imageObjects[i].getElementsByTagName('img')[0]);
+            checkCorners(imageObjects[curIndex].getElementsByTagName("img")[0]);
         }
 
         // functions to hide controls / captions
@@ -672,8 +672,8 @@ var halkaBox = (function () {
             hbWrapper.addEventListener("touchend", touchEnd, false);
             hbClose.addEventListener("click", closeLightbox, false);
             hbImageContainer.addEventListener("click", bgClickClose, false);
-            window.addEventListener('mouseout', hideControls, false);
-            window.addEventListener('mouseover', showControls, false);
+            window.addEventListener("mouseout", hideControls, false);
+            window.addEventListener("mouseover", showControls, false);
             window.addEventListener("keyup", keyboardSupport, false);
         };
 
@@ -689,8 +689,8 @@ var halkaBox = (function () {
             hbWrapper.removeEventListener("touchend", touchEnd);
             hbClose.removeEventListener("click", closeLightbox);
             hbImageContainer.removeEventListener("click", bgClickClose);
-            window.removeEventListener('mouseout', hideControls);
-            window.removeEventListener('mouseover', showControls);
+            window.removeEventListener("mouseout", hideControls);
+            window.removeEventListener("mouseover", showControls);
             window.removeEventListener("keyup", keyboardSupport);
         };
 
@@ -700,24 +700,24 @@ var halkaBox = (function () {
                 event.preventDefault();
 
                 // assigning the value of ir to i via index
-                i = index;
+                curIndex = index;
 
-                imageLinks[i].blur();
+                imageLinks[curIndex].blur();
 
-                updateCounter(i);
+                updateCounter(curIndex);
 
                 hbWrapper.style.display = "block";
                 window.setTimeout(function () {
                     hbWrapper.style.opacity = 1;
                 }, 50);
                 
-                preloadNext(i, customOptions.preload);
-                preloadPrev(i, customOptions.preload);
-                imageObjects[i].style.animation = "none";
-                imageObjects[i].style.display = "block";
-                imageObjects[i].style.opacity = 1;
+                preloadNext(curIndex, customOptions.preload);
+                preloadPrev(curIndex, customOptions.preload);
+                imageObjects[curIndex].style.animation = "none";
+                imageObjects[curIndex].style.display = "block";
+                imageObjects[curIndex].style.opacity = 1;
 
-                resetZoom(imageObjects[i].getElementsByTagName('img')[0]);
+                resetZoom(imageObjects[curIndex].getElementsByTagName("img")[0]);
 
                 // show/hide controls according to controlsHidden and captionHidden switches
                 showHideControlsCaption();
