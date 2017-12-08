@@ -456,12 +456,12 @@ var halkaBox = (function () {
         // check if the view orientation on a mobile is portrait or not
         orientPortrait = window.innerWidth < window.innerHeight ? true : false;
         function resetZoom(img) {
-            img.style = null;
+            img.removeAttribute("style");
             img.style.transition = "all 150ms ease-out";
             zoomPercentage = 100;
             isZoomed = false;
             window.setTimeout(function() {
-                img.style = null;
+                img.removeAttribute("style");
             }, 160);
         }
         function checkCorners(img) {
