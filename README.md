@@ -1,5 +1,5 @@
 # halkaBox.js
-![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.1.1-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Dependecies](https://img.shields.io/badge/dependencies-none-blue.svg)
 
@@ -46,13 +46,13 @@ yarn add halkabox
 > Put captions if any, in the `title` attributes.
 
 ```html
-<a href="..." class="gallery1" title="Caption One"><img src="..."></a>
-<a href="..." class="gallery1" title="Caption Two"><img src="..."></a>
+<a href="..." class="gallery1" title="Caption"><img src="..."></a>
+<a href="..." class="gallery1" title="Caption"><img src="..."></a>
 <a href="..." class="gallery1"><img src="..."></a>
 
 <a href="..." class="gallery2"><img src="..."></a>
-<a href="..." class="gallery2" title="Caption One"><img src="..."></a>
-<a href="..." class="gallery2" title="Caption Two"><img src="..."></a>
+<a href="..." class="gallery2" title="Caption"><img src="..."></a>
+<a href="..." class="gallery2" title="Caption"><img src="..."></a>
 ```
 ### Markup for Single Images
 > `"hb-single"` class is reserved for single images. This way you can set options for all single images at once.

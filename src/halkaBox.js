@@ -1,6 +1,6 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 1.1.0
+    Version: 1.1.1
     Auther: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
@@ -513,7 +513,7 @@ var halkaBox = (function () {
             }
 
             window.setTimeout(function() {
-                img.style.transition = null;
+                img.style.transition = "";
             }, 160);
         }
         function moveImage(x, y, img) {
@@ -624,10 +624,10 @@ var halkaBox = (function () {
             controlsHidden = true;
         }
         function showControls() {
-            hbRightIconContainer.style.opacity = null;
-            hbLeftIconContainer.style.opacity = null;
-            hbCloseIconContainer.style.opacity = null;
-            hbCounter.style.opacity = null;
+            hbRightIconContainer.style.opacity = "";
+            hbLeftIconContainer.style.opacity = "";
+            hbCloseIconContainer.style.opacity = "";
+            hbCounter.style.opacity = "";
             controlsHidden = false;
         }
         function hideCaption() {
@@ -642,7 +642,7 @@ var halkaBox = (function () {
             var captions = hbImageContainer.getElementsByClassName("hb-caption");
             var j = 0;
             for (j = 0; j < captions.length; j += 1) {
-                captions[j].style.display = null;
+                captions[j].style.display = "";
             }
             captionHidden = false;
         }
