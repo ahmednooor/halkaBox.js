@@ -1,6 +1,6 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 1.1.0
+    Version: 1.2.0
     Auther: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
@@ -30,7 +30,7 @@ var halkaBox = (function () {
     function initHalkaBox(selector, customOptionsParam) {
         // variables
         var body = document.getElementsByTagName("body")[0],
-            // collecting all the anchor tags having data-hb attribute with their respective values
+            // collecting all the anchor tags having class attribute with selecter value
             imageLinks = document.getElementsByClassName(selector),
             // determine how many anchor tags have been collected
             imageLinksQty = imageLinks.length,
@@ -456,12 +456,12 @@ var halkaBox = (function () {
         // check if the view orientation on a mobile is portrait or not
         orientPortrait = window.innerWidth < window.innerHeight ? true : false;
         function resetZoom(img) {
-            img.style = null;
+            img.removeAttribute("style");
             img.style.transition = "all 150ms ease-out";
             zoomPercentage = 100;
             isZoomed = false;
             window.setTimeout(function() {
-                img.style = null;
+                img.removeAttribute("style");
             }, 160);
         }
         function checkCorners(img) {
@@ -513,7 +513,7 @@ var halkaBox = (function () {
             }
 
             window.setTimeout(function() {
-                img.style.transition = null;
+                img.style.transition = "";
             }, 160);
         }
         function moveImage(x, y, img) {
@@ -624,10 +624,10 @@ var halkaBox = (function () {
             controlsHidden = true;
         }
         function showControls() {
-            hbRightIconContainer.style.opacity = null;
-            hbLeftIconContainer.style.opacity = null;
-            hbCloseIconContainer.style.opacity = null;
-            hbCounter.style.opacity = null;
+            hbRightIconContainer.style.opacity = "";
+            hbLeftIconContainer.style.opacity = "";
+            hbCloseIconContainer.style.opacity = "";
+            hbCounter.style.opacity = "";
             controlsHidden = false;
         }
         function hideCaption() {
@@ -642,7 +642,7 @@ var halkaBox = (function () {
             var captions = hbImageContainer.getElementsByClassName("hb-caption");
             var j = 0;
             for (j = 0; j < captions.length; j += 1) {
-                captions[j].style.display = null;
+                captions[j].style.display = "";
             }
             captionHidden = false;
         }
@@ -734,9 +734,17 @@ var halkaBox = (function () {
         }
     }
 
-    // return initHalkaBox and optionSetter functions as an object to be used as an API
-    return {
-        run: initHalkaBox,
-        options: optionSetter
-    };
+    // if the environment is node then export initHalkaBox and optionSetter functions else return them
+    if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+        module.exports = {
+            run: initHalkaBox,
+            options: optionSetter
+        };
+    } else {
+        // return initHalkaBox and optionSetter functions as an object to be used as an API
+        return {
+            run: initHalkaBox,
+            options: optionSetter
+        };
+    }
 }());

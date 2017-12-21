@@ -1,6 +1,6 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 1.1.0
+    Version: 1.2.0
     Author: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
@@ -12,7 +12,8 @@
 .hb-wrapper {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     display: block;
     margin: 0;
     padding: 0;
@@ -39,7 +40,8 @@
 .hb-wrapper:after {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
 .hb-wrapper *,
@@ -47,7 +49,8 @@
 .hb-wrapper *:after {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     font-family: Verdana, Geneva, sans-serif;
 }
 
@@ -67,7 +70,8 @@
     background-color: transparent;
     border: none;
     outline: 0;
-    box-shadow: 0;
+    -webkit-box-shadow: 0;
+            box-shadow: 0;
     display: block;
     width: 100%;
     height: 100%;
@@ -86,7 +90,8 @@
     background-color: transparent;
     border: none;
     outline: 0;
-    box-shadow: 0;
+    -webkit-box-shadow: 0;
+            box-shadow: 0;
 }
 
 .hb-wrapper .hb-main-container button:hover {
