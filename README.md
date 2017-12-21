@@ -1,5 +1,5 @@
 # halkaBox.js
-![Version](https://img.shields.io/badge/version-1.1.1-blue.svg)
+![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Dependecies](https://img.shields.io/badge/dependencies-none-blue.svg)
 
