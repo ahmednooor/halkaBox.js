@@ -1,6 +1,6 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 1.1.1
+    Version: 1.2.0
     Auther: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
@@ -30,7 +30,7 @@ var halkaBox = (function () {
     function initHalkaBox(selector, customOptionsParam) {
         // variables
         var body = document.getElementsByTagName("body")[0],
-            // collecting all the anchor tags having data-hb attribute with their respective values
+            // collecting all the anchor tags having class attribute with selecter value
             imageLinks = document.getElementsByClassName(selector),
             // determine how many anchor tags have been collected
             imageLinksQty = imageLinks.length,
@@ -734,9 +734,17 @@ var halkaBox = (function () {
         }
     }
 
-    // return initHalkaBox and optionSetter functions as an object to be used as an API
-    return {
-        run: initHalkaBox,
-        options: optionSetter
-    };
+    // if the environment is node then export initHalkaBox and optionSetter functions else return them
+    if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+        module.exports = {
+            run: initHalkaBox,
+            options: optionSetter
+        };
+    } else {
+        // return initHalkaBox and optionSetter functions as an object to be used as an API
+        return {
+            run: initHalkaBox,
+            options: optionSetter
+        };
+    }
 }());
