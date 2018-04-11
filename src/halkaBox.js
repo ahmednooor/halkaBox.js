@@ -1,6 +1,6 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 1.2.0
+    Version: 1.3.0
     Auther: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
@@ -62,22 +62,20 @@ var halkaBox = (function () {
             hbCloseIconSvg = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 580 580" style="enable-background:new 0 0 580 580;" xml:space="preserve"><path d="M332.1,290l235-235c11.7-11.7,11.7-30.7,0-42.4c-11.7-11.7-30.7-11.7-42.4,0L290,247.2L55.3,12.5c-11.7-11.7-30.7-11.7-42.4,0C1.2,24.3,1.2,43.2,12.9,55l235,235l-235,235c-11.7,11.7-11.7,30.7,0,42.4c5.9,5.9,13.5,8.8,21.2,8.8s15.4-2.9,21.2-8.8L290,332.8l234.7,234.7c5.9,5.9,13.5,8.8,21.2,8.8s15.4-2.9,21.2-8.8c11.7-11.7,11.7-30.7,0-42.4L332.1,290z"/></svg>',
             hbLeftIconSvg = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 580 580" style="enable-background:new 0 0 580 580;" xml:space="preserve"><path d="M576,289.5c0-16.6-13.4-30-30-30H106.4L311,55c11.7-11.7,11.7-30.7,0-42.4c-11.7-11.7-30.7-11.7-42.4,0L12.8,268.3C7,274.1,3.9,281.8,4,289.7c0,0.1,0,0.2,0,0.3c0,0.1,0,0.2,0,0.3c-0.1,7.9,3,15.7,8.8,21.4l255.8,255.8c5.9,5.9,13.5,8.8,21.2,8.8s15.4-2.9,21.2-8.8c11.7-11.7,11.7-30.7,0-42.4L106.4,320.5H546c16.6,0,30-13.4,30-30c0-0.2,0-0.3,0-0.5	C576,289.8,576,289.7,576,289.5z"/></svg>',
             hbRightIconSvg = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 580 580" style="enable-background:new 0 0 580 580;" xml:space="preserve"><path d="M576,290c0-0.1,0-0.2,0-0.3c0.1-7.9-3-15.7-8.8-21.4L311.5,12.5c-11.7-11.7-30.7-11.7-42.4,0s-11.7,30.7,0,42.4l204.5,204.5 H34c-16.6,0-30,13.4-30,30c0,0.2,0,0.3,0,0.5c0,0.2,0,0.3,0,0.5c0,16.6,13.4,30,30,30h439.6L269,525c-11.7,11.7-11.7,30.7,0,42.4 c5.9,5.9,13.5,8.8,21.2,8.8s15.4-2.9,21.2-8.8l255.7-255.8c5.8-5.8,8.8-13.6,8.8-21.4C576,290.2,576,290.1,576,290z"/></svg>',
-            touchEnabled,
-            viewport,
-            orientPortrait,
+            touchEnabled = false,
+            viewport = window.innerWidth,
+            orientPortrait = window.innerWidth < window.innerHeight ? true : false,
             touchPositionX,
             touch2PositionX,
             touchPositionY,
             touch2PositionY,
             isZoomed = false,
             zoomPercentage = 100,
-            eventsBinder,
-            eventsUnbinder,
-            lightboxTrigger,
             option,
             customOptions = {},
             controlsHidden = true,
-            captionHidden = true;
+            captionHidden = true,
+            nextPrevFlag = false;
         
         // inheriting properties from options to customOptions
         for (option in options) {
@@ -294,7 +292,8 @@ var halkaBox = (function () {
         // control functions
         // function for jumping to next image
         function next(event) {
-            if (imageLinksQty > 1 && selector !== "hb-single") {
+            if (imageLinksQty > 1 && selector !== "hb-single" && !nextPrevFlag) {
+                nextPrevFlag = true;
                 if (customOptions.animation === "slide") {
                     // set css animation property to the currently displayed image to slide out from center to left
                     imageObjects[curIndex].style.animation = "slideNextOut 0.3s ease-out forwards";
@@ -317,6 +316,7 @@ var halkaBox = (function () {
                         imageObjects[curIndex].style.display = "block";
                         // set css animation to the next image to slide in from right to center
                         imageObjects[curIndex].style.animation = "slideNextIn 0.3s ease-out forwards";
+                        nextPrevFlag = false;
                     }, 300);
                 } else if (customOptions.animation === "fade") {
                     // set opacity of the current image to 0
@@ -340,6 +340,7 @@ var halkaBox = (function () {
                             // set the opacity of the next image to 1
                             imageObjects[curIndex].style.opacity = 1;
                         }, 50);
+                        nextPrevFlag = false;
                     }, 300);
                 }
             }
@@ -347,7 +348,8 @@ var halkaBox = (function () {
         
         // function for jumping to previous image
         function previous(event) {
-            if (imageLinksQty > 1 && selector !== "hb-single") {
+            if (imageLinksQty > 1 && selector !== "hb-single" && !nextPrevFlag) {
+                nextPrevFlag = true;
                 if (customOptions.animation === "slide") {
                     // set css animation property to the currently displayed image to slide out from center to right
                     imageObjects[curIndex].style.animation = "slidePreviousOut 0.3s ease-out forwards";
@@ -370,6 +372,7 @@ var halkaBox = (function () {
                         imageObjects[curIndex].style.display = "block";
                         // set css animation to the next image to slide in from left to center
                         imageObjects[curIndex].style.animation = "slidePreviousIn 0.3s ease-out forwards";
+                        nextPrevFlag = false;
                     }, 300);
                 } else if (customOptions.animation === "fade") {
                     // set opacity of the current image to 0
@@ -393,6 +396,7 @@ var halkaBox = (function () {
                             // set the opacity of the next image to 1
                             imageObjects[curIndex].style.opacity = 1;
                         }, 50);
+                        nextPrevFlag = false;
                     }, 300);
                 }
             }
@@ -449,12 +453,7 @@ var halkaBox = (function () {
             }
         }
 
-        // functions for touch support
-        touchEnabled = false;
-        // calculate the width of the document so that if the document is zoomed the touch does not trigger
-        viewport = window.innerWidth;
-        // check if the view orientation on a mobile is portrait or not
-        orientPortrait = window.innerWidth < window.innerHeight ? true : false;
+        // zoom related functions
         function resetZoom(img) {
             img.removeAttribute("style");
             img.style.transition = "all 150ms ease-out";
@@ -549,6 +548,67 @@ var halkaBox = (function () {
                 isZoomed = false;
             }
         }
+
+        // scroll to zoom and move handlers
+        function zoomMouseDownHandler(event) {
+            event.preventDefault();
+            touchPositionX = event.clientX;
+            touchPositionY = event.clientY;
+            imageObjects[curIndex].addEventListener('mousemove', zoomMouseMoveHandler, false);
+        }
+        function zoomMouseMoveHandler(event) {
+            event.preventDefault();
+            var touchDiffX = event.clientX - touchPositionX;
+            var touchDiffY = event.clientY - touchPositionY;
+            
+            touchPositionX = event.clientX;
+            touchPositionY = event.clientY;
+            
+            moveImage(touchDiffX, touchDiffY, imageObjects[curIndex].getElementsByTagName("img")[0]);
+        }
+        function zoomMouseUpHandler(event) {
+            event.preventDefault();
+            imageObjects[curIndex].removeEventListener('mousemove', zoomMouseMoveHandler);
+            checkCorners(imageObjects[curIndex].getElementsByTagName("img")[0]);
+        }
+        function wheelHandler(event) {
+            event.preventDefault();
+            if (event.ctrlKey) {
+                if (event.deltaY < 0) {
+                    zoomPercentage += 20;
+                } else if (isZoomed && zoomPercentage > 100) {
+                    zoomPercentage -= 20;
+                }
+
+                if (zoomPercentage > 100) {
+                    imageObjects[curIndex].addEventListener('mousedown', zoomMouseDownHandler, false);
+                    imageObjects[curIndex].addEventListener('mouseup', zoomMouseUpHandler, false);
+                    imageObjects[curIndex].style.cursor = 'move';
+                    hideCaption();
+                    hideControls();
+                    eventsUnbinder();
+                    hbWrapper.addEventListener("wheel", wheelHandler, false);
+                } else {
+                    imageObjects[curIndex].removeEventListener('mousedown', zoomMouseDownHandler);
+                    imageObjects[curIndex].removeEventListener('mouseup', zoomMouseUpHandler);
+                    imageObjects[curIndex].style.cursor = '';
+                    showCaption();
+                    showControls();
+                    eventsBinder();
+                }
+
+                zoomImage(imageObjects[curIndex].getElementsByTagName("img")[0]);
+                checkCorners(imageObjects[curIndex].getElementsByTagName("img")[0]);
+            } else if(zoomPercentage <= 100) {
+                if (event.deltaY < 0) {
+                    next();
+                } else if (event.deltaY > 0) {
+                    previous();
+                }
+            }
+        }
+
+        // touch handlers for swipe and zoom
         function touchStart(event) {
             // if orientation has been changed then set orientPortrait to false or vice versa and set viewort equal to new window.innerWidth
             if ((window.innerWidth < window.innerHeight) !== orientPortrait) {
@@ -661,8 +721,7 @@ var halkaBox = (function () {
         }
 
         // function to bind events
-        eventsBinder = function eventsBinderF() {
-            // check if the selecter is not eq-to "hb-single" then attach next/prev & touch events
+        function eventsBinder() {
             if (selector !== "hb-single") {
                 hbRight.addEventListener("click", next, false);
                 hbLeft.addEventListener("click", previous, false);
@@ -670,16 +729,16 @@ var halkaBox = (function () {
             hbWrapper.addEventListener("touchstart", touchStart, false);
             hbWrapper.addEventListener("touchmove", touchMove, false);
             hbWrapper.addEventListener("touchend", touchEnd, false);
+            hbWrapper.addEventListener("wheel", wheelHandler, false);
             hbClose.addEventListener("click", closeLightbox, false);
             hbImageContainer.addEventListener("click", bgClickClose, false);
             window.addEventListener("mouseout", hideControls, false);
             window.addEventListener("mouseover", showControls, false);
             window.addEventListener("keyup", keyboardSupport, false);
-        };
+        }
 
         // function to unbind events
-        eventsUnbinder = function eventsUnbinderF() {
-            // check if the selecter is not eq-to "hb-single" then remove next/prev & touch events
+        function eventsUnbinder() {
             if (selector !== "hb-single") {
                 hbRight.removeEventListener("click", next);
                 hbLeft.removeEventListener("click", previous);
@@ -687,15 +746,16 @@ var halkaBox = (function () {
             hbWrapper.removeEventListener("touchstart", touchStart);
             hbWrapper.removeEventListener("touchmove", touchMove);
             hbWrapper.removeEventListener("touchend", touchEnd);
+            hbWrapper.removeEventListener("wheel", wheelHandler);
             hbClose.removeEventListener("click", closeLightbox);
             hbImageContainer.removeEventListener("click", bgClickClose);
             window.removeEventListener("mouseout", hideControls);
             window.removeEventListener("mouseover", showControls);
             window.removeEventListener("keyup", keyboardSupport);
-        };
+        }
 
         // function to trigger the lightbox overlay when an image link(imageLinks[i]) is clicked
-        lightboxTrigger = function lightboxTriggerF(index) {
+        function lightboxTrigger(index) {
             return function (event) {
                 event.preventDefault();
 
@@ -725,7 +785,7 @@ var halkaBox = (function () {
                 // bind events to the elements inside overlay
                 eventsBinder();
             };
-        };
+        }
 
         // for loop to capture click events on image links(imageLinks) and run the lightboxTrigger function
         for (ir = 0; ir < imageLinksQty; ir += 1) {
