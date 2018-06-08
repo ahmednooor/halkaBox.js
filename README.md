@@ -1,6 +1,6 @@
 # halkaBox.js
-![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
+[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)](https://github.com/ahmednooor/halkaBox.js/releases)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ahmednooor/halkaBox.js/blob/master/LICENSE)
 ![Dependecies](https://img.shields.io/badge/dependencies-none-blue.svg)
 
 A simple and basic Javascript lightbox.
@@ -116,6 +116,17 @@ halkaBox.run("...", {
 | `animation` | `String` | `"slide"` | `"slide"`, `"fade"` | Sets animation type on next/previous actions. |
 | `theme` | `String` | `"light"` | `"light"`, `"dark"` | Sets lightbox overlay theme. |
 | `preload` | `Number` | `2` | `0`, `1,2,3, ...` | Sets the number of images to preload. |
+
+## API
+```javascript
+var gallery = halkaBox.run("class-name", {/* options if any */});
+gallery.open(0)     // opens the lightbox. takes index of the image <0,1,2...>. first is 0
+gallery.next()      // shows next image in the gallery
+gallery.previous()  // shows previous image in the gallery
+gallery.close()     // closes the lightbox
+gallery.destroy()   // unbinds event bindings. removes lightbox markup
+// other methods won't work after calling `destroy`
+```
 
 ## Compatibility
 All the latest versions of,
