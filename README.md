@@ -1,5 +1,5 @@
 # halkaBox.js
-[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)](https://github.com/ahmednooor/halkaBox.js/releases)
+[![NPM](https://img.shields.io/npm/v/halkabox.svg)](https://www.npmjs.com/package/halkabox)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ahmednooor/halkaBox.js/blob/master/LICENSE)
 ![Dependecies](https://img.shields.io/badge/dependencies-none-blue.svg)
 
@@ -88,10 +88,13 @@ halkaBox.run("singleImage2");
 ### Setting Options Globally
 ```javascript
 halkaBox.options({
-    hideButtons: true,  // hide buttons on touch devices (true || false)
-    animation: "slide", // animation type on next/prev ("slide" || "fade")
-    theme: "light",     // lightbox overlay theme ("light" || "dark")
-    preload: 2          // number of images to preload
+    hideButtons: true,       // hide buttons on touch devices (true || false)
+    animation: "slide",      // animation type on next/prev ("slide" || "fade")
+    theme: "light",          // lightbox overlay theme ("light" || "dark")
+    preload: 2,              // number of images to preload
+    swipeDownToClose: false, // swipe down to close (true || false)
+    nextPrevOnWheel: true,   // goto next/prev image on wheel (true || false)
+    isZoomable: true         // ability to zoom image (true || false)
 });
 halkaBox.run("...");
 ...
@@ -101,10 +104,13 @@ halkaBox.run("...");
 ### Setting Options Individually
 ```javascript
 halkaBox.run("...", {
-    hideButtons: true,  // hide buttons on touch devices (true || false)
-    animation: "slide", // animation type on next/prev ("slide" || "fade")
-    theme: "light",     // lightbox overlay theme ("light" || "dark")
-    preload: 2          // number of images to preload
+    hideButtons: true,       // hide buttons on touch devices (true || false)
+    animation: "slide",      // animation type on next/prev ("slide" || "fade")
+    theme: "light",          // lightbox overlay theme ("light" || "dark")
+    preload: 2,              // number of images to preload
+    swipeDownToClose: false, // swipe down to close (true || false)
+    nextPrevOnWheel: true,   // goto next/prev image on wheel (true || false)
+    isZoomable: true         // ability to zoom image (true || false)
 });
 ...
 ```
@@ -116,6 +122,9 @@ halkaBox.run("...", {
 | `animation` | `String` | `"slide"` | `"slide"`, `"fade"` | Sets animation type on next/previous actions. |
 | `theme` | `String` | `"light"` | `"light"`, `"dark"` | Sets lightbox overlay theme. |
 | `preload` | `Number` | `2` | `0`, `1,2,3, ...` | Sets the number of images to preload. |
+| `swipeDownToClose` | `Boolean` | `false` | `true`, `false` | Swipe down to close lightbox. |
+| `nextPrevOnWheel` | `Boolean` | `true` | `true`, `false` | Wheel down for next image and up for previous. |
+| `isZoomable` | `Boolean` | `true` | `true`, `false` | Ability to zoom the image. |
 
 ## API
 ```javascript
