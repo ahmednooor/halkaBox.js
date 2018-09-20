@@ -1,6 +1,6 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 1.4.0
+    Version: 1.4.1
     Auther: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
@@ -9,10 +9,13 @@ var halkaBox = (function () {
     "use strict";
     var options = {
         // default options
-        hideButtons: true,     // hide buttons on touch devices (true || false)
-        animation: "slide",    // animation type on next/prev ("slide" || "fade")
-        theme: "light",        // lightbox overlay theme ("light" || "dark")
-        preload: 2             // number of images to preload
+        hideButtons: true,       // hide buttons on touch devices (true || false)
+        animation: "slide",      // animation type on next/prev ("slide" || "fade")
+        theme: "light",          // lightbox overlay theme ("light" || "dark")
+        preload: 2,              // number of images to preload
+        swipeDownToClose: false, // swipe down to close (true || false)
+        nextPrevOnWheel: true,   // goto next/prev image on wheel (true || false)
+        isZoomable: true         // ability to zoom image (true || false)
     };
     
     // function to set options for all galleries and single images
@@ -76,6 +79,7 @@ var halkaBox = (function () {
             captionHidden = true,
             nextPrevFlag = false,
             bindedTriggerFuncs = [],
+            isScrolled = false,
             isDestroyed = false;
         
         // inheriting properties from options to customOptions
@@ -148,119 +152,70 @@ var halkaBox = (function () {
         hbWrapper.style.display = "none";
 
         // preloading functions
+        function preloadImage(index) {
+            var loader = document.createElement("div");
+            loader.classList.add("hb-loader");
+            if (customOptions.theme === "dark") {
+                loader.style.borderTop = "5px solid #999";
+            }
+            var newImage = document.createElement("img");
+            imageObjects[index] = document.createElement("div");
+            imageObjects[index].classList.add("hb-image-div");
+            imageObjects[index].style.opacity = 0;
+            imageObjects[index].style.display = "none";
+            hbImageContainer.appendChild(imageObjects[index]);
+            imageObjects[index].appendChild(loader);
+            imageObjects[index].appendChild(newImage);
+            if (imageLinks[index].getAttribute("title")) {
+                var captionText = document.createElement("p");
+                captionText.classList.add("hb-caption");
+                captionText.innerHTML = '<span class="hb-caption-text">' + imageLinks[index].getAttribute("title") + '</span>';
+                imageObjects[index].appendChild(captionText);
+                if (customOptions.theme === "light") {
+                    captionText.classList.add("hb-caption-white");
+                } else if (customOptions.theme === "dark") {
+                    captionText.classList.add("hb-caption-black");
+                }
+            }
+            newImage.onload = function () {
+                loader.style.display = "none";
+            };
+            newImage.onerror = function () {
+                var errText = document.createElement("p");
+                errText.innerHTML = "Image not found.";
+                if (customOptions.theme === "light") {
+                    errText.classList.add("hb-err-text-black");
+                } else if (customOptions.theme === "dark") {
+                    errText.classList.add("hb-err-text-white");
+                }
+                loader.style.display = "none";
+                imageObjects[index].appendChild(errText);
+            };
+            newImage.src = imageLinks[index].href;
+        }
         function preloadNext(index, limit) {
             if (index + limit >= imageLinksQty) {
                 limit = imageLinksQty - index - 1;
             }
-            var x = index;
-            function preloadImage() {
-                if (!imageObjects[x] && x <= (index + limit)) {
-                    var loader = document.createElement("div");
-                    loader.classList.add("hb-loader");
-                    if (customOptions.theme === "dark") {
-                        loader.style.borderTop = "5px solid #999";
-                    }
-                    var newImage = document.createElement("img");
-                    imageObjects[x] = document.createElement("div");
-                    imageObjects[x].classList.add("hb-image-div");
-                    imageObjects[x].style.opacity = 0;
-                    imageObjects[x].style.display = "none";
-                    hbImageContainer.appendChild(imageObjects[x]);
-                    imageObjects[x].appendChild(loader);
-                    imageObjects[x].appendChild(newImage);
-                    if (imageLinks[x].getAttribute("title")) {
-                        var captionText = document.createElement("p");
-                        captionText.classList.add("hb-caption");
-                        captionText.innerHTML = '<span class="hb-caption-text">' + imageLinks[x].getAttribute("title") + '</span>';
-                        imageObjects[x].appendChild(captionText);
-                        if (customOptions.theme === "light") {
-                            captionText.classList.add("hb-caption-white");
-                        } else if (customOptions.theme === "dark") {
-                            captionText.classList.add("hb-caption-black");
-                        }
-                    }
-                    newImage.onload = function () {
-                        loader.style.display = "none";
-                        x += 1;
-                        preloadImage();
-                    };
-                    newImage.onerror = function () {
-                        var errText = document.createElement("p");
-                        errText.innerHTML = "Image not found.";
-                        if (customOptions.theme === "light") {
-                            errText.classList.add("hb-err-text-black");
-                        } else if (customOptions.theme === "dark") {
-                            errText.classList.add("hb-err-text-white");
-                        }
-                        loader.style.display = "none";
-                        imageObjects[x].appendChild(errText);
-                        x += 1;
-                        preloadImage();
-                    };
-                    newImage.src = imageLinks[x].href;
-                } else if (x <= (index + limit)){
-                    x += 1;
-                    preloadImage();
+            var newIndex = index;
+            while (newIndex <= (index + limit)) {
+                if (!imageObjects[newIndex]) {
+                    preloadImage(newIndex);
                 }
+                newIndex += 1;
             }
-            preloadImage();
         }
         function preloadPrev(index, limit) {
             if (index - limit < 0) {
                 limit = index;
             }
-            var x = index;
-            function preloadImage() {
-                if (!imageObjects[x] && x >= (index - limit)) {
-                    var loader = document.createElement("div");
-                    loader.classList.add("hb-loader");
-                    if (customOptions.theme === "dark") {
-                        loader.style.borderTop = "5px solid #999";
-                    }
-                    var newImage = document.createElement("img");
-                    imageObjects[x] = document.createElement("div");
-                    imageObjects[x].classList.add("hb-image-div");
-                    imageObjects[x].style.opacity = 0;
-                    imageObjects[x].style.display = "none";
-                    hbImageContainer.appendChild(imageObjects[x]);
-                    imageObjects[x].appendChild(loader);
-                    imageObjects[x].appendChild(newImage);
-                    if (imageLinks[x].getAttribute("title")) {
-                        var captionText = document.createElement("p");
-                        captionText.classList.add("hb-caption");
-                        captionText.innerHTML = '<span class="hb-caption-text">' + imageLinks[x].getAttribute("title") + '</span>';
-                        imageObjects[x].appendChild(captionText);
-                        if (customOptions.theme === "light") {
-                            captionText.classList.add("hb-caption-white");
-                        } else if (customOptions.theme === "dark") {
-                            captionText.classList.add("hb-caption-black");
-                        }
-                    }
-                    newImage.onload = function () {
-                        loader.style.display = "none";
-                        x -= 1;
-                        preloadImage();
-                    };
-                    newImage.onerror = function () {
-                        var errText = document.createElement("p");
-                        errText.innerHTML = "Image not found.";
-                        if (customOptions.theme === "light") {
-                            errText.classList.add("hb-err-text-black");
-                        } else if (customOptions.theme === "dark") {
-                            errText.classList.add("hb-err-text-white");
-                        }
-                        loader.style.display = "none";
-                        imageObjects[x].appendChild(errText);
-                        x -= 1;
-                        preloadImage();
-                    };
-                    newImage.src = imageLinks[x].href;
-                } else if (x >= (index - limit)){
-                    x -= 1;
-                    preloadImage();
+            var newIndex = index;
+            while (newIndex >= (index - limit)) {
+                if (!imageObjects[newIndex]) {
+                    preloadImage(newIndex);
                 }
+                newIndex -= 1;
             }
-            preloadImage();
         }
 
         // appending complete structure of above created lightbox overlay elements to body
@@ -523,6 +478,8 @@ var halkaBox = (function () {
             img.style.bottom = "auto";
         }
         function zoomImage(img) {
+            if (!customOptions.isZoomable) return
+
             var imgComputedWidth = parseInt(window.getComputedStyle(img, null).getPropertyValue("width"));
             var imgComputedHeight = parseInt(window.getComputedStyle(img, null).getPropertyValue("height"));
 
@@ -544,7 +501,7 @@ var halkaBox = (function () {
                 isZoomed = false;
             }
         }
-
+        
         // scroll to zoom and move handlers
         function zoomMouseDownHandler(event) {
             event.preventDefault();
@@ -570,6 +527,8 @@ var halkaBox = (function () {
         function wheelHandler(event) {
             event.preventDefault();
             if (event.ctrlKey) {
+                if (!customOptions.isZoomable) return
+
                 if (event.deltaY < 0) {
                     zoomPercentage += 20;
                 } else if (isZoomed && zoomPercentage > 100) {
@@ -595,7 +554,11 @@ var halkaBox = (function () {
 
                 zoomImage(imageObjects[curIndex].getElementsByTagName("img")[0]);
                 checkCorners(imageObjects[curIndex].getElementsByTagName("img")[0]);
-            } else if(zoomPercentage <= 100) {
+            } else if (zoomPercentage <= 100 && !isScrolled) {
+                isScrolled = true;
+                window.setTimeout(function() {
+                    isScrolled = false;
+                }, 600);
                 if (event.deltaY < 0) {
                     previous();
                 } else if (event.deltaY > 0) {
@@ -634,6 +597,8 @@ var halkaBox = (function () {
                 } else if (touch.clientX - touchPositionX < -50 && (touch.clientY - touchPositionY < 25 && touch.clientY - touchPositionY > -25)) {
                     touchEnabled = true;
                     next();
+                } else if (touch.clientY - touchPositionY > 80 && customOptions.swipeDownToClose) {
+                    closeLightbox(event);
                 }
                 return;
             } else if (touches === 2) {
@@ -725,7 +690,9 @@ var halkaBox = (function () {
             hbWrapper.addEventListener("touchstart", touchStart, false);
             hbWrapper.addEventListener("touchmove", touchMove, false);
             hbWrapper.addEventListener("touchend", touchEnd, false);
-            hbWrapper.addEventListener("wheel", wheelHandler, false);
+            if (customOptions.nextPrevOnWheel) {
+                hbWrapper.addEventListener("wheel", wheelHandler, false);
+            }
             hbClose.addEventListener("click", closeLightbox, false);
             hbImageContainer.addEventListener("click", bgClickClose, false);
             window.addEventListener("mouseout", hideControls, false);
@@ -742,7 +709,9 @@ var halkaBox = (function () {
             hbWrapper.removeEventListener("touchstart", touchStart, false);
             hbWrapper.removeEventListener("touchmove", touchMove, false);
             hbWrapper.removeEventListener("touchend", touchEnd, false);
-            hbWrapper.removeEventListener("wheel", wheelHandler, false);
+            if (customOptions.nextPrevOnWheel) {
+                hbWrapper.removeEventListener("wheel", wheelHandler, false);
+            }
             hbClose.removeEventListener("click", closeLightbox, false);
             hbImageContainer.removeEventListener("click", bgClickClose, false);
             window.removeEventListener("mouseout", hideControls, false);
