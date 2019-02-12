@@ -221,7 +221,7 @@
         <h2>Gallery</h2>
         <p class="dscr"><code>with default options</code></p>
         <br>
-        <a href="img/01.jpg" class="gallery1" title="The Blues || Image Credits: unsplash.com"><img src="img/thumbnails/01.jpg" alt="1"></a>
+        <a href="img/01.jpg" class="gallery1" data-title="The Blues || Image Credits: unsplash.com"><img src="img/thumbnails/01.jpg" alt="1"></a>
         <a href="img/02.jpg" class="gallery1" title="Golden Gate Bridge || Credits: unsplash"><img src="img/thumbnails/02.jpg" alt="2"></a>
         <a href="img/03.jpg" class="gallery1"><img src="img/thumbnails/03.jpg" alt="3"></a>
         <a href="img/04.jpg" class="gallery1"><img src="img/thumbnails/04.jpg" alt="4"></a>
@@ -270,16 +270,16 @@
         <br>
         
         <h4><code>Markup for Galleries</code></h4>
-        <h3><code>anchor tags with shared classes will be treated as galleries.<br>put captions if any, in the title attributes.</code></h3>
+        <h3><code>anchor tags with shared classes will be treated as galleries.<br>put captions if any, in `title` or `data-title` attributes.</code></h3>
         <br>
         <pre>
 <p>&lt;a href="..." <span>class="<em>gallery1</em>"</span> <span>title="<em>Caption</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;
-&lt;a href="..." <span>class="<em>gallery1</em>"</span> <span>title="<em>Caption</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;
+&lt;a href="..." <span>class="<em>gallery1</em>"</span> <span>data-title="<em>Caption</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;
 &lt;a href="..." <span>class="<em>gallery1</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;
 
 &lt;a href="..." <span>class="<em>gallery2</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;
 &lt;a href="..." <span>class="<em>gallery2</em>"</span> <span>title="<em>Caption</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;
-&lt;a href="..." <span>class="<em>gallery2</em>"</span> <span>title="<em>Caption</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;</p></pre>
+&lt;a href="..." <span>class="<em>gallery2</em>"</span> <span>data-title="<em>Caption</em>"</span>&gt;&lt;img src="..."&gt;&lt;/a&gt;</p></pre>
         <br>
         <br>
         
@@ -332,6 +332,7 @@ halkaBox.run("<em>singleImage2</em>");</span></p></pre>
             Credits: <a href="https://unsplash.com/" target="_blank">Unsplash</a> for images.
         </code>
     </footer>
+    
     
     <script>
         window.onload = function () {
