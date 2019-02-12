@@ -45,16 +45,16 @@ yarn add halkabox
 
 ### Markup for Galleries
 > Anchor tags with `shared classes` will be treated as galleries.
-> Put captions if any, in the `title` attributes.
+> Put captions if any, in `title` or `data-title` attributes.
 
 ```html
 <a href="..." class="gallery1" title="Caption"><img src="..."></a>
-<a href="..." class="gallery1" title="Caption"><img src="..."></a>
+<a href="..." class="gallery1" data-title="Caption"><img src="..."></a>
 <a href="..." class="gallery1"><img src="..."></a>
 
 <a href="..." class="gallery2"><img src="..."></a>
 <a href="..." class="gallery2" title="Caption"><img src="..."></a>
-<a href="..." class="gallery2" title="Caption"><img src="..."></a>
+<a href="..." class="gallery2" data-title="Caption"><img src="..."></a>
 ```
 ### Markup for Single Images
 > `"hb-single"` class is reserved for single images. This way you can set options for all single images at once.
@@ -93,6 +93,7 @@ halkaBox.options({
     theme: "light",          // lightbox overlay theme ("light" || "dark")
     preload: 2,              // number of images to preload
     swipeDownToClose: false, // swipe down to close (true || false)
+    swipeUpToClose: false,   // swipe up to close (true || false)
     nextPrevOnWheel: true,   // goto next/prev image on wheel (true || false)
     isZoomable: true         // ability to zoom image (true || false)
 });
@@ -109,6 +110,7 @@ halkaBox.run("...", {
     theme: "light",          // lightbox overlay theme ("light" || "dark")
     preload: 2,              // number of images to preload
     swipeDownToClose: false, // swipe down to close (true || false)
+    swipeUpToClose: false,   // swipe up to close (true || false)
     nextPrevOnWheel: true,   // goto next/prev image on wheel (true || false)
     isZoomable: true         // ability to zoom image (true || false)
 });
@@ -123,6 +125,7 @@ halkaBox.run("...", {
 | `theme` | `String` | `"light"` | `"light"`, `"dark"` | Sets lightbox overlay theme. |
 | `preload` | `Number` | `2` | `0`, `1,2,3, ...` | Sets the number of images to preload. |
 | `swipeDownToClose` | `Boolean` | `false` | `true`, `false` | Swipe down to close lightbox. |
+| `swipeUpToClose` | `Boolean` | `false` | `true`, `false` | Swipe up to close lightbox. |
 | `nextPrevOnWheel` | `Boolean` | `true` | `true`, `false` | Wheel down for next image and up for previous. |
 | `isZoomable` | `Boolean` | `true` | `true`, `false` | Ability to zoom the image. |
 
@@ -148,8 +151,6 @@ All the latest versions of,
 * Safari
 
 > Feel free to report any issues and share your feedback in the issues tracker.
-
-> NOTE: If you are going to look at the source code, beware that you will be entering in a procedural mess :D
 
 ## Licence and Credits
 

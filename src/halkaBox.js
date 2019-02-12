@@ -1,6 +1,6 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 1.4.1
+    Version: 1.5.0
     Auther: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
@@ -14,6 +14,7 @@ var halkaBox = (function () {
         theme: "light",          // lightbox overlay theme ("light" || "dark")
         preload: 2,              // number of images to preload
         swipeDownToClose: false, // swipe down to close (true || false)
+        swipeUpToClose: false,   // swipe up to close (true || false)
         nextPrevOnWheel: true,   // goto next/prev image on wheel (true || false)
         isZoomable: true         // ability to zoom image (true || false)
     };
@@ -166,10 +167,14 @@ var halkaBox = (function () {
             hbImageContainer.appendChild(imageObjects[index]);
             imageObjects[index].appendChild(loader);
             imageObjects[index].appendChild(newImage);
-            if (imageLinks[index].getAttribute("title")) {
+            if (imageLinks[index].getAttribute("title") || imageLinks[index].getAttribute("data-title")) {
                 var captionText = document.createElement("p");
+                var caption = 
+                    imageLinks[index].getAttribute("title") 
+                    ? imageLinks[index].getAttribute("title") 
+                    : imageLinks[index].getAttribute("data-title");
                 captionText.classList.add("hb-caption");
-                captionText.innerHTML = '<span class="hb-caption-text">' + imageLinks[index].getAttribute("title") + '</span>';
+                captionText.innerHTML = '<span class="hb-caption-text">' + caption + '</span>';
                 imageObjects[index].appendChild(captionText);
                 if (customOptions.theme === "light") {
                     captionText.classList.add("hb-caption-white");
@@ -598,6 +603,8 @@ var halkaBox = (function () {
                     touchEnabled = true;
                     next();
                 } else if (touch.clientY - touchPositionY > 80 && customOptions.swipeDownToClose) {
+                    closeLightbox(event);
+                } else if (touch.clientY - touchPositionY < -80 && customOptions.swipeUpToClose) {
                     closeLightbox(event);
                 }
                 return;
