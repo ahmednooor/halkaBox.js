@@ -67,7 +67,6 @@ var halkaBox = (function () {
             hbRightIconSvg = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 580 580" style="" xml:space="preserve"><path d="M576,290c0-0.1,0-0.2,0-0.3c0.1-7.9-3-15.7-8.8-21.4L311.5,12.5c-11.7-11.7-30.7-11.7-42.4,0s-11.7,30.7,0,42.4l204.5,204.5 H34c-16.6,0-30,13.4-30,30c0,0.2,0,0.3,0,0.5c0,0.2,0,0.3,0,0.5c0,16.6,13.4,30,30,30h439.6L269,525c-11.7,11.7-11.7,30.7,0,42.4 c5.9,5.9,13.5,8.8,21.2,8.8s15.4-2.9,21.2-8.8l255.7-255.8c5.8-5.8,8.8-13.6,8.8-21.4C576,290.2,576,290.1,576,290z"/></svg>',
             touchEnabled = false,
             viewport = window.innerWidth,
-            orientPortrait = window.innerWidth < window.innerHeight ? true : false,
             touchPositionX,
             touch2PositionX,
             touchPositionY,
@@ -574,11 +573,7 @@ var halkaBox = (function () {
 
         // touch handlers for swipe and zoom
         function touchStart(event) {
-            // if orientation has been changed then set orientPortrait to false or vice versa and set viewort equal to new window.innerWidth
-            if ((window.innerWidth < window.innerHeight) !== orientPortrait) {
-                orientPortrait = orientPortrait === true ? false : true;
-                viewport = window.innerWidth;
-            }
+            viewport = window.innerWidth;
             // collecting x,y axis positions
             touchPositionX = event.touches[0].clientX;
             touchPositionY = event.touches[0].clientY;
