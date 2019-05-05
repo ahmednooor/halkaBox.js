@@ -1,6 +1,6 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 1.5.0
+    Version: 1.5.1
     Auther: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
@@ -735,6 +735,11 @@ var halkaBox = (function () {
             hbWrapper.style.display = "block";
             window.setTimeout(function () {
                 hbWrapper.style.opacity = 1;
+
+                // patch for firefox mobile
+                // custom viewport tag in html
+                // changes vieport and prevents swipe gestures
+                viewport = window.innerWidth;
             }, 10);
             
             preloadNext(curIndex, customOptions.preload);
