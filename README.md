@@ -15,7 +15,7 @@ A simple and basic Javascript lightbox.
 * Multiple galleries. Custom options for each.
 * Keyboard arrow keys to navigate and escape to close supported.
 * Swipe gestures supported on touch devices.
-* Spread/Pinch to Zoom In/Out supported on touch devices.
+* Spread/Pinch or Double Tap to Zoom In/Out on touch devices.
 * MouseWheel for next/prev images.
 * Ctrl+MouseWheel to Zoom In/Out.
 * SVG Icons.

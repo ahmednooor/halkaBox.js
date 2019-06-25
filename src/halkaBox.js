@@ -1,6 +1,6 @@
 /*  
     halkaBox.js , url: https://github.com/ahmednooor/halkaBox.js
-    Version: 1.5.1
+    Version: 1.6.0
     Auther: Ahmed Noor , url: https://github.com/ahmednooor
     License: MIT , url: https://opensource.org/licenses/MIT
 */
@@ -74,6 +74,12 @@ var halkaBox = (function () {
             touch2PositionY,
             isZoomed = false,
             zoomPercentage = 100,
+            doubleTapDelay = 300,
+            doubleTapFlags = {
+                isSingleTapped: false,
+                whenSingleTapped: null,
+                isDoubleTapped: false,
+            },
             option,
             customOptions = {},
             controlsHidden = true,
@@ -384,6 +390,7 @@ var halkaBox = (function () {
 
         // function for closing popup by clicking on empty space
         function bgClickClose(event) {
+            if (isZoomed) return;
             // to prevent bubbling
             event.stopPropagation();
             event.preventDefault();
@@ -412,12 +419,13 @@ var halkaBox = (function () {
         // zoom related functions
         function resetZoom(img) {
             img.removeAttribute("style");
-            img.style.transition = "all 150ms ease-out";
+            img.style.transition = "all 150ms ease-in";
             zoomPercentage = 100;
-            isZoomed = false;
             window.setTimeout(function() {
+                isZoomed = false;
+                img.style.transition = "";
                 img.removeAttribute("style");
-            }, 160);
+            }, 200);
         }
         function checkCorners(img) {
             var imgComputedWidth = parseInt(window.getComputedStyle(img,null).getPropertyValue("width"));
@@ -465,16 +473,18 @@ var halkaBox = (function () {
 
             if (imgComputedWidth <= window.innerWidth && imgComputedHeight <= window.innerHeight) {
                 resetZoom(img);
+                return;
             }
 
             window.setTimeout(function() {
                 img.style.transition = "";
-            }, 160);
+            }, 200);
         }
         function moveImage(x, y, img) {
             var numericLeft = window.getComputedStyle(img,null).getPropertyValue("left");
             var numericTop = window.getComputedStyle(img,null).getPropertyValue("top");
             
+            img.style.transition = "";
             img.style.position = "absolute";
 
             img.style.top = (parseInt(numericTop) + (y)) + "px";
@@ -484,6 +494,9 @@ var halkaBox = (function () {
         }
         function zoomImage(img) {
             if (!customOptions.isZoomable) return
+
+            hideCaption();
+            hideControls();
 
             var imgComputedWidth = parseInt(window.getComputedStyle(img, null).getPropertyValue("width"));
             var imgComputedHeight = parseInt(window.getComputedStyle(img, null).getPropertyValue("height"));
@@ -572,8 +585,38 @@ var halkaBox = (function () {
             }
         }
 
-        // touch handlers for swipe and zoom
+        function resetDoubleTapFlags() {
+            doubleTapFlags.isSingleTapped = false;
+            doubleTapFlags.whenSingleTapped = null;
+            doubleTapFlags.isDoubleTapped = false;
+        }
+
+        // touch handlers
         function touchStart(event) {
+            if (doubleTapFlags.isSingleTapped && event.touches.length === 1 && new Date().getTime() - doubleTapFlags.whenSingleTapped < doubleTapDelay) {
+                doubleTapFlags.isDoubleTapped = true;
+                if (isZoomed === false) {
+                    zoomPercentage = 200;
+                    imageObjects[curIndex].getElementsByTagName("img")[0]
+                        .style.transition = "all 150ms ease-out";
+                    window.setTimeout(function() {
+                        imageObjects[curIndex].getElementsByTagName("img")[0]
+                            .style.transition = "";
+                    }, 200);
+                    zoomImage(imageObjects[curIndex].getElementsByTagName("img")[0]);
+                } else {
+                    resetZoom(imageObjects[curIndex].getElementsByTagName("img")[0]);
+                }
+                resetDoubleTapFlags();
+                return;
+            }
+            if (!doubleTapFlags.isSingleTapped && event.touches.length === 1) {
+                doubleTapFlags.isSingleTapped = true;
+                doubleTapFlags.whenSingleTapped = new Date().getTime();
+                window.setTimeout(function() {
+                    resetDoubleTapFlags();
+                }, doubleTapDelay);
+            }
             // if orientation has been changed then set orientPortrait to false or vice versa and set viewort equal to new window.innerWidth
             if ((window.innerWidth < window.innerHeight) !== orientPortrait) {
                 orientPortrait = orientPortrait === true ? false : true;
@@ -585,12 +628,15 @@ var halkaBox = (function () {
             if (event.touches.length > 1) {
                 touch2PositionX = event.touches[1].clientX;
                 touch2PositionY = event.touches[1].clientY;
-            } else {
-                return false;
             }
         }
         function touchMove(event) {
             event.preventDefault();
+
+            if (doubleTapFlags.isDoubleTapped) return;
+
+            if (touchEnabled) resetDoubleTapFlags();
+
             var touch = event.touches[0] || event.changedTouches[0],
                 touches = event.touches.length;
             // to check if touchEnabled is false, touches are not two and browser is not zoomed in
@@ -634,13 +680,17 @@ var halkaBox = (function () {
                 touchPositionY = event.touches[0].clientY;
                 
                 moveImage(touchDiffX, touchDiffY, imageObjects[curIndex].getElementsByTagName("img")[0]);
-            } else {
-                return false;
             }
         }
         function touchEnd() {
             touchEnabled = false;
-            checkCorners(imageObjects[curIndex].getElementsByTagName("img")[0]);
+            if (isZoomed) {
+                checkCorners(imageObjects[curIndex].getElementsByTagName("img")[0]);
+                return;
+            }
+            window.setTimeout(function() {
+                checkCorners(imageObjects[curIndex].getElementsByTagName("img")[0]);
+            }, doubleTapDelay);
         }
 
         // functions to hide controls / captions
